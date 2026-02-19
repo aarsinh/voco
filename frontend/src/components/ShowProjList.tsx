@@ -1,25 +1,27 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import '../App.css';
 import axios from "axios";
-import { Link } from "react-router-dom";
-import ProjectCard from './ProjectCard';
+import ProjectCard from './ProjectCard.tsx';
+
+interface Project {
+    _id: string;      // MongoDB usually sends _id
+    name: string;
+    ngoName: string;
+    ngoId?: string;   // Optional (?) if some projects might not have it
+    date?: string;    // Optional
+}
 
 function showProjectList(){
-    const [projects, setProjects] = useState([]);
+    const [projects, setProjects] = useState<Project[]>([]);
 
     useEffect(() => {
         axios
-            .get('http://localhost:8082/api/projects')
+            .get<Project[]>('http://localhost:8082/api/projects')
             .then((res) => {
                 setProjects(res.data);
             })
-            .catch((err) => {console.log('Error from showProjectList')});
+            .catch((err) => {console.log('Error from showProjectList', err)});
     }, []);
-
-    const projectList = 
-        projects.length === 0 ?
-            'there are no projects'
-            : projects.map((project, k) => <ProjectCard project={project} key={k}/>);
 
     return (
         <div className="ShowProjectList">

@@ -64,5 +64,4 @@ const ngoSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-module.exports = Volunteer = mongoose.model('volunteer', volunteerSchema);
 module.exports = NGO = mongoose.model('ngo', ngoSchema);
