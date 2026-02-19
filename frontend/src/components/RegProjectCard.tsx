@@ -1,17 +1,13 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 
-// 1. Define the shape of the Project object
-// (Best practice: Move this to a separate 'types.ts' file and import it)
 interface Project {
     _id?: string;
     name: string;
-    ngoName?: string;
-    ngoId?: string;
-    date?: string;
+    ngo: string;
+    date: string;
+    ngoId?: string
 }
-
-// 2. Define the Props for this specific component
 interface ProjectCardProps {
     project: Project;
 }
@@ -32,7 +28,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             <td>
                 {/* Safe navigation: Use # if ngoId is missing */}
                 <Link to={`/ngo/${project.ngoId || '#'}`} className="ngo-link">
-                    {project.ngoName || "Unknown NGO"}
+                    {project.ngo || "Unknown NGO"}
                 </Link>
             </td>
 
@@ -45,7 +41,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     className="btn btn-primary btn-sm"
                     onClick={handleRegister}
                 >
-                    Register
+                    Unregister
                 </button>
             </td>
         </tr>

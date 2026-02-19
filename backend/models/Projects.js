@@ -9,10 +9,14 @@ const projectSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    phoneNumber: {
-        type: String,
-        match: [/^\d{10}$/, 'Please fill valid phone number']
+    date: {
+        type: Date,
+        required: true
     },
+    registrations: {
+        type: Number,
+        default: 0,
+    }
 }, { timestamps: true });
 
-module.exports = Project = mongoose.model('project', projectSchema);
+module.exports = mongoose.model('Project', projectSchema);
