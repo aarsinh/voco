@@ -1,16 +1,25 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import type { Project } from '../types';
+import axios from "axios";
 
 interface ProjectCardProps {
     project: Project;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
-
-    const handleRegister = () => {
-        console.log(`Registering for project: ${project.name}`);
-        // Add your registration API logic here later
+    
+    const handleRegister = async () => {
+        try {
+            const vid = localStorage.getItem('volunteerId');
+            await axios.post(`http://localhost:8082/api/volunteer/register`,{
+                volunteerId: '699898687aa56327e25b3785',
+                projectId: project._id
+            });
+            window.location.reload();                
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     const tdClass = "p-4 align-middle text-gray-700 font-medium";
@@ -27,6 +36,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
             <td className={tdClass}>
                 {project.date ? new Date(project.date).toLocaleDateString() : 'TBD'}
+            </td>
+
+            <td className={tdClass}>
+                {project.registrations}
             </td>
 
             <td className={tdClass}>

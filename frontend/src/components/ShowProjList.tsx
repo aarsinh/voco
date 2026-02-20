@@ -8,7 +8,7 @@ function ShowProjectList() {
 
     useEffect(() => {
         axios
-            .get<Project[]>('http://localhost:8082/api/projects')
+            .get<Project[]>('http://localhost:8082/api/volunteer')
             .then((res) => {
                 setProjects(res.data);
             })
@@ -28,6 +28,7 @@ function ShowProjectList() {
                             <th className="bg-gray-800 text-white p-4 first:rounded-tl-lg">Project Name</th>
                             <th className="bg-gray-800 text-white p-4">NGO Name</th>
                             <th className="bg-gray-800 text-white p-4">Date</th>
+                            <th className="bg-gray-800 text-white p-4">Registrations</th>
                             <th className="bg-gray-800 text-white p-4 last:rounded-tr-lg">Action</th>
                         </tr>
                     </thead>

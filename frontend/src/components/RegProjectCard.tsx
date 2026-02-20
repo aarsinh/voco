@@ -8,10 +8,18 @@ interface ProjectCardProps {
 }
 
 const RegProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
-
-    const handleRegister = () => {
-        console.log(`Unregistering for project: ${project.name}`);
-        axios.post('http://localhost:8082/api/projects') // Update route accordingly later
+    
+    const handleUnregister = async () => {
+        try {
+            const vid = localStorage.getItem('volunteerId');
+            await axios.post(`http://localhost:8082/api/volunteer/unregister`, {
+                volunteerId: '699898687aa56327e25b3785',
+                projectId: project._id
+            });
+            window.location.reload();
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     const tdClass = "p-4 align-middle text-gray-700 font-medium";
@@ -33,7 +41,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             <td className={tdClass}>
                 <button
                     className="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-1.5 px-3 rounded transition-colors"
-                    onClick={handleRegister}
+                    onClick={handleUnregister}
                 >
                     Unregister
                 </button>
