@@ -1,0 +1,98 @@
+import { Volunteer } from "../models/volunteer.model";
+import { NGO } from "../models/ngo.model";
+import { Request, Response } from 'express';
+import bcrypt from 'bcrypt'
+import { Model } from "mongoose";
+import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
+dotenv.config()
+
+interface AuthUser {
+  username: string,
+  password: string
+}
+
+export const RegisterVolunteer = async (req: Request, res: Response) => {
+  try {
+    const { username, password, name, email, phoneNumber, age, sex } = req.body;
+    const existingUser = await Volunteer.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+    const volunteer = await Volunteer.create({ username, password, name, email, phoneNumber, age, sex });
+    res.status(201).json({
+      message: "Successful volunteer sign up"
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Server error"
+    });
+  }
+}
+
+export const RegisterNGO = async (req: Request, res: Response) => {
+  try {
+    const { username, password, name, email, phoneNumber, website } = req.body;
+    const existing = await NGO.findOne({ username });
+    if (existing) {
+      res.status(400).json({
+        message: "Username already exists"
+      });
+    }
+
+    const ngo = await NGO.create({ username, password, name, email, phoneNumber, website });
+    res.status(201).json({
+      message: "Successful NGO sign up"
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Server error"
+    });
+  }
+}
+
+export const Login = async (req: Request, res: Response) => {
+  try {
+    const { username, password, role } = req.body;
+    if (!username || !password || !role) {
+      res.status(400).json({
+        message: "Fields are missing"
+      })
+    }
+
+    const Model: Model<AuthUser> = role === "volunteer" ? Volunteer : NGO;
+    const user = await Model.findOne({ username });
+    if (!user) {
+      return res.status(401).json({
+        message: "Invalid user credentials"
+      });
+    }
+
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) {
+      return res.status(401).json({
+        message: "Invalid user credentials"
+      });
+    }
+
+    const token = jwt.sign({ id: user._id, }, process.env.JWT_SECRET as string, {
+      expiresIn: 24 * 60 * 60 * 3, // 3 day expiry
+    });
+
+    res.cookie("token", token,
+      {
+        httpOnly: true,
+      }
+    );
+
+    res.status(200).json({
+      role: role
+    });
+
+
+  } catch (err) {
+    res.status(500).json({
+      message: "Server error"
+    })
+  }
+}
