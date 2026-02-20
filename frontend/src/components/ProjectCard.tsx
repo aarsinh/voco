@@ -1,43 +1,37 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import type { Project } from '../types';
 
-interface Project {
-    _id?: string;
-    name: string;
-    ngo: string;
-    date: string;
-    ngoId?: string;
-}
 interface ProjectCardProps {
     project: Project;
 }
 
-// 3. Add the type ': React.FC<ProjectCardProps>'
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
-    // 4. Define the missing function to prevent crashes
     const handleRegister = () => {
         console.log(`Registering for project: ${project.name}`);
         // Add your registration API logic here later
     };
 
-    return (
-        <tr>
-            <td>{project.name}</td>
+    const tdClass = "p-4 align-middle text-gray-700 font-medium";
 
-            <td>
-                <Link to={`/ngo/${project.ngoId || '#'}`} className="ngo-link">
+    return (
+        <tr className="hover:bg-gray-50 transition-colors">
+            <td className={tdClass}>{project.name}</td>
+
+            <td className={tdClass}>
+                <Link to={`/ngo/${project.ngoId || '#'}`} className="text-blue-600 font-bold no-underline hover:underline">
                     {project.ngo || "Unknown NGO"}
                 </Link>
             </td>
 
-            <td>
+            <td className={tdClass}>
                 {project.date ? new Date(project.date).toLocaleDateString() : 'TBD'}
             </td>
 
-            <td>
+            <td className={tdClass}>
                 <button
-                    className="btn btn-primary btn-sm"
+                    className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-4 rounded transition-colors"
                     onClick={handleRegister}
                 >
                     Register

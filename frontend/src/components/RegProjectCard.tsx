@@ -1,44 +1,38 @@
 import axios from "axios";
 import React from "react";
 import { Link } from 'react-router-dom';
+import type { Project } from '../types';
 
-interface Project {
-    _id?: string;
-    name: string;
-    ngo: string;
-    date: string;
-    ngoId?: string
-}
 interface ProjectCardProps {
     project: Project;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+const RegProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
     const handleRegister = () => {
-        console.log(`Registering for project: ${project.name}`);
-        axios   
-            .post('http://localhost:8082/api/projects', )
+        console.log(`Unregistering for project: ${project.name}`);
+        axios.post('http://localhost:8082/api/projects') // Update route accordingly later
     };
 
-    return (
-        <tr>
-            <td>{project.name}</td>
+    const tdClass = "p-4 align-middle text-gray-700 font-medium";
 
-            <td>
-                {/* Safe navigation: Use # if ngoId is missing */}
-                <Link to={`/ngo/${project.ngoId || '#'}`} className="ngo-link">
+    return (
+        <tr className="hover:bg-gray-50 transition-colors">
+            <td className={tdClass}>{project.name}</td>
+
+            <td className={tdClass}>
+                <Link to={`/ngo/${project.ngoId || '#'}`} className="text-blue-600 font-bold no-underline hover:underline">
                     {project.ngo || "Unknown NGO"}
                 </Link>
             </td>
 
-            <td>
+            <td className={tdClass}>
                 {project.date ? new Date(project.date).toLocaleDateString() : 'TBD'}
             </td>
 
-            <td>
+            <td className={tdClass}>
                 <button
-                    className="btn btn-primary btn-sm"
+                    className="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-1.5 px-3 rounded transition-colors"
                     onClick={handleRegister}
                 >
                     Unregister
@@ -48,4 +42,4 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     );
 };
 
-export default ProjectCard;
+export default RegProjectCard;

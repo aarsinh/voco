@@ -1,18 +1,19 @@
-import React from 'react';
 import ShowProjectList from './ShowProjList';
-import ShowRegisteredList from './RegisteredProjList'; // We will rename your file to match this
+import ShowRegisteredList from './RegisteredProjList';
 
 function Dashboard() {
     return (
-        <div className="container-fluid" style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
-            <div className="row p-4">
-                <div className="col-lg-6 col-md-12 mb-4">
+        <div className="bg-gray-50 min-h-screen p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
+
+                <div className="w-full">
                     <ShowRegisteredList />
                 </div>
 
-                <div className="col-lg-6 col-md-12 mb-4">
+                <div className="w-full">
                     <ShowProjectList />
                 </div>
+
             </div>
         </div>
     );

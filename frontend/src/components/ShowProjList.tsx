@@ -1,18 +1,9 @@
 import { useState, useEffect } from "react";
-import '../index.css';
 import axios from "axios";
 import ProjectCard from './ProjectCard.tsx';
+import type { Project } from '../types';
 
-interface Project {
-    _id: string;      // MongoDB usually sends _id
-    name: string;
-    ngo: string;   // Optional (?) if some projects might not have it
-    date: string;    // Optional
-    registrations: number;
-    ngoId?: string
-}
-
-function showProjectList(){
+function ShowProjectList() {
     const [projects, setProjects] = useState<Project[]>([]);
 
     useEffect(() => {
@@ -21,37 +12,34 @@ function showProjectList(){
             .then((res) => {
                 setProjects(res.data);
             })
-            .catch((err) => {console.log('Error from showProjectList', err)});
-        // setProjects(dummydata);
+            .catch((err) => { console.log('Error from showProjectList', err) });
     }, []);
 
     return (
-        <div className="ShowProjectList">
-            <div className="container">
-                <h2 className="m-3">Upcoming Projects</h2>
+        <div className="bg-white p-8 rounded-xl shadow-lg h-full">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">Upcoming Projects</h2>
 
-                {projects.length === 0 ? (
-                    <div>No projects found</div>
-                ) : (
-                    <table className="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">Project Name</th>
-                                <th scope="col">NGO Name</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {projects.map((project, k) => (
-                                <ProjectCard project={project} key={k} />
-                            ))}
-                        </tbody>
-                    </table>
-                )}
-            </div>
+            {projects.length === 0 ? (
+                <div className="text-gray-500">No projects found</div>
+            ) : (
+                <table className="w-full text-left border-collapse">
+                    <thead>
+                        <tr>
+                            <th className="bg-gray-800 text-white p-4 first:rounded-tl-lg">Project Name</th>
+                            <th className="bg-gray-800 text-white p-4">NGO Name</th>
+                            <th className="bg-gray-800 text-white p-4">Date</th>
+                            <th className="bg-gray-800 text-white p-4 last:rounded-tr-lg">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                        {projects.map((project, k) => (
+                            <ProjectCard project={project} key={k} />
+                        ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 }
 
-export default showProjectList;
+export default ShowProjectList;
