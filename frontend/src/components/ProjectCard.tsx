@@ -6,8 +6,7 @@ interface Project {
     name: string;
     ngo: string;
     date: string;
-    registrations: number;
-    ngoId?: string
+    ngoId?: string;
 }
 interface ProjectCardProps {
     project: Project;
@@ -27,7 +26,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             <td>{project.name}</td>
 
             <td>
-                {/* Safe navigation: Use # if ngoId is missing */}
                 <Link to={`/ngo/${project.ngoId || '#'}`} className="ngo-link">
                     {project.ngo || "Unknown NGO"}
                 </Link>
@@ -35,10 +33,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
             <td>
                 {project.date ? new Date(project.date).toLocaleDateString() : 'TBD'}
-            </td>
-
-            <td>
-                {project.registrations.toLocaleString()}
             </td>
 
             <td>

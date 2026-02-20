@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import '../index.css';
 import axios from "axios";
-import ProjectCard from './NewProjectCard.tsx';
+import ProjectCard from './ProjectCard.tsx';
 
 interface Project {
     _id: string;      // MongoDB usually sends _id
@@ -13,47 +13,16 @@ interface Project {
 }
 
 function showProjectList(){
-    const dummydata: Project[] = [
-        {
-            _id: '1',
-            name: 'Clean Water Initiative',
-            ngo: 'AquaLife Foundation',
-            date: '2023-10-25',
-            registrations: 100
-        },
-        {
-            _id: '2',
-            name: 'Urban Reforestation',
-            ngo: 'Green Earth Society',
-            date: '2023-11-05',
-            registrations: 100
-        },
-        {
-            _id: '3',
-            name: 'Digital Literacy for Seniors',
-            ngo: 'TechConnect NGO',
-            date: '2023-09-15',
-            registrations: 100
-        },
-        {
-            _id: '4',
-            name: 'Food Bank Drive',
-            ngo: 'Community Meals',
-            date: '2023-12-01',
-            registrations: 100
-        }
-    ]; 
-
     const [projects, setProjects] = useState<Project[]>([]);
 
     useEffect(() => {
-        // axios
-        //     .get<Project[]>('http://localhost:8082/api/projects')
-        //     .then((res) => {
-        //         setProjects(res.data);
-        //     })
-        //     .catch((err) => {console.log('Error from showProjectList', err)});
-        setProjects(dummydata);
+        axios
+            .get<Project[]>('http://localhost:8082/api/projects')
+            .then((res) => {
+                setProjects(res.data);
+            })
+            .catch((err) => {console.log('Error from showProjectList', err)});
+        // setProjects(dummydata);
     }, []);
 
     return (
@@ -70,7 +39,6 @@ function showProjectList(){
                                 <th scope="col">Project Name</th>
                                 <th scope="col">NGO Name</th>
                                 <th scope="col">Date</th>
-                                <th scope="col">Registrations</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>

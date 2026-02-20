@@ -9,4 +9,10 @@ router.get('/', (req, res) => {
         .catch(e => res.status(404).json({projectsnotfound: 'Projects not found'}));
 });
 
+router.post('/', (req, res) => {
+    Project.findByIdAndUpdate(req.params.id, req.body)
+        .then(_ => res.json({msg: 'Count incremented'}))
+        .catch(_ => res.status(400).json({error:'Unable to register'}));
+});
+
 module.exports = router;

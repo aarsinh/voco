@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { Link } from 'react-router-dom';
 
@@ -12,13 +13,12 @@ interface ProjectCardProps {
     project: Project;
 }
 
-// 3. Add the type ': React.FC<ProjectCardProps>'
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
-    // 4. Define the missing function to prevent crashes
     const handleRegister = () => {
         console.log(`Registering for project: ${project.name}`);
-        // Add your registration API logic here later
+        axios   
+            .post('http://localhost:8082/api/projects', )
     };
 
     return (

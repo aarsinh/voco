@@ -12,10 +12,6 @@ const projectSchema = new mongoose.Schema({
     date: {
         type: Date,
         required: true
-    },
-    registrations: {
-        type: Number,
-        default: 0,
     }
 }, { timestamps: true });
 

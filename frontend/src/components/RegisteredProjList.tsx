@@ -8,47 +8,19 @@ interface Project {
     name: string;
     ngo: string;
     date: string;
-    ngoId?: string
+    ngoId?: string;
 }
 
 function showRegisteredList(){
-    const dummydata: Project[] = [
-        {
-            _id: '1',
-            name: 'Clean Water Initiative',
-            ngo: 'AquaLife Foundation',
-            date: '2023-10-25'
-        },
-        {
-            _id: '2',
-            name: 'Urban Reforestation',
-            ngo: 'Green Earth Society',
-            date: '2023-11-05'
-        },
-        {
-            _id: '3',
-            name: 'Digital Literacy for Seniors',
-            ngo: 'TechConnect NGO',
-            date: '2023-09-15'
-        },
-        {
-            _id: '4',
-            name: 'Food Bank Drive',
-            ngo: 'Community Meals',
-            date: '2023-12-01'
-        }
-    ];
-
     const [projects, setProjects] = useState<Project[]>([]);
     
         useEffect(() => {
-            // axios
-            //     .get<Project[]>('http://localhost:8082/api/projects')
-            //     .then((res) => {
-            //         setProjects(res.data);
-            //     })
-            //     .catch((err) => {console.log('Error from showProjectList', err)});
-            setProjects(dummydata);
+            axios
+                .get<Project[]>('http://localhost:8082/api/projects')
+                .then((res) => {
+                    setProjects(res.data);
+                })
+                .catch((err) => {console.log('Error from showProjectList', err)});
         }, []);
 
     return (
