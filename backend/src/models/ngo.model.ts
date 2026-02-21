@@ -1,30 +1,6 @@
-const mongoose = require('mongoose');
-const validator = require('validator');
-
-const volunteerSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    age: {
-        type: Number,
-        min: 18,
-        max: 100
-    },
-    sex: {
-        type: String,
-        enum: ['Male', 'Female', 'Other']
-    },
-    phoneNumber: {
-        type: String,
-        match: [/^\d{10}$/, 'Please fill valid phone number']
-    },
-}, { timestamps: true });
+import mongoose from 'mongoose'
+import validator from 'validator'
+import bcrypt from 'bcrypt'
 
 const ngoSchema = new mongoose.Schema({
     username: {
@@ -42,11 +18,15 @@ const ngoSchema = new mongoose.Schema({
         unique: true,
         lowercase: true,
         validate: {
-            validator: function(v){
+            validator: function (v: string) {
                 return validator.isEmail(v);
             },
             message: props => `${props.value} is not a valid email`
         }
+    },
+    password: {
+        type: String,
+        required: true
     },
     phoneNumber: {
         type: String,
@@ -56,7 +36,7 @@ const ngoSchema = new mongoose.Schema({
     website: {
         type: String,
         validate: {
-            validator: function(v){
+            validator: function (v: string) {
                 return validator.isURL(v, { protocols: ['http', 'https'] });
             },
             message: `Invalid URL`
@@ -64,4 +44,10 @@ const ngoSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-module.exports = NGO = mongoose.model('ngo', ngoSchema);
+ngoSchema.pre("save", async function () {
+    if (this.isModified("password")) {
+        this.password = await bcrypt.hash(this.password, 10)
+    }
+})
+
+export const NGO = mongoose.model('ngo', ngoSchema);
