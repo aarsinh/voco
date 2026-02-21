@@ -23,11 +23,11 @@ function Event({ event, onDelete }: EventProps) {
             </p>
 
             <p className="text-slate-300">
-                {new Date(event.date).toLocaleDateString()}
+                Date: {new Date(event.date).toLocaleDateString()}
             </p>
 
             <p className="text-slate-300">
-                {event.address}
+                Address: {event.address}
             </p>
         </div>
     )

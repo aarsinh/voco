@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import type { EventType } from "./types";
 
 function App() {
-    const ngoName: string = "NGOName";
+    const ngoName: string = localStorage.getItem('ngoName') || 'Dummy NGO';
 
     const [events, setEvents] = useState<EventType[]>([]);
     const [showAddEvents, setShowAddEvent] = useState<boolean>(false);
