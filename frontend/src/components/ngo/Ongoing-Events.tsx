@@ -14,7 +14,7 @@ function OngoingEvents({ events, deleteEvent }: OngoingEventsProps) {
             {events.length > 0 ? (
                 <Events events={events} onDelete={deleteEvent} />
             ) : (
-                <p className="text-center text-1xl text-white">No Events</p>
+                <p className="text-center text-1xl text-grey">No Events</p>
             )}
         </div>
     )

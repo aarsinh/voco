@@ -5,11 +5,14 @@ import dotenv from 'dotenv';
 import NGO from '../models/ngo.model';
 dotenv.config();
 
-export const getProjects = async(req: Request, res: Response): Promise<void> => {
+export const getProjects = async(req: Request, res: Response) => {
     try {
         const { ngoId } = req.params; 
-        const projects = await Project.findById(ngoId).sort({date: -1});
-        res.json(projects);
+        const ngo = await NGO.findById(ngoId).populate('projects').sort({date: -1});
+        if(!ngo){
+            return res.status(404).json({message: 'NGO not found'});
+        }
+        res.json(ngo.projects);
     } catch (error: any) {
         res.status(500).json({ message: error.message });
     }

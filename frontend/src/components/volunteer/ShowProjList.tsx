@@ -5,13 +5,12 @@ import type { Project } from '../../types';
 
 function ShowProjectList() {
     const [projects, setProjects] = useState<Project[]>([]);
+    const vid = localStorage.getItem('volunteerId') || '699898687aa56327e25b3785';
 
     useEffect(() => {
-        const vid = localStorage.getItem('volunteerId');
-        const testid = '699898687aa56327e25b3785';
         try{
             axios
-                .get<Project[]>(`http://localhost:8082/api/volunteer/${testid}`)
+                .get<Project[]>(`http://localhost:8082/api/volunteer/${vid}`)
                 .then((res) => {
                     setProjects(res.data);
                 })
@@ -19,7 +18,7 @@ function ShowProjectList() {
         } catch(err) {
             console.error("ShowProjList", err);
         }
-    }, []);
+    }, [vid]);
 
     return (
         <div className="bg-white p-8 rounded-xl shadow-lg h-full">

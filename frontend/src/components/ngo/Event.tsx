@@ -19,7 +19,15 @@ function Event({ event, onDelete }: EventProps) {
             </h3>
 
             <p className="text-slate-300">
+                Registrations: {event.registrations?.toLocaleString()}
+            </p>
+
+            <p className="text-slate-300">
                 {new Date(event.date).toLocaleDateString()}
+            </p>
+
+            <p className="text-slate-300">
+                {event.address}
             </p>
         </div>
     )
