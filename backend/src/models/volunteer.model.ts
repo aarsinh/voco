@@ -44,10 +44,10 @@ const volunteerSchema = new mongoose.Schema({
   }]
 }, { timestamps: true });
 
-volunteerSchema.pre("save", async function() {
-  if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 10)
-  }
+volunteerSchema.pre("save", async function () {
+    if (this.isModified("password")) {
+        this.password = await bcrypt.hash(this.password, 10)
+    }
 })
 
 export default mongoose.model('Volunteer', volunteerSchema);

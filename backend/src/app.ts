@@ -1,9 +1,10 @@
 import dotenv from 'dotenv';
 import express, { Application, Request, Response } from 'express';
-import connectDB from './config/db.js';
-import volunteerRoutes from './routes/volunteer.js';
-import authRoutes from "./routes/auth.routes.js"
+import authRoutes from "./routes/auth.routes"
 import cors from 'cors';
+import connectDB from './config/db';
+import volunteerRoutes from './routes/volunteer.routes';
+import ngoRoutes from './routes/ngo.routes'
 
 dotenv.config()
 const app: Application = express();
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/volunteer', volunteerRoutes);
 app.use("/api/auth", authRoutes);
+app.use('/api/ngo', ngoRoutes);
 
 // Connect to Database
 connectDB();
