@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css'
 
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/volunteer/Dashboard';
 
 const router = createBrowserRouter([
   {path: "/", element: <Dashboard />},

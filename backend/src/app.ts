@@ -3,6 +3,7 @@ dotenv.config();
 import express, { Application, Request, Response } from 'express';
 import connectDB from './config/db';
 import volunteerRoutes from './routes/volunteer.routes';
+import ngoRoutes from './routes/ngo.routes'
 import cors from 'cors';
 
 const app: Application = express();
@@ -14,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/volunteer', volunteerRoutes);
+app.use('/api/ngo', ngoRoutes);
 
 // Connect to Database
 connectDB();

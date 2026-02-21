@@ -3,7 +3,7 @@ export interface Project {
     name: string;
     ngo: string;
     date: string;
-    registrations: number;
+    registrations?: number;
     ngoId?: string;
     createdAt?: string;
     updatedAt?: string;

@@ -1,0 +1,23 @@
+import Header from "./Headers"
+import Events from "./Events"
+import type { EventType } from "./types"
+
+interface OngoingEventsProps {
+    events: EventType[]
+    deleteEvent: (id: string) => void
+}
+
+function OngoingEvents({ events, deleteEvent }: OngoingEventsProps) {
+    return (
+        <div className="bg-white max-w-5xl mx-auto shadow-[0_10px_40px_rgba(0,0,0,0.08)] mt-10 mb-8 min-h-[300px] border border-gray-100 p-8 rounded-xl overflow-auto">
+            <Header />
+            {events.length > 0 ? (
+                <Events events={events} onDelete={deleteEvent} />
+            ) : (
+                <p className="text-center text-1xl text-white">No Events</p>
+            )}
+        </div>
+    )
+}
+
+export default OngoingEvents

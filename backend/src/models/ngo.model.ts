@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 import validator from 'validator'
 import bcrypt from 'bcrypt'
 
@@ -41,7 +41,11 @@ const ngoSchema = new mongoose.Schema({
             },
             message: `Invalid URL`
         }
-    }
+    },
+    projects: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Project'
+    }]
 }, { timestamps: true });
 
 ngoSchema.pre("save", async function () {
@@ -50,4 +54,4 @@ ngoSchema.pre("save", async function () {
     }
 })
 
-export const NGO = mongoose.model('ngo', ngoSchema);
+export default mongoose.model('ngo', ngoSchema);
