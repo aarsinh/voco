@@ -50,4 +50,4 @@ volunteerSchema.pre("save", async function () {
     }
 })
 
-export default mongoose.model('volunteer', volunteerSchema);
+export default mongoose.model('Volunteer', volunteerSchema);

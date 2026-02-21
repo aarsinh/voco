@@ -1,24 +1,24 @@
+import axios from "axios";
 import React from "react";
 import { Link } from 'react-router-dom';
 import type { Project } from '../types';
-import axios from "axios";
 
 interface ProjectCardProps {
     project: Project;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+const RegProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     
-    const handleRegister = async () => {
+    const handleUnregister = async () => {
         try {
             const vid = localStorage.getItem('volunteerId');
-            await axios.post(`http://localhost:8082/api/volunteer/register`,{
+            await axios.post(`http://localhost:8082/api/volunteer/unregister`, {
                 volunteerId: '699898687aa56327e25b3785',
                 projectId: project._id
             });
-            window.location.reload();                
+            window.location.reload();
         } catch (err) {
-            console.log(err);
+            console.error('RegProjCard',err);
         }
     };
 
@@ -39,19 +39,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             </td>
 
             <td className={tdClass}>
-                {project.registrations}
-            </td>
-
-            <td className={tdClass}>
                 <button
-                    className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-4 rounded transition-colors"
-                    onClick={handleRegister}
+                    className="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-1.5 px-3 rounded transition-colors"
+                    onClick={handleUnregister}
                 >
-                    Register
+                    Unregister
                 </button>
             </td>
         </tr>
     );
 };
 
-export default ProjectCard;
+export default RegProjectCard;

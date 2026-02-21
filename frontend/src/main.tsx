@@ -1,19 +1,17 @@
 import React from 'react';
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import './index.css'
-
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import "bootstrap/dist/js/bootstrap.bundle.min";
-
-import ShowProjectList from './components/ShowProjList';
 import { Login } from './Login';
 import { Signup } from './Signup';
+import './index.css'
+
+import Dashboard from './components/Dashboard';
 
 const router = createBrowserRouter([
-  { path: "/", element: <ShowProjectList /> },
+  { path: "/", element: <Dashboard /> },
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <Signup /> }
+
 
 ]);
 
