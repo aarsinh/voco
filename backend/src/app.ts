@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import express, { Application, Request, Response } from 'express';
 import connectDB from './config/db';
-import volunteerRoutes from './routes/api/volunteer';
+import volunteerRoutes from './routes/volunteer.routes';
 import cors from 'cors';
 
 const app: Application = express();
