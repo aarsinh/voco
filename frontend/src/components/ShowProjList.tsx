@@ -7,12 +7,18 @@ function ShowProjectList() {
     const [projects, setProjects] = useState<Project[]>([]);
 
     useEffect(() => {
-        axios
-            .get<Project[]>('http://localhost:8082/api/volunteer')
-            .then((res) => {
-                setProjects(res.data);
-            })
-            .catch((err) => { console.log('Error from showProjectList', err) });
+        const vid = localStorage.getItem('volunteerId');
+        const testid = '699898687aa56327e25b3785';
+        try{
+            axios
+                .get<Project[]>(`http://localhost:8082/api/volunteer/${testid}`)
+                .then((res) => {
+                    setProjects(res.data);
+                })
+                .catch((err) => { console.log('Error from showProjectList', err) });
+        } catch(err) {
+            console.error("ShowProjList", err);
+        }
     }, []);
 
     return (

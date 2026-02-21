@@ -18,7 +18,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             });
             window.location.reload();
         } catch (err) {
-            console.log(err);
+            console.error('RegProjCard',err);
         }
     };
 

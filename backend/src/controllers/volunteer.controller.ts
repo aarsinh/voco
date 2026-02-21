@@ -9,7 +9,7 @@ export const registerProject = async(req: Request, res: Response): Promise<void>
         const {volunteerId, projectId} = req.body;
         const updatedVolunteer = await Volunteer.findByIdAndUpdate(
             volunteerId,
-            {$push: {registeredProjects : projectId}},
+            {$addToSet: {registeredProjects : projectId}},
             {new: true}
         );
         if(!updatedVolunteer){
@@ -59,6 +59,42 @@ export const unregisterProject = async(req: Request, res: Response) => {
 
     } catch (err) {
         console.error('Backend error in unregister', err);
+        res.status(500).json({
+            message: 'Server error'
+        });
+    }
+}
+
+export const showRegisteredProj = async(req: Request, res: Response) => {
+    try{
+        const { volunteerId } = req.params;
+        const volunteer = await Volunteer.findById(volunteerId).populate('registeredProjects').sort({date: -1});
+        if(!volunteer){
+            return res.status(404).json({message: 'Volunteer not found'});
+        }
+        res.json(volunteer.registeredProjects);
+    } catch(err) {
+        console.error('volunteer controller showregproj', err);
+        res.status(500).json({
+            message: 'Server error'
+        });
+    }
+}
+
+export const showUpcomingProj = async(req: Request, res: Response) => {
+    try{
+        const { volunteerId } = req.params;
+        const volunteer = await Volunteer.findById(volunteerId);
+        if(!volunteer){
+            return res.status(400).json({message: 'Volunteer not found'});
+        }
+        const availableProj = await Project.find({
+            _id: {$nin: volunteer.registeredProjects}
+        }).sort({date: -1});
+        
+        res.json(availableProj);
+    } catch (err) {
+        console.error('volunteer controller showregproj', err);
         res.status(500).json({
             message: 'Server error'
         });
