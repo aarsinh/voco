@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import Volunteer from '../models/volunteers.model';
-import Project from '../models/projects.model';
+import Volunteer from '../models/volunteer.model';
+import Project from '../models/project.model';
 import dotenv from 'dotenv';
 dotenv.config();
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerProject, unregisterProject, showRegisteredProj, showUpcomingProj } from '../../controllers/volunteer.controller';
+import { registerProject, unregisterProject, showRegisteredProj, showUpcomingProj } from '../controllers/volunteer.controller';
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
-import bcrypt from 'bcrypt'
+import bcrhttps://github.com/aarsinh/voco/pull/2/conflict?name=backend%252Fsrc%252Fmodels%252Fngo.model.ts&ancestor_oid=143b8aa1be940de782fad04618fcbdec51641889&base_oid=4916214f03bbae2aa73e3150535574a306727959&head_oid=900bef0f2c976a0bf2c33ab5337c5b72b068163dypt from 'bcrypt'
 import validator from 'validator'
 
 const volunteerSchema = new mongoose.Schema({
@@ -50,4 +50,4 @@ volunteerSchema.pre("save", async function () {
     }
 })
 
-export default mongoose.model('volunteer', volunteerSchema);
+export default mongoose.model('Volunteer', volunteerSchema);
