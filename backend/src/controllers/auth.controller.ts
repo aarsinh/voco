@@ -1,5 +1,5 @@
-import { Volunteer } from "../models/volunteer.model";
-import { NGO } from "../models/ngo.model";
+import Volunteer from "../models/volunteers.model";
+import NGO from "../models/ngo.model";
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt'
 import { Model } from "mongoose";
@@ -24,8 +24,9 @@ export const RegisterVolunteer = async (req: Request, res: Response) => {
       message: "Successful volunteer sign up"
     });
   } catch (err) {
+    console.log(`server error: ${err}`)
     res.status(500).json({
-      message: "Server error"
+      message: "Server error for volunteer register: {err}"
     });
   }
 }
@@ -63,13 +64,15 @@ export const Login = async (req: Request, res: Response) => {
     const Model: Model<AuthUser> = role === "volunteer" ? Volunteer : NGO;
     const user = await Model.findOne({ username });
     if (!user) {
+      console.log("user not found in db")
       return res.status(401).json({
-        message: "Invalid user credentials"
+        message: "Invalid user credentials:"
       });
     }
 
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
+      console.log("wrong password")
       return res.status(401).json({
         message: "Invalid user credentials"
       });
@@ -89,8 +92,9 @@ export const Login = async (req: Request, res: Response) => {
       role: role
     });
 
-
+    console.log("successfully signed in")
   } catch (err) {
+    console.log(`server error: ${err}`)
     res.status(500).json({
       message: "Server error"
     })

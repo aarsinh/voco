@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { RolePicker } from './components/RolePicker';
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 export function Login() {
   const [role, setRole] = useState<"volunteer" | "ngo">("volunteer")
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
-
     try {
+      console.log("submit called")
       const response = await fetch("http://localhost:8082/api/auth/login", {
         method: "POST",
         headers: {
@@ -27,13 +30,15 @@ export function Login() {
         return;
       }
 
+      navigate("/")
+
       if (data.role === 'ngo') {
         // navigate to ngo dash
       } else if (data.role === 'volunteer') {
         // navigate to volutneer dash
       }
     } catch (err) {
-
+      console.log(err)
     }
   }
 

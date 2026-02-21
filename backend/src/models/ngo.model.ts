@@ -50,4 +50,4 @@ ngoSchema.pre("save", async function() {
   }
 })
 
-export const NGO = mongoose.model('ngo', ngoSchema);
+export default mongoose.model('ngo', ngoSchema);

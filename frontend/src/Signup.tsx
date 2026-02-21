@@ -1,8 +1,10 @@
 import { useState } from "react"
 import { RolePicker } from "./components/RolePicker"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export function Signup() {
+
+  const navigate = useNavigate()
   const [role, setRole] = useState<"volunteer" | "ngo">("volunteer")
   const [form, setForm] = useState({
     username: "", password: "", name: "", email: "",
@@ -18,22 +20,32 @@ export function Signup() {
   ]
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
+    e.preventDefault();
+    const { age, sex, website, ...common } = form;
+    const body = role === "ngo" ? { website, ...common } : { age, sex, ...common };
+    const url = role === "ngo" ? "http://localhost:8082/api/auth/register/ngo" : "http://localhost:8082/api/auth/register/volunteer";
     try {
-      const response = await fetch("http://localhost:8082/api/auth/signup", {
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({})
-      })
-    } catch {
+        body: JSON.stringify(body)
+      });
 
+      const data = await response.json();
+      if (!response.ok) {
+        alert(data.message);
+        return;
+      }
+
+      navigate("/login")
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -49,14 +61,14 @@ export function Signup() {
         <div className='px-4 pb-5'>
           <form className="space-y-4" onSubmit={handleSubmit}>
             {commonFields.map((field) => (
-              <input key={field.name} className="border w-full px-4 py-2 rounded-md" required placeholder={field.placeholder} type={field.type} onChange={handleChange} />
+              <input key={field.name} name={field.name} className="border w-full px-4 py-2 rounded-md" required placeholder={field.placeholder} type={field.type} onChange={handleChange} />
             ))}
 
             {role === "volunteer" &&
               <>
-                <input placeholder="Age" type="number" min={18} max={100} className="border w-full px-4 py-2 rounded-md" required onChange={handleChange} />
-                <select className="border w-full text-left px-4 py-2 rounded-md" required onChange={handleChange}>
-                  <option value="">Select Sex</option>
+                <input name="age" placeholder="Age" type="number" min={18} max={100} className="border w-full px-4 py-2 rounded-md" required onChange={handleChange} />
+                <select className="border w-full text-left px-4 py-2 rounded-md" required name="sex" onChange={handleChange} value={form.sex}>
+                  <option value="" disabled>Select Sex</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                   <option value="others">Others</option>
@@ -67,7 +79,7 @@ export function Signup() {
             {
               role === "ngo" &&
               <>
-                <input placeholder="Website" className="border w-full px-4 py-2 rounded-md" type="url" required onChange={handleChange} />
+                <input placeholder="Website" name="website" className="border w-full px-4 py-2 rounded-md" type="url" required onChange={handleChange} />
               </>
             }
             <button className="bg-blue-500 rounded-md w-full p-2 text-white">Sign Up</button>
