@@ -38,9 +38,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 {project.date ? new Date(project.date).toLocaleDateString() : 'TBD'}
             </td>
 
-            <td className={tdClass}>
+            {/* <td className={tdClass}>
                 {project.registrations}
-            </td>
+            </td> */}
 
             <td className={tdClass}>
                 <button

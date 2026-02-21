@@ -34,7 +34,7 @@ function ShowProjectList() {
                             <th className="bg-gray-800 text-white p-4 first:rounded-tl-lg">Project Name</th>
                             <th className="bg-gray-800 text-white p-4">NGO Name</th>
                             <th className="bg-gray-800 text-white p-4">Date</th>
-                            <th className="bg-gray-800 text-white p-4">Registrations</th>
+                            {/* <th className="bg-gray-800 text-white p-4">Registrations</th> */}
                             <th className="bg-gray-800 text-white p-4 last:rounded-tr-lg">Action</th>
                         </tr>
                     </thead>
