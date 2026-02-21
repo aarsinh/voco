@@ -12,8 +12,8 @@ export function Login() {
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
+
     try {
-      console.log("submit called")
       const response = await fetch("http://localhost:8082/api/auth/login", {
         method: "POST",
         headers: {
@@ -30,12 +30,10 @@ export function Login() {
         return;
       }
 
-      navigate("/")
-
       if (data.role === 'ngo') {
-        // navigate to ngo dash
+        navigate("/ngo")
       } else if (data.role === 'volunteer') {
-        // navigate to volutneer dash
+        navigate("/volunteer")
       }
     } catch (err) {
       console.log(err)

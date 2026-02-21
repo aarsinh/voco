@@ -1,4 +1,4 @@
-import Volunteer from "../models/volunteers.model";
+import Volunteer from "../models/volunteer.model";
 import NGO from "../models/ngo.model";
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt'
