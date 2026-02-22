@@ -57,7 +57,7 @@ export function Login() {
             <form className="space-y-4" onSubmit={handleSubmit}>
               <input placeholder="username" required className="border w-full px-4 py-2 rounded-md" onChange={(e) => { setUsername(e.target.value) }}></input>
               <input placeholder="password" required className="border w-full px-4 py-2 rounded-md" type='password' onChange={(e) => { setPassword(e.target.value) }}></input>
-              <button className="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md w-full p-2 text-white" type='submit'>Sign In</button>
+              <button className="bg-blue-500 rounded-md w-full p-2 text-white" type='submit'>Sign In</button>
             </form>
             <div className="flex items-center justify-center gap-1 pt-2">
               <p>Don't have an account?</p>
