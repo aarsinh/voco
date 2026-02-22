@@ -3,7 +3,6 @@ import { RolePicker } from "./components/RolePicker"
 import { Link, useNavigate } from "react-router-dom"
 
 export function Signup() {
-
   const navigate = useNavigate()
   const [role, setRole] = useState<"volunteer" | "ngo">("volunteer")
   const [form, setForm] = useState({
@@ -82,7 +81,7 @@ export function Signup() {
                 <input placeholder="Website" name="website" className="border w-full px-4 py-2 rounded-md" type="url" required onChange={handleChange} />
               </>
             }
-            <button className="bg-blue-500 rounded-md w-full p-2 text-white">Sign Up</button>
+            <button className="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md w-full p-2 text-white">Sign Up</button>
           </form>
           <div className="flex items-center justify-center gap-1 pt-2">
             <p>Already have an account?</p>
