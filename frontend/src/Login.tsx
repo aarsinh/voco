@@ -31,8 +31,10 @@ export function Login() {
       }
 
       if (data.role === 'ngo') {
-        navigate("/ngo")
+        localStorage.setItem('ngoId', data.id);
+        navigate("/ngo");
       } else if (data.role === 'volunteer') {
+        localStorage.setItem('volunteerId', data.id);
         navigate("/volunteer")
       }
     } catch (err) {
