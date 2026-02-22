@@ -78,9 +78,7 @@ export function Signup() {
 
             {
               role === "ngo" &&
-              <>
-                <input placeholder="Website" name="website" className="border w-full px-4 py-2 rounded-md" type="url" required onChange={handleChange} />
-              </>
+              <input placeholder="Website" name="website" className="border w-full px-4 py-2 rounded-md" type="url" required onChange={handleChange} />
             }
             <button className="bg-blue-500 rounded-md w-full p-2 text-white">Sign Up</button>
           </form>

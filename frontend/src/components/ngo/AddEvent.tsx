@@ -10,7 +10,7 @@ interface AddEventProps {
   ngo: string;
 }
 
-function Addevent({ onAdd, ngo }: AddEventProps) {
+function Addevent({ onAdd, ngo }: Readonly<AddEventProps>) {
   const [Eventname, setEventname] = useState<string>("");
   const [day, setDay] = useState<string>("");
   const [address, setAddress] = useState<string>("");
