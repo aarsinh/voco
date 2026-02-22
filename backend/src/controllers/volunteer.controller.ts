@@ -28,6 +28,7 @@ export const registerProject = async (req: Request, res: Response): Promise<void
     })
 
   } catch (err) {
+    console.error(err)
     res.status(500).json({
       message: 'Server error'
     });

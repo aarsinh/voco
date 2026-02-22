@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import Volunteer from '../models/volunteer.model';
 import Project from '../models/project.model';
 import dotenv from 'dotenv';
 import NGO from '../models/ngo.model';

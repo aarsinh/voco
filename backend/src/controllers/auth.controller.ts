@@ -19,14 +19,14 @@ export const RegisterVolunteer = async (req: Request, res: Response) => {
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
-    const volunteer = await Volunteer.create({ username, password, name, email, phoneNumber, age, sex });
+    await Volunteer.create({ username, password, name, email, phoneNumber, age, sex });
     res.status(201).json({
       message: "Successful volunteer sign up"
     });
   } catch (err) {
-    console.log(`server error: ${err}`)
+    console.error(`server error: ${err}`)
     res.status(500).json({
-      message: "Server error for volunteer register: {err}"
+      message: `Server error for volunteer register: ${err}`
     });
   }
 }
@@ -41,13 +41,14 @@ export const RegisterNGO = async (req: Request, res: Response) => {
       });
     }
 
-    const ngo = await NGO.create({ username, password, name, email, phoneNumber, website });
+    await NGO.create({ username, password, name, email, phoneNumber, website });
     res.status(201).json({
       message: "Successful NGO sign up"
     });
   } catch (err) {
+    console.error(err)
     res.status(500).json({
-      message: "Server error"
+      message: `Server error: ${err}`
     });
   }
 }
@@ -90,7 +91,7 @@ export const Login = async (req: Request, res: Response) => {
 
     res.status(200).json({
       role: role,
-      id: user._id, 
+      id: user._id,
       name: user.username
     });
 

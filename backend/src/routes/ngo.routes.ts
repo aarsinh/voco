@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { getProjects, addProject, delProject } from '../controllers/ngo.controller'
 
 const router = express.Router();
