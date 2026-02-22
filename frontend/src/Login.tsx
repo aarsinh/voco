@@ -32,6 +32,7 @@ export function Login() {
 
       if (data.role === 'ngo') {
         localStorage.setItem('ngoId', data.id);
+        localStorage.setItem('ngoName', data.name);
         navigate("/ngo");
       } else if (data.role === 'volunteer') {
         localStorage.setItem('volunteerId', data.id);
