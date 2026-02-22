@@ -10,7 +10,7 @@ export const registerProject = async (req: Request, res: Response): Promise<void
     const updatedVolunteer = await Volunteer.findByIdAndUpdate(
       volunteerId,
       { $addToSet: { registeredProjects: projectId } },
-      { new: true }
+      { returnDocument: 'after' }
     );
     if (!updatedVolunteer) {
       res.status(400).json({ message: 'Volunteer not found' });
@@ -40,7 +40,7 @@ export const unregisterProject = async (req: Request, res: Response) => {
     const updatedVolunteer = await Volunteer.findByIdAndUpdate(
       volunteerId,
       { $pull: { registeredProjects: projectId } },
-      { new: true }
+      { returnDocument: 'after' }
     );
     if (!updatedVolunteer) {
       res.status(400).json({ message: 'Volunteer not found' });
