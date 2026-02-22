@@ -11,9 +11,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
   const handleRegister = async () => {
     try {
-      const vid = localStorage.getItem('volunteerId');
+      const vid = localStorage.getItem('volunteerId') || '699898687aa56327e25b3785';
       await axios.post(`http://localhost:8082/api/volunteer/register`, {
-        volunteerId: '699898687aa56327e25b3785',
+        volunteerId: vid,
         projectId: project._id
       });
       window.location.reload();

@@ -7,10 +7,9 @@ function ShowRegisteredList() {
     const [projects, setProjects] = useState<Project[]>([]);
 
     useEffect(() => {
-        const vid = localStorage.getItem('volunteerId');
-        const testid = '699898687aa56327e25b3785';
+        const vid = localStorage.getItem('volunteerId') || '699898687aa56327e25b3785';
         axios
-            .get<Project[]>(`http://localhost:8082/api/volunteer/registered/${testid}`)
+            .get<Project[]>(`http://localhost:8082/api/volunteer/registered/${vid}`)
             .then((res) => {
                 setProjects(res.data);
             })
