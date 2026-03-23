@@ -3,7 +3,6 @@ import { getProjects, addProject, delProject } from '../controllers/ngo.controll
 
 const router = express.Router();
 
-// CRUD routes for projects
 router.get("/:ngoId", getProjects);
 
 router.post("/addProject/:ngoId", addProject);
