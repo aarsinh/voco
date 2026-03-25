@@ -30,7 +30,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 <td className={tdClass}>{project.name}</td>
 
                 <td className={tdClass}>
-                    <Link to={`/ngo/${project.ngoId || '#'}`} className="text-blue-600 font-bold no-underline hover:underline">
+                    <Link to={'#'} className="text-blue-600 font-bold no-underline hover:underline">
                         {project.ngo || "Unknown NGO"}
                     </Link>
                 </td>
