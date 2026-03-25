@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import express, { Application, Request, Response } from 'express';
+import cookieParser from 'cookie-parser';
 import authRoutes from "./routes/auth.routes"
 import cors from 'cors';
 import connectDB from './config/db';
@@ -10,6 +11,7 @@ dotenv.config()
 const app: Application = express();
 
 // Middleware
+app.use(cookieParser());
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

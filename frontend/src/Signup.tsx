@@ -1,15 +1,17 @@
 import { useState } from "react"
 import { RolePicker } from "./components/RolePicker"
 import { Link, useNavigate } from "react-router-dom"
+import { useAuth } from "./hooks/useAuth"
 
 export function Signup() {
-
   const navigate = useNavigate()
+  const { signup } = useAuth()
   const [role, setRole] = useState<"volunteer" | "ngo">("volunteer")
   const [form, setForm] = useState({
     username: "", password: "", name: "", email: "",
     phoneNumber: "", age: "", sex: "", website: ""
   })
+  const [error, setError] = useState("")
 
   const commonFields = [
     { name: "username", placeholder: "Username", type: "text" },
@@ -25,27 +27,13 @@ export function Signup() {
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { age, sex, website, ...common } = form;
-    const body = role === "ngo" ? { website, ...common } : { age, sex, ...common };
-    const url = role === "ngo" ? "http://localhost:8082/api/auth/register/ngo" : "http://localhost:8082/api/auth/register/volunteer";
+    setError("")
+
     try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        alert(data.message);
-        return;
-      }
-
+      await signup(form, role);
       navigate("/login")
     } catch (err) {
-      console.log(err)
+      setError(err instanceof Error ? err.message : "Signup failed");
     }
   }
 
@@ -60,6 +48,7 @@ export function Signup() {
         </div>
         <div className='px-4 pb-5'>
           <form className="space-y-4" onSubmit={handleSubmit}>
+            {error && <p className="text-red-500 text-sm">{error}</p>}
             {commonFields.map((field) => (
               <input key={field.name} name={field.name} className="border w-full px-4 py-2 rounded-md" required placeholder={field.placeholder} type={field.type} onChange={handleChange} />
             ))}

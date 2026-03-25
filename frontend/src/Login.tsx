@@ -1,44 +1,26 @@
 import React, { useState } from 'react';
 import { RolePicker } from './components/RolePicker';
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from './hooks/useAuth';
 
 export function Login() {
   const [role, setRole] = useState<"volunteer" | "ngo">("volunteer")
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
 
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setError("")
 
     try {
-      const response = await fetch("http://localhost:8082/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "include",
-        body: JSON.stringify({ username, password, role })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        alert(data.message);
-        return;
-      }
-
-      if (data.role === 'ngo') {
-        localStorage.setItem('ngoId', data.id);
-        localStorage.setItem('ngoName', data.name);
-        navigate("/ngo");
-      } else if (data.role === 'volunteer') {
-        localStorage.setItem('volunteerId', data.id);
-        navigate("/volunteer")
-      }
+      await login(username, password, role);
+      navigate(role === "ngo" ? "/ngo" : "/volunteer");
     } catch (err) {
-      console.log(err)
+      setError(err instanceof Error ? err.message : "Login failed");
     }
   }
 
@@ -53,6 +35,7 @@ export function Login() {
         </div>
         <div className='px-4 pb-5'>
           <form className="space-y-4" onSubmit={handleSubmit}>
+            {error && <p className="text-red-500 text-sm">{error}</p>}
             <input placeholder="username" required className="border w-full px-4 py-2 rounded-md" onChange={(e) => { setUsername(e.target.value) }}></input>
             <input placeholder="password" required className="border w-full px-4 py-2 rounded-md" type='password' onChange={(e) => { setPassword(e.target.value) }}></input>
             <button className="bg-blue-500 rounded-md w-full p-2 text-white" type='submit'>Sign In</button>

@@ -79,7 +79,7 @@ export const Login = async (req: Request, res: Response) => {
       });
     }
 
-    const token = jwt.sign({ id: user._id, }, process.env.JWT_SECRET as string, {
+    const token = jwt.sign({ id: user._id, role }, process.env.JWT_SECRET as string, {
       expiresIn: 24 * 60 * 60 * 3, // 3 day expiry
     });
 
@@ -102,4 +102,23 @@ export const Login = async (req: Request, res: Response) => {
       message: "Server error"
     })
   }
+}
+
+export const ValidateToken = async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ ok: false });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string; role: string };
+    return res.status(200).json({ ok: true, id: decoded.id, role: decoded.role });
+  } catch {
+    return res.status(401).json({ ok: false });
+  }
+}
+
+export const Logout = async (_req: Request, res: Response) => {
+  res.clearCookie("token");
+  res.status(200).json({ message: "Logged out successfully" });
 }
