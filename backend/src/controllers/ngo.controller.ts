@@ -51,3 +51,7 @@ export const delProject = async (req: Request, res: Response): Promise<void> => 
     res.status(500).json({ message: error.message });
   }
 }
+
+export const updateEventStatus = async (req: Request, res: Response) => {
+  
+}

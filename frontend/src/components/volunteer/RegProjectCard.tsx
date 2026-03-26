@@ -5,9 +5,10 @@ import type { Project } from '../../types';
 
 interface ProjectCardProps {
     project: Project;
+    status: string;
 }
 
-const RegProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
     
     const handleUnregister = async () => {
         try {
@@ -19,6 +20,21 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             window.location.reload();
         } catch (err) {
             console.error('RegProjCard',err);
+        }
+    };
+
+
+    const changeStatus = async (newStatus : string) => {
+        try {
+            const vid = localStorage.getItem('volunteerId') || '699898687aa56327e25b3785';
+            await axios.patch(`http://localhost:8082/api/volunteer/changeStatus`, {
+                volunteerId: vid,
+                projectId: project._id,
+                status: newStatus
+            });
+            window.location.reload();
+        } catch (err) {
+            console.error('RegProjCard changeStatus', err);
         }
     };
 
@@ -37,6 +53,18 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
                 <td className={tdClass}>
                     {project.date ? new Date(project.date).toLocaleDateString() : 'TBD'}
+                </td>
+
+                <td className={tdClass}>
+                    <select
+                        value={status}
+                        onChange={(e) => changeStatus(e.target.value)}
+                        className="border border-gray-300 rounded px-2 py-1 text-sm text-gray-700"
+                    >
+                        <option value="notStarted">Not Started</option>
+                        <option value="active">Active</option>
+                        <option value="completed">Completed</option>
+                    </select>
                 </td>
 
                 <td className={tdClass}>
