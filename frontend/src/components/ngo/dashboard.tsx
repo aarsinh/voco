@@ -3,13 +3,15 @@ import AddProjButton from "./AddProjButton";
 import Addevent from "./AddEvent";
 import { useState, useEffect } from "react";
 import type { EventType } from "./types";
+import { useAuth } from "../../hooks/useAuth";
 
 function App() {
-  const ngoName: string = localStorage.getItem('ngoName') || 'Dummy NGO';
+  const { userId, name } = useAuth();
+  const ngoName = name || 'Unknown NGO';
 
   const [events, setEvents] = useState<EventType[]>([]);
   const [showAddEvents, setShowAddEvent] = useState<boolean>(false);
-  const ngoId = localStorage.getItem('ngoId') || '699972a0e5f9c4f5cba2a8f0'
+  const ngoId = userId
 
   useEffect(() => {
     fetch(`http://localhost:8082/api/ngo/${ngoId}`)

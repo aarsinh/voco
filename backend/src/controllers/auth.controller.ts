@@ -79,7 +79,7 @@ export const Login = async (req: Request, res: Response) => {
       });
     }
 
-    const token = jwt.sign({ id: user._id, role }, process.env.JWT_SECRET as string, {
+    const token = jwt.sign({ id: user._id, role, name: user.username }, process.env.JWT_SECRET as string, {
       expiresIn: 24 * 60 * 60 * 3, // 3 day expiry
     });
 
@@ -111,8 +111,13 @@ export const ValidateToken = async (req: Request, res: Response) => {
       return res.status(401).json({ ok: false });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string; role: string };
-    return res.status(200).json({ ok: true, id: decoded.id, role: decoded.role });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string; role: string; name?: string };
+    return res.status(200).json({ 
+      ok: true, 
+      id: decoded.id, 
+      role: decoded.role, 
+      name: decoded.name || null 
+    });
   } catch {
     return res.status(401).json({ ok: false });
   }

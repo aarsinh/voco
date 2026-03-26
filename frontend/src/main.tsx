@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import { PreferencesModalProvider } from './contexts/PreferencesModalContext.tsx';
 import { PrivateRoute } from './components/PrivateRoutes';
 import { GuestRoutes } from './components/GuestRoutes';
+import { ProtectedLayoutContent } from './components/ProtectedLayout';
 import { Login } from './Login';
 import { Signup } from './Signup';
 import NGO from './components/ngo/dashboard'
@@ -19,11 +21,15 @@ const router = createBrowserRouter(
       </Route>
 
       <Route element={<PrivateRoute allowedRoles={['ngo']} />}>
-        <Route path="/ngo" element={<NGO />} />
+        <Route element={<ProtectedLayoutContent />}>
+          <Route path="/ngo" element={<NGO />} />
+        </Route>
       </Route>
 
       <Route element={<PrivateRoute allowedRoles={['volunteer']} />}>
-        <Route path="/volunteer" element={<Volunteer />} />
+        <Route element={<ProtectedLayoutContent />}>
+          <Route path="/volunteer" element={<Volunteer />} />
+        </Route>
       </Route>
 
       <Route path="/" element={<Navigate to="/login" replace />} />
@@ -34,7 +40,9 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <PreferencesModalProvider>
+        <RouterProvider router={router} />
+      </PreferencesModalProvider>
     </AuthProvider>
   </React.StrictMode>,
 )

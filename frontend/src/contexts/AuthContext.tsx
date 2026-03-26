@@ -3,6 +3,7 @@ import React, { useState, createContext, useEffect, useCallback } from "react";
 interface AuthContextType {
   isAuthenticated: boolean;
   role: "ngo" | "volunteer" | null;
+  name: string | null;
   userId: string | null;
   isLoading: boolean;
   login: (username: string, password: string, role: "ngo" | "volunteer") => Promise<void>;
@@ -19,6 +20,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [role, setRole] = useState<"ngo" | "volunteer" | null>(null);
+  const [name, setName] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -33,15 +35,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setIsAuthenticated(true);
         setRole(data.role);
         setUserId(data.id);
+        setName(data.name || null);
       } else {
         setIsAuthenticated(false);
         setRole(null);
         setUserId(null);
+        setName(null);
       }
     } catch {
       setIsAuthenticated(false);
       setRole(null);
       setUserId(null);
+      setName(null);
     } finally {
       setIsLoading(false);
     }
@@ -67,6 +72,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsAuthenticated(true);
     setRole(userRole);
     setUserId(data.id);
+    setName(data.name || null);
   };
 
   const signup = async (formData: Record<string, string>, userRole: "ngo" | "volunteer") => {
@@ -95,11 +101,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
     setIsAuthenticated(false);
     setRole(null);
+    setName(null);
     setUserId(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, role, userId, isLoading, login, signup, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, role, name, userId, isLoading, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   );

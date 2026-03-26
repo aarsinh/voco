@@ -14,6 +14,7 @@ export const registerProject = async (req: Request, res: Response): Promise<void
     );
     if (!updatedVolunteer) {
       res.status(400).json({ message: 'Volunteer not found' });
+      console.error("RegisterProject error: Volunteer not found")
       return;
     }
 
@@ -99,5 +100,56 @@ export const showUpcomingProj = async (req: Request, res: Response) => {
     res.status(500).json({
       message: 'Server error'
     });
+  }
+}
+
+export const UpdatePreferences = async (req: Request, res: Response) => {
+  try {
+    const { volunteerId, preferences } = req.body;
+
+    if (!Array.isArray(preferences) || preferences.length === 0) {
+      res.status(400).json({ message: 'At least one preference is required' });
+      return;
+    }
+
+    const validPreferences = ['Education', 'Environment', 'Healthcare', 'Elderly Care', 'Animal Welfare'];
+    const invalidPrefs = preferences.filter(p => !validPreferences.includes(p));
+    if (invalidPrefs.length > 0) {
+      res.status(400).json({ message: `Invalid preferences: ${invalidPrefs.join(', ')}` });
+      return;
+    }
+
+    const updatedVolunteer = await Volunteer.findByIdAndUpdate(
+      volunteerId,
+      { preferences },
+      { returnDocument: 'after' }
+    );
+
+    if (!updatedVolunteer) {
+      res.status(404).json({ message: 'Volunteer not found' });
+      return;
+    }
+
+    res.status(200).json({ message: 'Preferences updated', preferences: updatedVolunteer.preferences });
+  } catch (err) {
+    console.error('Error updating preferences:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+}
+
+export const GetPreferences = async (req: Request, res: Response) => {
+  try {
+    const { volunteerId } = req.params;
+    const volunteer = await Volunteer.findById(volunteerId).select('preferences');
+
+    if (!volunteer) {
+      res.status(404).json({ message: 'Volunteer not found' });
+      return;
+    }
+
+    res.json({ preferences: volunteer.preferences });
+  } catch (err) {
+    console.error('Error fetching preferences:', err);
+    res.status(500).json({ message: 'Server error' });
   }
 }
