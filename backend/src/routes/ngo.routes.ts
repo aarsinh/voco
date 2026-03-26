@@ -9,6 +9,6 @@ router.post("/addProject/:ngoId", addProject);
 
 router.delete("/delProject", delProject);
 
-router.post("/changeStatus", updateEventStatus);
+router.patch("/changeStatus", updateEventStatus);
 
 export default router;

@@ -61,8 +61,8 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
                         onChange={(e) => changeStatus(e.target.value)}
                         className="border border-gray-300 rounded px-2 py-1 text-sm text-gray-700"
                     >
-                        <option value="notStarted">Not Started</option>
-                        <option value="active">Active</option>
+                        <option value="pending">Not Started</option>
+                        <option value="ongoing">Active</option>
                         <option value="completed">Completed</option>
                     </select>
                 </td>
