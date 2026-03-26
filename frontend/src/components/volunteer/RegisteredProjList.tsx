@@ -16,7 +16,6 @@ function ShowRegisteredList() {
         axios
             .get(`http://localhost:8082/api/volunteer/registered/${vid}`)
             .then((res) => {
-                console.log(res.data.regProj);
                 setProjects(res.data.regProj);
             })
             .catch((err) => { console.log('Error from showProjectList', err) });

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import Volunteer from '../models/volunteer.model';
 import Project from '../models/project.model';
 import dotenv from 'dotenv';
+import mongoose from "mongoose";
 dotenv.config();
 
 export const registerProject = async (req: Request, res: Response): Promise<void> => {
@@ -116,8 +117,8 @@ export const showUpcomingProj = async (req: Request, res: Response) => {
 export const updateTaskStatus = async (req: Request, res: Response) => {
   try{
     const {volunteerId, projectId, status} = req.body;
-    const updatedVolunteer = await Volunteer.findByIdAndUpdate(
-      {_id: volunteerId, 'registeredProjects.project': projectId},
+    const updatedVolunteer = await Volunteer.findOneAndUpdate(
+      {_id: volunteerId, 'registeredProjects.project': new mongoose.Types.ObjectId(projectId)},
       {$set: { 'registeredProjects.$.status': status }},
       {returnDocument: 'after'}
     );

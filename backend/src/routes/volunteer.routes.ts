@@ -3,14 +3,14 @@ import { registerProject, unregisterProject, showRegisteredProj, showUpcomingPro
 
 const router = express.Router();
 
-router.get('/:volunteerId', showUpcomingProj);
-
 router.get('/registered/:volunteerId', showRegisteredProj);
+
+router.get('/:volunteerId', showUpcomingProj);
 
 router.post('/register', registerProject);
 
 router.post('/unregister', unregisterProject);
 
-router.post('/changeStatus', updateTaskStatus);
+router.patch('/changeStatus', updateTaskStatus);
 
 export default router;

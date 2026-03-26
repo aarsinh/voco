@@ -77,9 +77,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
                 </td>
             </tr>
 
-            {/* THE NEW ADDRESS ROW */}
             <tr className="hover:bg-gray-50 transition-colors border-b border-gray-200">
-                {/* colSpan={4} makes this single cell stretch across all 4 columns above it */}
                 <td colSpan={4} className="px-4 pb-4 pt-1 text-sm text-gray-500 italic">
                     {project.address || "Address not provided"}
                 </td>
