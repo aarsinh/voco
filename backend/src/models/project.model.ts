@@ -7,11 +7,21 @@ export interface Project extends Document {
 }
 
 const projectSchema: Schema = new mongoose.Schema({
-  name: { type: String, required: true },
+  name: { 
+    type: String, 
+    required: true 
+  },
   ngo: { type: String, required: true },
   date: { type: Date, required: true },
   address: {type: String, required: true},
-  registrations: { type: Number, default: 0 }
+  registrations: { type: Number, default: 0 },
+  VolunteersRegistered: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Volunteer',
+      required: true
+    }
+  ]
 }, { timestamps: true });
 
 export default mongoose.model('Project', projectSchema);
