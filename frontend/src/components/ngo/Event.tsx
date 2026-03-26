@@ -1,5 +1,6 @@
 import type { EventType } from "./types"
 import Button from "./Button"
+import { Link } from 'react-router-dom'
 
 interface EventProps {
     event: EventType
@@ -29,6 +30,12 @@ function Event({ event, onDelete }: EventProps) {
             <p className="text-slate-300">
                 Address: {event.address}
             </p>
+
+            <Link to={'volunteerList/${event.id}'} className="hover:opacity-80">
+            <p className="text-slate-300">
+                Click to view volunteer details
+            </p>
+            </Link>
         </div>
     )
 }
