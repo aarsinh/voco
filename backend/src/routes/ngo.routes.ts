@@ -1,5 +1,5 @@
 import express from "express";
-import { getProjects, addProject, delProject, updateEventStatus } from '../controllers/ngo.controller'
+import { getProjects, addProject, delProject, updateEventStatus, getProjectVolunteers } from '../controllers/ngo.controller'
 
 const router = express.Router();
 
@@ -10,5 +10,7 @@ router.post("/addProject/:ngoId", addProject);
 router.delete("/delProject", delProject);
 
 router.post("/changeStatus", updateEventStatus);
+
+router.get("/VolunteerList/:id", getProjectVolunteers);
 
 export default router;
