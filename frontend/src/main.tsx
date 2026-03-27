@@ -15,7 +15,7 @@ const router = createBrowserRouter([
   { path: "/ngo", element: <NGO /> },
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <Signup /> },
-  { path: "/VolunteerList/:id", element: <VolunteerList />}
+  { path: "/ngo/VolunteerList/:id", element: <VolunteerList />}
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
