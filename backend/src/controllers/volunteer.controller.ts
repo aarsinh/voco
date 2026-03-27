@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import Volunteer from '../models/volunteer.model';
 import Project from '../models/project.model';
 import dotenv from 'dotenv';
-import mongoose from "mongoose";
 dotenv.config();
 
 export const registerProject = async (req: Request, res: Response): Promise<void> => {
@@ -20,7 +19,10 @@ export const registerProject = async (req: Request, res: Response): Promise<void
 
     await Project.findByIdAndUpdate(
       projectId,
-      { $inc: { registrations: 1 } }
+      { 
+        $inc: { registrations: 1 },
+        $push: { VolunteersRegistered:  volunteerId  } 
+      }
     )
 
     res.status(200).json({
@@ -51,7 +53,10 @@ export const unregisterProject = async (req: Request, res: Response) => {
 
     await Project.findByIdAndUpdate(
       projectId,
-      { $inc: { registrations: -1 } }
+      { 
+        $inc: { registrations: -1 } ,
+        $pull: { VolunteersRegistered:  volunteerId  } 
+      }
     )
 
     res.status(200).json({
