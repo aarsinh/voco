@@ -9,4 +9,5 @@ export interface Project {
   tags: string[];
   createdAt?: string;
   updatedAt?: string;
+  status?: string;
 }

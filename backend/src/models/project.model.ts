@@ -7,14 +7,31 @@ export interface Project extends Document {
 }
 
 const projectSchema: Schema = new mongoose.Schema({
-  name: {
+  name: { 
+    type: String, 
+    required: true 
+  },
+  ngo: { 
     type: String,
     required: true
   },
-  ngo: { type: String, required: true },
-  date: { type: Date, required: true },
-  address: { type: String, required: true },
-  registrations: { type: Number, default: 0 },
+  date: { 
+    type: Date, 
+    required: true 
+  },
+  address: {
+    type: String, 
+    required: true
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'ongoing', 'completed'],
+    default: 'pending'
+  },
+  registrations: { 
+    type: Number, 
+    default: 0 
+  },
   tags: {
     type: [String],
     required: true

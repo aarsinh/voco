@@ -9,7 +9,7 @@ router.post("/addProject/:ngoId", addProject);
 
 router.delete("/delProject", delProject);
 
-router.post("/changeStatus", updateEventStatus);
+router.patch("/changeStatus", updateEventStatus);
 
 router.get("/VolunteerList/:id", getProjectVolunteers);
 
