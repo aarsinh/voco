@@ -101,7 +101,7 @@ function Addevent({ onAdd, ngo }: Readonly<AddEventProps>) {
       </div>
 
       <div className="flex flex-col">
-        <label className="mb-1 text-sm text-gray-300">Tags (select at least one)</label>
+        <p className="mb-1 text-sm text-gray-300">Tags (select at least one)</p>
         <div className="flex flex-wrap gap-2 mt-2">
           {TAGS.map(tag => (
             <button
@@ -109,8 +109,8 @@ function Addevent({ onAdd, ngo }: Readonly<AddEventProps>) {
               type="button"
               onClick={() => toggleTag(tag)}
               className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${selectedTags.includes(tag)
-                  ? 'bg-sky-500 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                ? 'bg-sky-500 text-white'
+                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                 }`}
             >
               {tag}

@@ -28,7 +28,8 @@ export const getProjects = async (req: Request, res: Response) => {
 
 export const addProject = async (req: Request, res: Response): Promise<void> => {
   try {
-    const newProject = new Project(req.body);
+    const { name, ngo, date, address, registrations, tags, VolunteersRegistered } = req.body
+    const newProject = new Project({ name, ngo, date, address, registrations, tags, VolunteersRegistered });
     const savedProject = await newProject.save();
     const { ngoId } = req.params;
     const updatedVolunteer = await NGO.findByIdAndUpdate(
@@ -95,5 +96,5 @@ export const getProjectVolunteers = async (req: Request, res: Response) => {
 }
 
 export const updateEventStatus = async (req: Request, res: Response) => {
-  
+
 }
