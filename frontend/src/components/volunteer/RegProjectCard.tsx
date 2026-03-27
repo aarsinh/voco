@@ -57,6 +57,18 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           {project.address || "Address not provided"}
         </td>
       </tr>
+
+      <tr className="border-b border-gray-200">
+        <td colSpan={4} className="px-4 pb-2 pt-2">
+          <div className="flex flex-wrap gap-1">
+            {project.tags?.map(tag => (
+              <span key={tag} className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </td>
+      </tr>
     </>
   );
 };
