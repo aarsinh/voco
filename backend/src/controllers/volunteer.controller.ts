@@ -20,7 +20,7 @@ export const registerProject = async (req: Request, res: Response): Promise<void
 
     await Project.findByIdAndUpdate(
       projectId,
-      { 
+      {
         $inc: { registrations: 1 },
         $addToSet: { VolunteersRegistered: volunteerId }
       }
@@ -54,7 +54,7 @@ export const unregisterProject = async (req: Request, res: Response) => {
 
     await Project.findByIdAndUpdate(
       projectId,
-      { 
+      {
         $inc: { registrations: -1 },
         $pull: { VolunteersRegistered: volunteerId }
       }
@@ -173,7 +173,7 @@ export const GetPreferences = async (req: Request, res: Response) => {
 export const updateTaskStatus = async (req: Request, res: Response) => {
   try {
     const { volunteerId, projectId, status } = req.body;
-    const updatedVolunteer = await Volunteer.findByIdAndUpdate(
+    const updatedVolunteer = await Volunteer.findOneAndUpdate(
       { _id: volunteerId, 'registeredProjects.project': projectId },
       { $set: { 'registeredProjects.$.status': status } },
       { returnDocument: 'after' }

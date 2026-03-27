@@ -9,6 +9,6 @@ router.get('/preferences/:volunteerId', GetPreferences);
 router.put('/preferences', UpdatePreferences)
 router.post('/register', registerProject);
 router.post('/unregister', unregisterProject);
-router.post('/changeStatus', updateTaskStatus);
+router.patch('/changeStatus', updateTaskStatus);
 
 export default router;
