@@ -4,15 +4,22 @@ import RegProjectCard from './RegProjectCard';
 import type { Project } from '../../types';
 import { useAuth } from "../../hooks/useAuth";
 
+interface RegProject {
+  project: Project;
+  status: string;
+}
+
 function ShowRegisteredList() {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<RegProject[]>([]);
   const { userId: vid } = useAuth()
 
   useEffect(() => {
     axios
-      .get<Project[]>(`http://localhost:8082/api/volunteer/registered/${vid}`)
+      .get(`http://localhost:8082/api/volunteer/registered/${vid}`)
       .then((res) => {
-        setProjects(res.data);
+        const allProjects = res.data.regProj || [];
+        const validProjects = allProjects.filter((rp: RegProject) => rp.project != null);
+        setProjects(validProjects);
       })
       .catch((err) => { console.log('Error from showProjectList', err) });
   }, [vid]);
@@ -30,18 +37,19 @@ function ShowRegisteredList() {
               <th className="bg-gray-800 text-white p-4 first:rounded-tl-lg">Project Name</th>
               <th className="bg-gray-800 text-white p-4">NGO Name</th>
               <th className="bg-gray-800 text-white p-4">Date</th>
+              <th className="bg-gray-800 text-white p-4">Task Status</th>
               <th className="bg-gray-800 text-white p-4 last:rounded-tr-lg">Action</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {projects.map((project, k) => (
-              <RegProjectCard project={project} key={k} />
+            {projects.map((regProject, k) => (
+              <RegProjectCard project={regProject.project} status={regProject.status} key={k} />
             ))}
           </tbody>
         </table>
       )}
     </div>
-  )
+  );
 }
 
 export default ShowRegisteredList;

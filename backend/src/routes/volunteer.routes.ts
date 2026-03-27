@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerProject, unregisterProject, showRegisteredProj, showUpcomingProj, UpdatePreferences, GetPreferences } from '../controllers/volunteer.controller';
+import { registerProject, unregisterProject, showRegisteredProj, showUpcomingProj, UpdatePreferences, GetPreferences, updateTaskStatus } from '../controllers/volunteer.controller';
 
 const router = express.Router();
 
@@ -9,5 +9,6 @@ router.get('/preferences/:volunteerId', GetPreferences);
 router.put('/preferences', UpdatePreferences)
 router.post('/register', registerProject);
 router.post('/unregister', unregisterProject);
+router.post('/changeStatus', updateTaskStatus);
 
 export default router;

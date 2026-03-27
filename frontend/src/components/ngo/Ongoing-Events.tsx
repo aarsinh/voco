@@ -10,7 +10,7 @@ interface OngoingEventsProps {
 function OngoingEvents({ events, deleteEvent }: OngoingEventsProps) {
   return (
     <div className="bg-white max-w-5xl mx-auto shadow-[0_10px_40px_rgba(0,0,0,0.08)] mt-10 mb-8 min-h-75 border border-gray-100 p-8 rounded-xl overflow-auto">
-      <Header />
+      <Header title = "Ongoing Events"/>
       {events.length > 0 ? (
         <Events events={events} onDelete={deleteEvent} />
       ) : (

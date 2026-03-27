@@ -38,15 +38,25 @@ const volunteerSchema = new mongoose.Schema({
     type: String,
     match: [/^\d{10}$/, 'Please fill valid phone number']
   },
-  registeredProjects: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Project'
-  }],
   preferences: {
     type: [String],
     enum: ['Education', 'Environment', 'Healthcare', 'Elderly Care', 'Animal Welfare'],
     default: []
-  }
+  },
+  registeredProjects: [
+    {
+      project: {
+        type: Schema.Types.ObjectId,
+        ref: 'Project',
+        required: true
+      },
+      status: {
+        type: String,
+        enum: ['notStarted', 'pending', 'completed'],
+        default: 'pending'
+      }
+    }
+  ]
 }, { timestamps: true });
 
 volunteerSchema.pre("save", async function() {

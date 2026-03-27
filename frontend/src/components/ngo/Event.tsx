@@ -1,5 +1,6 @@
 import type { EventType } from "./types"
 import Button from "./Button"
+import { Link } from 'react-router-dom'
 
 interface EventProps {
   event: EventType
@@ -30,6 +31,12 @@ function Event({ event, onDelete }: EventProps) {
         Address: {event.address}
       </p>
 
+      <Link to={`volunteers/${event._id}`} className="hover:opacity-80">
+        <p className="text-slate-300">
+          Click to view volunteer details
+        </p>
+      </Link>
+
       <div className="flex flex-wrap gap-2 mt-2">
         {event.tags?.map(tag => (
           <span key={tag} className="px-2 py-0.5 bg-sky-500/30 text-sky-300 text-xs rounded-full">
@@ -37,6 +44,7 @@ function Event({ event, onDelete }: EventProps) {
           </span>
         ))}
       </div>
+
     </div>
   )
 }

@@ -8,6 +8,7 @@ import { GuestRoutes } from './components/GuestRoutes';
 import { ProtectedLayoutContent } from './components/ProtectedLayout';
 import { Login } from './Login';
 import { Signup } from './Signup';
+import VolunteerList from "./components/ngo/volunteerList";
 import NGO from './components/ngo/dashboard'
 import Volunteer from './components/volunteer/Dashboard';
 import './index.css'
@@ -23,12 +24,14 @@ const router = createBrowserRouter(
       <Route element={<PrivateRoute allowedRoles={['ngo']} />}>
         <Route element={<ProtectedLayoutContent />}>
           <Route path="/ngo" element={<NGO />} />
+          <Route path="/ngo/volunteers/:projectId" element={<VolunteerList />} />
         </Route>
       </Route>
 
       <Route element={<PrivateRoute allowedRoles={['volunteer']} />}>
         <Route element={<ProtectedLayoutContent />}>
           <Route path="/volunteer" element={<Volunteer />} />
+          <Route path="/volunteer/project/:projectId/volunteers" element={<VolunteerList />} />
         </Route>
       </Route>
 

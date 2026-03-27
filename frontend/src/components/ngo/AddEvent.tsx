@@ -108,11 +108,10 @@ function Addevent({ onAdd, ngo }: Readonly<AddEventProps>) {
               key={tag}
               type="button"
               onClick={() => toggleTag(tag)}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                selectedTags.includes(tag)
+              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${selectedTags.includes(tag)
                   ? 'bg-sky-500 text-white'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-              }`}
+                }`}
             >
               {tag}
             </button>

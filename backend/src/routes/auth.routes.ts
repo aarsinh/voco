@@ -5,7 +5,9 @@ const router = Router();
 
 router.get("/validate", ValidateToken)
 router.post("/register/volunteer", RegisterVolunteer);
+
 router.post("/register/ngo", RegisterNGO);
+
 router.post("/login", Login);
 router.post("/logout", Logout)
 

@@ -1,7 +1,10 @@
-function Header() {
+interface HeaderProps{
+    title: String;
+}
+function Header({title}: HeaderProps) {
     return (
         <header className="flex justify-between items-center mb-5">
-            <h1 className="text-3xl text-black">Ongoing Events</h1>
+            <h1 className="text-3xl text-black">{title}</h1>
         </header>
     );
 }

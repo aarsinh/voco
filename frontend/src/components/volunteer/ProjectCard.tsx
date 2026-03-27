@@ -68,6 +68,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           </div>
         </td>
       </tr>
+
+      <tr className="border-b border-gray-200">
+        <td colSpan={4} className="px-4 pb-2">
+          <Link
+            to={`/volunteer/project/${project._id}/volunteers`}
+            className="text-blue-600 hover:underline text-sm"
+          >
+            View registered volunteers
+          </Link>
+        </td>
+      </tr>
     </>
   );
 };

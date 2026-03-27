@@ -4,6 +4,15 @@ import dotenv from 'dotenv';
 import NGO from '../models/ngo.model';
 dotenv.config();
 
+interface PopulatedVolunteer {
+  _id: string;
+  username: string;
+  registeredProjects: {
+    project: string;
+    status: string;
+  }[];
+}
+
 export const getProjects = async (req: Request, res: Response) => {
   try {
     const { ngoId } = req.params;
@@ -50,4 +59,41 @@ export const delProject = async (req: Request, res: Response): Promise<void> => 
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
+}
+
+export const getProjectVolunteers = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const project = await Project.findById(id).populate<{ VolunteersRegistered: { _id: string; username: string; registeredProjects: { project: string; status: string }[] }[] }>({
+      path: 'VolunteersRegistered',
+      select: '_id username registeredProjects'
+    });
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    const volunteers = project.VolunteersRegistered || [];
+
+    const formattedVolunteers = volunteers.map(vol => {
+      const projectEntry = vol.registeredProjects.find(
+        (p) => p.project.toString() === id.toString()
+      );
+
+      return {
+        id: vol._id,
+        username: vol.username,
+        status: projectEntry ? projectEntry.status : 'notStarted'
+      };
+    });
+
+    res.json(formattedVolunteers);
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
+export const updateEventStatus = async (req: Request, res: Response) => {
+  
 }

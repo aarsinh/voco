@@ -9,7 +9,7 @@ export const registerProject = async (req: Request, res: Response): Promise<void
     const { volunteerId, projectId } = req.body;
     const updatedVolunteer = await Volunteer.findByIdAndUpdate(
       volunteerId,
-      { $addToSet: { registeredProjects: projectId } },
+      { $push: { registeredProjects: { project: projectId, status: 'notStarted' } } },
       { returnDocument: 'after' }
     );
     if (!updatedVolunteer) {
@@ -20,7 +20,10 @@ export const registerProject = async (req: Request, res: Response): Promise<void
 
     await Project.findByIdAndUpdate(
       projectId,
-      { $inc: { registrations: 1 } }
+      { 
+        $inc: { registrations: 1 },
+        $addToSet: { VolunteersRegistered: volunteerId }
+      }
     )
 
     res.status(200).json({
@@ -41,7 +44,7 @@ export const unregisterProject = async (req: Request, res: Response) => {
     const { volunteerId, projectId } = req.body;
     const updatedVolunteer = await Volunteer.findByIdAndUpdate(
       volunteerId,
-      { $pull: { registeredProjects: projectId } },
+      { $pull: { registeredProjects: { project: projectId } } },
       { returnDocument: 'after' }
     );
     if (!updatedVolunteer) {
@@ -51,7 +54,10 @@ export const unregisterProject = async (req: Request, res: Response) => {
 
     await Project.findByIdAndUpdate(
       projectId,
-      { $inc: { registrations: -1 } }
+      { 
+        $inc: { registrations: -1 },
+        $pull: { VolunteersRegistered: volunteerId }
+      }
     )
 
     res.status(200).json({
@@ -70,11 +76,20 @@ export const unregisterProject = async (req: Request, res: Response) => {
 export const showRegisteredProj = async (req: Request, res: Response) => {
   try {
     const { volunteerId } = req.params;
-    const volunteer = await Volunteer.findById(volunteerId).populate('registeredProjects').sort({ date: -1 });
+    const volunteer = await Volunteer.findById(volunteerId).populate('registeredProjects.project');
     if (!volunteer) {
       return res.status(404).json({ message: 'Volunteer not found' });
     }
-    res.json(volunteer.registeredProjects);
+
+    const sorted = [...volunteer.registeredProjects].sort((a, b) => {
+      const dateA = (a.project as any)?.date ?? 0;
+      const dateB = (b.project as any)?.date ?? 0;
+      return dateB - dateA;
+    });
+    res.status(200).json({
+      message: 'Fetched Successfully',
+      regProj: sorted
+    });
   } catch (err) {
     console.error('volunteer controller showregproj', err);
     res.status(500).json({
@@ -90,16 +105,18 @@ export const showUpcomingProj = async (req: Request, res: Response) => {
     if (!volunteer) {
       return res.status(400).json({ message: 'Volunteer not found' });
     }
+    const regprojs = volunteer.registeredProjects.map((entry) => entry.project);
     const availableProj = await Project.find({
-      _id: { $nin: volunteer.registeredProjects }
+      _id: { $nin: regprojs }
     }).sort({ date: -1 });
 
-    res.json(availableProj);
+    res.status(200).json({
+      message: 'Fetched Successfully',
+      upcomingProjects: availableProj
+    });
   } catch (err) {
     console.error('volunteer controller showregproj', err);
-    res.status(500).json({
-      message: 'Server error'
-    });
+    res.status(500).json({ message: 'Server error' });
   }
 }
 
@@ -150,6 +167,26 @@ export const GetPreferences = async (req: Request, res: Response) => {
     res.json({ preferences: volunteer.preferences });
   } catch (err) {
     console.error('Error fetching preferences:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+}
+export const updateTaskStatus = async (req: Request, res: Response) => {
+  try {
+    const { volunteerId, projectId, status } = req.body;
+    const updatedVolunteer = await Volunteer.findByIdAndUpdate(
+      { _id: volunteerId, 'registeredProjects.project': projectId },
+      { $set: { 'registeredProjects.$.status': status } },
+      { returnDocument: 'after' }
+    );
+    if (!updatedVolunteer) {
+      return res.status(404).json({ message: 'Volunteer or project not found' });
+    }
+    res.status(200).json({
+      message: 'Status updated',
+      volunteer: updatedVolunteer
+    });
+  } catch (err) {
+    console.error('updateTaskStatus volunteer controller', err);
     res.status(500).json({ message: 'Server error' });
   }
 }

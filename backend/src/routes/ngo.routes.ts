@@ -1,13 +1,16 @@
 import express from "express";
-import { getProjects, addProject, delProject } from '../controllers/ngo.controller'
+import { getProjects, addProject, delProject, updateEventStatus, getProjectVolunteers } from '../controllers/ngo.controller'
 
 const router = express.Router();
 
-// CRUD routes for projects
 router.get("/:ngoId", getProjects);
 
 router.post("/addProject/:ngoId", addProject);
 
 router.delete("/delProject", delProject);
+
+router.post("/changeStatus", updateEventStatus);
+
+router.get("/VolunteerList/:id", getProjectVolunteers);
 
 export default router;

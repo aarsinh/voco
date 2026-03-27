@@ -6,10 +6,15 @@ import { useAuth } from "../../hooks/useAuth";
 
 interface ProjectCardProps {
   project: Project;
+  status?: string;
 }
 
-const RegProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
   const { userId: vid } = useAuth()
+
+  if (!project) {
+    return null;
+  }
 
   const handleUnregister = async () => {
     try {
@@ -20,6 +25,19 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       window.location.reload();
     } catch (err) {
       console.error('RegProjCard', err);
+    }
+  };
+
+  const changeStatus = async (newStatus: string) => {
+    try {
+      await axios.patch(`http://localhost:8082/api/volunteer/changeStatus`, {
+        volunteerId: vid,
+        projectId: project._id,
+        status: newStatus
+      });
+      window.location.reload();
+    } catch (err) {
+      console.error('RegProjCard changeStatus', err);
     }
   };
 
@@ -40,6 +58,20 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           {project.date ? new Date(project.date).toLocaleDateString() : 'TBD'}
         </td>
 
+        {status !== undefined && (
+          <td className={tdClass}>
+            <select
+              value={status}
+              onChange={(e) => changeStatus(e.target.value)}
+              className="border border-gray-300 rounded px-2 py-1 text-sm text-gray-700"
+            >
+              <option value="notStarted">Not Started</option>
+              <option value="active">Active</option>
+              <option value="completed">Completed</option>
+            </select>
+          </td>
+        )}
+
         <td className={tdClass}>
           <button
             className="bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-1.5 px-4 rounded transition-colors"
@@ -50,16 +82,14 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         </td>
       </tr>
 
-      {/* THE NEW ADDRESS ROW */}
       <tr className="hover:bg-gray-50 transition-colors border-b border-gray-200">
-        {/* colSpan={4} makes this single cell stretch across all 4 columns above it */}
-        <td colSpan={4} className="px-4 pb-4 pt-1 text-sm text-gray-500 italic">
+        <td colSpan={5} className="px-4 pb-4 pt-1 text-sm text-gray-500 italic">
           {project.address || "Address not provided"}
         </td>
       </tr>
 
       <tr className="border-b border-gray-200">
-        <td colSpan={4} className="px-4 pb-2 pt-2">
+        <td colSpan={5} className="px-4 pb-2 pt-2">
           <div className="flex flex-wrap gap-1">
             {project.tags?.map(tag => (
               <span key={tag} className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full">
@@ -67,6 +97,17 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
               </span>
             ))}
           </div>
+        </td>
+      </tr>
+
+      <tr className="border-b border-gray-200">
+        <td colSpan={5} className="px-4 pb-2">
+          <Link
+            to={`/volunteer/project/${project._id}/volunteers`}
+            className="text-blue-600 hover:underline text-sm"
+          >
+            View registered volunteers
+          </Link>
         </td>
       </tr>
     </>
