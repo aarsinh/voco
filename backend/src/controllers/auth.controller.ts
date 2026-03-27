@@ -112,11 +112,11 @@ export const ValidateToken = async (req: Request, res: Response) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string; role: string; name?: string };
-    return res.status(200).json({ 
-      ok: true, 
-      id: decoded.id, 
-      role: decoded.role, 
-      name: decoded.name || null 
+    return res.status(200).json({
+      ok: true,
+      id: decoded.id,
+      role: decoded.role,
+      name: decoded.name || null
     });
   } catch {
     return res.status(401).json({ ok: false });
