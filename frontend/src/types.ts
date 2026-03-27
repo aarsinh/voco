@@ -6,6 +6,7 @@ export interface Project {
   address: string;
   registrations?: number;
   ngoId?: string;
+  tags: string[];
   createdAt?: string;
   updatedAt?: string;
 }

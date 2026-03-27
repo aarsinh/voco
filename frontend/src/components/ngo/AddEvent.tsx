@@ -1,11 +1,20 @@
 import { useState } from "react";
 
+const TAGS = [
+  "Education",
+  "Environment",
+  "Healthcare",
+  "Elderly Care",
+  "Animal Welfare"
+];
+
 interface AddEventProps {
   onAdd: (event: {
     name: string;
     ngo: string;
     date: string;
     address: string;
+    tags: string[];
   }) => void;
   ngo: string;
 }
@@ -14,6 +23,15 @@ function Addevent({ onAdd, ngo }: Readonly<AddEventProps>) {
   const [Eventname, setEventname] = useState<string>("");
   const [day, setDay] = useState<string>("");
   const [address, setAddress] = useState<string>("");
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  const toggleTag = (tag: string) => {
+    setSelectedTags(prev =>
+      prev.includes(tag)
+        ? prev.filter(t => t !== tag)
+        : [...prev, tag]
+    );
+  };
 
   function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -23,16 +41,23 @@ function Addevent({ onAdd, ngo }: Readonly<AddEventProps>) {
       return;
     }
 
+    if (selectedTags.length === 0) {
+      alert("Please select at least one tag");
+      return;
+    }
+
     onAdd({
       name: Eventname,
       ngo: ngo,
       date: day,
-      address: address
+      address: address,
+      tags: selectedTags
     });
 
     setEventname("");
     setDay("");
     setAddress("");
+    setSelectedTags([]);
   }
 
   return (
@@ -73,6 +98,26 @@ function Addevent({ onAdd, ngo }: Readonly<AddEventProps>) {
           onChange={(e) => setAddress(e.target.value)}
           required
         />
+      </div>
+
+      <div className="flex flex-col">
+        <label className="mb-1 text-sm text-gray-300">Tags (select at least one)</label>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {TAGS.map(tag => (
+            <button
+              key={tag}
+              type="button"
+              onClick={() => toggleTag(tag)}
+              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                selectedTags.includes(tag)
+                  ? 'bg-sky-500 text-white'
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
       </div>
 
       <input

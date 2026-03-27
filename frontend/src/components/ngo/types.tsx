@@ -3,6 +3,7 @@ export interface EventType {
     name: string
     date: string | Date
     address: string
-    registrations?: Number
+    registrations?: number
     ngo?: string
+    tags: string[]
 }
