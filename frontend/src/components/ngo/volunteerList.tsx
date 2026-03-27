@@ -10,7 +10,7 @@ interface Volunteer
 }
 
 
-function volunteerList() {
+function VolunteerList() {
     const {id} = useParams<{id: string}>();
     const [volunteers, setVolunteers ] = useState<Volunteer[]>([]);
     const [loading, setLoading] = useState(true);
@@ -60,7 +60,7 @@ function volunteerList() {
                   </td>
                   <td className="py-5 px-6">
                     <span className={`inline-flex items-center px-4 py-1.5 rounded-md text-xs font-bold uppercase tracking-tight ${
-                      vol.status === 'Confirmed' 
+                      vol.status === 'completed' 
                         ? 'bg-green-100 text-green-700' 
                         : 'bg-blue-600 text-white'
                     }`}>
@@ -83,5 +83,5 @@ function volunteerList() {
 
 }
 
-export default volunteerList
+export default VolunteerList
 

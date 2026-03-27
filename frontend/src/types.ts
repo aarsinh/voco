@@ -8,4 +8,5 @@ export interface Project {
   ngoId?: string;
   createdAt?: string;
   updatedAt?: string;
+  status?: string;
 }

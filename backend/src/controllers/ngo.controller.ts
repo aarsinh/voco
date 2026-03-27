@@ -77,13 +77,6 @@ export const getProjectVolunteers = async (req: Request, res: Response) => {
   try{
   const {id} = req.params;
 
-  const rawProject = await Project.findById(id).lean();
-  console.log("IDs in Database:", rawProject?.VolunteersRegistered); 
-
-const populated = await Project.findById(id).populate('VolunteersRegistered');
-console.log("Populated Data:", populated?.VolunteersRegistered);
-
-
   //fetch the username and registeredPorjects ( has project ID and status of that project) array for every volunteer
   const project = await Project.findById(id).populate<{VolunteersRegistered: PopulatedVolunteer[] }>({
     path: 'VolunteersRegistered',

@@ -58,7 +58,7 @@ function Event({ event, onDelete }: EventProps) {
                 </select>
             </div>
 
-            <Link to={'volunteerList/${event.id}'} className="hover:opacity-80">
+            <Link to={`volunteerList/${event._id}`} className="hover:opacity-80">
             <p className="text-slate-300">
                 Click to view volunteer details
             </p>
