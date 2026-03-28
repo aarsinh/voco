@@ -10,13 +10,13 @@ export function RolePicker({ role, setRole }: Readonly<RolePickerProps>) {
     <div className='flex mb-6 gap-4'>
       <button type='button' onClick={
         () => setRole("volunteer")
-      } className={`min-w-30 py-2 rounded-lg border ${role === 'volunteer' ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-700"}`}>
+      } className={`min-w-30 py-2 rounded-lg border ${role === 'volunteer' ? "bg-gray-800 text-white" : "bg-gray-300 text-gray-700"}`}>
         volunteer
       </button>
 
       <button type='button' onClick={
         () => setRole("ngo")
-      } className={`min-w-30 py-2 rounded-lg border ${role === 'ngo' ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-700"}`}>
+      } className={`min-w-30 py-2 rounded-lg border ${role === 'ngo' ? "bg-gray-800 text-white" : "bg-gray-300 text-gray-700"}`}>
         NGO
       </button>
     </div >

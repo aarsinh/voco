@@ -27,7 +27,7 @@ export function Login() {
   return (
     <div className="h-screen flex items-center justify-center">
       <div className="rounded-lg w-full max-w-md border-2 overflow-hidden">
-        <div className="bg-blue-500  p-3 text-white text-center text-2xl">
+        <div className="bg-gray-800  p-3 text-white text-center text-2xl">
           <h2>Login</h2>
         </div>
         <div className='flex items-center justify-center pt-5'>
@@ -38,7 +38,7 @@ export function Login() {
             {error && <p className="text-red-500 text-sm">{error}</p>}
             <input placeholder="username" required className="border w-full px-4 py-2 rounded-md" onChange={(e) => { setUsername(e.target.value) }}></input>
             <input placeholder="password" required className="border w-full px-4 py-2 rounded-md" type='password' onChange={(e) => { setPassword(e.target.value) }}></input>
-            <button className="bg-blue-500 rounded-md w-full p-2 text-white" type='submit'>Sign In</button>
+            <button className="bg-gray-800 rounded-md w-full p-2 text-white" type='submit'>Sign In</button>
           </form>
           <div className="flex items-center justify-center gap-1 pt-2">
             <p>Don't have an account?</p>

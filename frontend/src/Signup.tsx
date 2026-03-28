@@ -40,7 +40,7 @@ export function Signup() {
   return (
     <div className="h-screen flex items-center justify-center">
       <div className="rounded-lg w-full max-w-md border-2 overflow-hidden">
-        <div className="bg-blue-500  p-3 text-white text-center text-2xl">
+        <div className="bg-gray-800  p-3 text-white text-center text-2xl">
           <h2>Sign Up</h2>
         </div>
         <div className='flex items-center justify-center pt-5'>
@@ -69,7 +69,7 @@ export function Signup() {
               role === "ngo" &&
               <input placeholder="Website" name="website" className="border w-full px-4 py-2 rounded-md" type="url" required onChange={handleChange} />
             }
-            <button className="bg-blue-500 rounded-md w-full p-2 text-white">Sign Up</button>
+            <button className="bg-gray-800 rounded-md w-full p-2 text-white">Sign Up</button>
           </form>
           <div className="flex items-center justify-center gap-1 pt-2">
             <p>Already have an account?</p>

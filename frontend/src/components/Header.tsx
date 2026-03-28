@@ -15,7 +15,7 @@ export function Header({ onOpenPreferences }: HeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-blue-500 border-b shadow-sm">
+    <header className="sticky top-0 z-40 bg-gray-800 border-b shadow-sm">
       <div className="flex items-center justify-between px-6 py-3">
         <img src="/logo.png" alt="Logo" className="h-10 w-auto" />
 
