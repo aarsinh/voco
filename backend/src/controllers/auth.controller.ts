@@ -83,11 +83,12 @@ export const Login = async (req: Request, res: Response) => {
       expiresIn: 24 * 60 * 60 * 3, // 3 day expiry
     });
 
-    res.cookie("token", token,
-      {
+    res.cookie("token", token, {
         httpOnly: true,
-      }
-    );
+        sameSite: "none",
+        secure: true,
+        maxAge: 24 * 60 * 60 * 3 * 1000
+      });
 
     res.status(200).json({
       role: role,
@@ -124,6 +125,10 @@ export const ValidateToken = async (req: Request, res: Response) => {
 }
 
 export const Logout = async (_req: Request, res: Response) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "none",
+    secure: true
+  });
   res.status(200).json({ message: "Logged out successfully" });
 }

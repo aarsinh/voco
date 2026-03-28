@@ -17,10 +17,11 @@ interface RegProject {
 function ShowRegisteredList() {
   const [projects, setProjects] = useState<RegProject[]>([]);
   const { userId: vid } = useAuth()
+  const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8082/api/volunteer/registered/${vid}`)
+      .get(`${API}/api/volunteer/registered/${vid}`)
       .then((res) => {
         const allProjects = res.data.regProj || [];
         const validProjects = allProjects.filter((rp: RegProject) => rp.project != null);

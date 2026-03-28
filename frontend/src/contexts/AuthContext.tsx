@@ -17,6 +17,8 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
+const API = import.meta.env.VITE_API_URL;
+
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [role, setRole] = useState<"ngo" | "volunteer" | null>(null);
@@ -26,7 +28,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const checkAuth = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:8082/api/auth/validate", {
+      const response = await fetch(`${API}/api/auth/validate`, {
         credentials: "include",
       });
 
@@ -57,7 +59,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [checkAuth]);
 
   const login = async (username: string, password: string, userRole: "ngo" | "volunteer") => {
-    const response = await fetch("http://localhost:8082/api/auth/login", {
+    const response = await fetch(`${API}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -79,8 +81,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const { age, sex, website, ...common } = formData;
     const body = userRole === "ngo" ? { website, ...common } : { age, sex, ...common };
     const url = userRole === "ngo"
-      ? "http://localhost:8082/api/auth/register/ngo"
-      : "http://localhost:8082/api/auth/register/volunteer";
+      ? `${API}/api/auth/register/ngo`
+      : `${API}/api/auth/register/volunteer`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -95,7 +97,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logout = async () => {
-    await fetch("http://localhost:8082/api/auth/logout", {
+    await fetch(`${API}/api/auth/logout`, {
       method: "POST",
       credentials: "include",
     });

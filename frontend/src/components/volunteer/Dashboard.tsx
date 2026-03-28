@@ -8,10 +8,12 @@ function Dashboard() {
     const { userId } = useAuth();
     const { openPreferencesModal } = usePreferencesModal();
 
+    const API = import.meta.env.VITE_API_URL;
+
     const fetchPreferences = useCallback(async () => {
         if (!userId) return;
         try {
-            const response = await fetch(`http://localhost:8082/api/volunteer/preferences/${userId}`, {
+            const response = await fetch(`${API}/api/volunteer/preferences/${userId}`, {
                 credentials: 'include'
             });
             const data = await response.json();

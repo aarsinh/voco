@@ -9,10 +9,11 @@ interface EventProps {
 }
 
 function Event({ event, onDelete }: EventProps) {
+    const API = import.meta.env.VITE_API_URL;
 
     const changeStatus = async (newStatus: string) => {
         try{
-            await axios.patch('http://localhost:8082/api/ngo/changeStatus', {
+            await axios.patch(`${API}/api/ngo/changeStatus`, {
                 projectId: event._id,
                 status: newStatus
             });

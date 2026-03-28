@@ -12,11 +12,12 @@ function VolunteerList() {
   const { projectId } = useParams<{ projectId: string }>();
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
   const [loading, setLoading] = useState(true);
+  const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchVolunteers = async () => {
       try {
-        const response = await fetch(`http://localhost:8082/api/ngo/VolunteerList/${projectId}`);
+        const response = await fetch(`${API}/api/ngo/VolunteerList/${projectId}`);
         if (!response.ok) throw new Error("Failed to fetch");
         const data = await response.json();
         setVolunteers(data);
