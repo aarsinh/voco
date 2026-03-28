@@ -67,7 +67,16 @@ export function Signup() {
 
             {
               role === "ngo" &&
-              <input placeholder="Website" name="website" className="border w-full px-4 py-2 rounded-md" type="url" required onChange={handleChange} />
+              <input 
+                  type="text"
+                  name="website"
+                  placeholder="www.example.com" 
+                  className="border w-full px-4 py-2 rounded-md"
+                  required 
+                  onChange={handleChange}
+                  pattern="^(www\.)?([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*\.)+[a-z]{2,}$"
+                  title="Please enter a valid website address (e.g., www.example.com)"
+                />
             }
             <button className="bg-gray-800 rounded-md w-full p-2 text-white">Sign Up</button>
           </form>
