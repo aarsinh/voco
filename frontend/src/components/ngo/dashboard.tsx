@@ -12,9 +12,10 @@ function App() {
   const [events, setEvents] = useState<EventType[]>([]);
   const [showAddEvents, setShowAddEvent] = useState<boolean>(false);
   const ngoId = userId
+  const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    fetch(`http://localhost:8082/api/ngo/${ngoId}`)
+    fetch(`${API}/api/ngo/${ngoId}`)
       .then((res) => res.json())
       .then((data: EventType[]) => setEvents(data))
       .catch(err => console.error('failed to fetch events: ', err));
@@ -22,7 +23,7 @@ function App() {
 
   async function deleteEvent(id: string): Promise<void> {
     try {
-      const res = await fetch(`http://localhost:8082/api/ngo/delProject`, {
+      const res = await fetch(`${API}/api/ngo/delProject`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -45,7 +46,7 @@ function App() {
   }
 
   async function addEvent(event: Omit<EventType, "_id">): Promise<void> {
-    const res = await fetch(`http://localhost:8082/api/ngo/addProject/${ngoId}`, {
+    const res = await fetch(`${API}/api/ngo/addProject/${ngoId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

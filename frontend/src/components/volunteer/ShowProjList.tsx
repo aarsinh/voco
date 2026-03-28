@@ -7,11 +7,12 @@ import { useAuth } from "../../hooks/useAuth.ts";
 function ShowProjectList() {
   const [projects, setProjects] = useState<Project[]>([]);
   const { userId: vid } = useAuth()
+  const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     try {
       axios
-        .get(`http://localhost:8082/api/volunteer/${vid}`)
+        .get(`${API}/api/volunteer/${vid}`)
         .then((res) => {
           setProjects(res.data.upcomingProjects);
         })

@@ -11,6 +11,7 @@ interface ProjectCardProps {
 
 const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
   const { userId: vid } = useAuth()
+  const API = import.meta.env.VITE_API_URL;
 
   if (!project) {
     return null;
@@ -18,7 +19,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
 
   const handleUnregister = async () => {
     try {
-      await axios.post(`http://localhost:8082/api/volunteer/unregister`, {
+      await axios.post(`${API}/api/volunteer/unregister`, {
         volunteerId: vid,
         projectId: project._id
       });
@@ -30,7 +31,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
 
   const changeStatus = async (newStatus: string) => {
     try {
-      await axios.patch(`http://localhost:8082/api/volunteer/changeStatus`, {
+      await axios.patch(`${API}/api/volunteer/changeStatus`, {
         volunteerId: vid,
         projectId: project._id,
         status: newStatus

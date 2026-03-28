@@ -11,10 +11,11 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
   const { userId: vid } = useAuth()
+  const API = import.meta.env.VITE_API_URL;
 
   const handleRegister = async () => {
     try {
-      await axios.post(`http://localhost:8082/api/volunteer/register`, {
+      await axios.post(`${API}/api/volunteer/register`, {
         volunteerId: vid,
         projectId: project._id
       });

@@ -19,11 +19,12 @@ export function PreferencesModal({ volunteerId, onClose, onSave }: PreferencesMo
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
+  const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchCurrentPreferences = async () => {
       try {
-        const response = await fetch(`http://localhost:8082/api/volunteer/preferences/${volunteerId}`, {
+        const response = await fetch(`${API}/api/volunteer/preferences/${volunteerId}`, {
           credentials: "include"
         });
         const data = await response.json();
@@ -57,7 +58,7 @@ export function PreferencesModal({ volunteerId, onClose, onSave }: PreferencesMo
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8082/api/volunteer/preferences", {
+      const response = await fetch(`${API}/api/volunteer/preferences`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
