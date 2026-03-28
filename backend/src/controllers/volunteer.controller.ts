@@ -81,14 +81,16 @@ export const showRegisteredProj = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Volunteer not found' });
     }
 
-    const sorted = [...volunteer.registeredProjects].sort((a, b) => {
-      const dateA = (a.project as any)?.date ?? 0;
-      const dateB = (b.project as any)?.date ?? 0;
-      return dateB - dateA;
-    });
+    const filtered = [...volunteer.registeredProjects]
+      .filter((entry) => (entry.project as any)?.status !== 'completed')
+      .sort((a, b) => {
+        const dateA = (a.project as any)?.date ?? 0;
+        const dateB = (b.project as any)?.date ?? 0;
+        return dateB - dateA;
+      });
     res.status(200).json({
       message: 'Fetched Successfully',
-      regProj: sorted
+      regProj: filtered
     });
   } catch (err) {
     console.error('volunteer controller showregproj', err);
@@ -107,7 +109,8 @@ export const showUpcomingProj = async (req: Request, res: Response) => {
     }
     const regprojs = volunteer.registeredProjects.map((entry) => entry.project);
     const availableProj = await Project.find({
-      _id: { $nin: regprojs }
+      _id: { $nin: regprojs },
+      status: 'pending'
     }).sort({ date: -1 });
 
     res.status(200).json({
