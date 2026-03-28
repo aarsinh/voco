@@ -9,7 +9,8 @@ dotenv.config()
 
 interface AuthUser {
   username: string,
-  password: string
+  password: string,
+  name: string
 }
 
 export const RegisterVolunteer = async (req: Request, res: Response) => {
@@ -79,7 +80,7 @@ export const Login = async (req: Request, res: Response) => {
       });
     }
 
-    const token = jwt.sign({ id: user._id, role, name: user.username }, process.env.JWT_SECRET as string, {
+    const token = jwt.sign({ id: user._id, role, name: user.name }, process.env.JWT_SECRET as string, {
       expiresIn: 24 * 60 * 60 * 3, // 3 day expiry
     });
 
