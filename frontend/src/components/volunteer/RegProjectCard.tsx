@@ -83,7 +83,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
       </tr>
 
       <tr className="hover:bg-gray-50 transition-colors border-b border-gray-200">
-        <td colSpan={5} className="px-4 pb-4 pt-1 text-sm text-gray-500 italic">
+        <td colSpan={5} className="px-4 pb-1 pt-1 text-sm text-gray-500 italic">
           {project.address || "Address not provided"}
         </td>
       </tr>
@@ -91,16 +91,20 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
       <tr className="border-b border-gray-200">
         <td colSpan={5} className="px-4 pb-2 pt-2">
           <div className="flex flex-wrap gap-1">
-            {project.tags?.map(tag => (
-              <span key={tag} className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full">
-                {tag}
-              </span>
-            ))}
+            {project.tags && project.tags.length > 0 ? (
+              project.tags.map(tag => (
+                <span key={tag} className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full">
+                  {tag}
+                </span>
+              ))
+            ) : (
+              <span className="text-xs text-gray-400 italic">No tags</span>
+            )}
           </div>
         </td>
       </tr>
 
-      <tr className="border-b border-gray-200">
+      <tr className="border-b-2 border-gray-400">
         <td colSpan={5} className="px-4 pb-2">
           <Link
             to={`/volunteer/project/${project._id}/volunteers`}
