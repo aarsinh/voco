@@ -13,6 +13,9 @@ import NGO from './components/ngo/dashboard'
 import Volunteer from './components/volunteer/Dashboard';
 import './index.css'
 
+import axios from "axios";
+axios.defaults.withCredentials = true;
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
