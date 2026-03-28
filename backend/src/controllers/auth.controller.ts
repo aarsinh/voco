@@ -8,7 +8,6 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 interface AuthUser {
-  username: string,
   password: string,
   name: string
 }
@@ -93,7 +92,7 @@ export const Login = async (req: Request, res: Response) => {
     res.status(200).json({
       role: role,
       id: user._id,
-      name: user.username
+      name: user.name
     });
 
     console.log("successfully signed in")
