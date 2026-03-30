@@ -9,11 +9,6 @@ interface RegProject {
   status: string;
 }
 
-interface RegProject {
-    project: Project;
-    status: string;
-}
-
 function ShowRegisteredList() {
   const [projects, setProjects] = useState<RegProject[]>([]);
   const { userId: vid } = useAuth()

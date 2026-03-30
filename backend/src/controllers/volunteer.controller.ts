@@ -177,7 +177,7 @@ export const updateTaskStatus = async (req: Request, res: Response) => {
   try {
     const { volunteerId, projectId, status } = req.body;
     const updatedVolunteer = await Volunteer.findOneAndUpdate(
-      { _id: volunteerId.toString(), 'registeredProjects.project': projectId.toString() },
+      { _id: volunteerId, 'registeredProjects.project': projectId },
       { $set: { 'registeredProjects.$.status': status } },
       { returnDocument: 'after' }
     );

@@ -33,7 +33,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         <td className={tdClass}>{project.name}</td>
 
         <td className={tdClass}>
-          <Link to={`/ngo/${project.ngoId || '#'}`} className="text-blue-600 font-bold no-underline hover:underline">
+          <Link to={'#'} className="text-blue-600 font-bold no-underline hover:underline">
             {project.ngo || "Unknown NGO"}
           </Link>
         </td>
@@ -52,12 +52,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         </td>
       </tr>
 
-      <tr className="hover:bg-gray-50 transition-colors border-b border-gray-200">
-        <td colSpan={4} className="px-4 pb-1 pt-1 text-sm text-gray-500 italic">
-          {project.address || "Address not provided"}
-        </td>
-      </tr>
-
       <tr className="border-b border-gray-200">
         <td colSpan={4} className="px-4 pb-2 pt-2">
           <div className="flex flex-wrap gap-1">
@@ -71,6 +65,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
               <span className="text-xs text-gray-400 italic">No tags</span>
             )}
           </div>
+        </td>
+      </tr>
+      
+      <tr>
+        <td colSpan={5}>
+          <span className="px-4 py-1 text-black-700 text-sm">
+            {project.status == "pending" ? 'Not Started' : 'Ongoing'}
+          </span>
+        </td>
+      </tr>
+
+      <tr className="hover:bg-gray-50 transition-colors border-b border-gray-200">
+        <td colSpan={4} className="px-4 pb-1 pt-1 text-sm text-gray-500 italic">
+          {project.address || "Address not provided"}
         </td>
       </tr>
 
