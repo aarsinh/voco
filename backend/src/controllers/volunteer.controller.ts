@@ -82,7 +82,6 @@ export const showRegisteredProj = async (req: Request, res: Response) => {
     }
 
     const filtered = [...volunteer.registeredProjects]
-      .filter((entry) => (entry.project as any)?.status !== 'completed')
       .sort((a, b) => {
         const dateA = (a.project as any)?.date ?? 0;
         const dateB = (b.project as any)?.date ?? 0;
@@ -110,7 +109,7 @@ export const showUpcomingProj = async (req: Request, res: Response) => {
     const regprojs = volunteer.registeredProjects.map((entry) => entry.project);
     const availableProj = await Project.find({
       _id: { $nin: regprojs },
-      status: 'pending'
+      status: { $ne: 'completed' }
     }).sort({ date: -1 });
 
     res.status(200).json({
