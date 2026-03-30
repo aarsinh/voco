@@ -34,8 +34,8 @@ function ShowProjectList() {
           <table className="min-w-full text-left border-collapse">
             <thead>
               <tr>
-                <th className="bg-gray-800 text-white p-4 first:rounded-tl-lg">Project Name</th>
-                <th className="bg-gray-800 text-white p-4">NGO Name</th>
+                <th className="bg-gray-800 text-white p-4 first:rounded-tl-lg">Project</th>
+                <th className="bg-gray-800 text-white p-4">NGO</th>
                 <th className="bg-gray-800 text-white p-4">Date</th>
                 <th className="bg-gray-800 text-white p-4 last:rounded-tr-lg">Action</th>
               </tr>
