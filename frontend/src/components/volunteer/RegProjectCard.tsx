@@ -42,7 +42,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
     }
   };
 
-  const tdClass = "p-4 align-middle text-gray-700 font-medium";
+  const tdClass = "p-4 align-middle text-gray-700 font-medium break-words max-w-[200px]";
 
   return (
     <>
@@ -56,7 +56,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
         </td>
 
         <td className={tdClass}>
-          {project.date ? new Date(project.date).toLocaleDateString() : 'TBD'}
+          {project.date ? new Date(project.date).toLocaleDateString('en-GB') : 'TBD'}
         </td>
 
         {status !== undefined && (
