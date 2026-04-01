@@ -71,7 +71,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       <tr>
         <td colSpan={5}>
           <span className="px-4 py-1 text-black-700 text-sm">
-            {project.status == "pending" ? 'Not Started' : 'Ongoing'}
+            {project.status}
           </span>
         </td>
       </tr>
