@@ -50,22 +50,22 @@ export const addProject = async (req: Request, res: Response): Promise<void> => 
 export const delProject = async (req: Request, res: Response): Promise<void> => {
   try {
     const { ngoId, projId } = req.body;
-    
+
     const deletedProject = await Project.findByIdAndDelete(projId);
     if (!deletedProject) {
       res.status(404).json({ message: "Project not found" });
       return;
     }
-    
+
     const updatedNGO = await NGO.findByIdAndUpdate(
       ngoId,
       { $pull: { projects: projId } },
       { returnDocument: 'after' }
     )
-    
+
     await Volunteer.updateMany(
       { _id: { $in: deletedProject.VolunteersRegistered } },
-      { $pull: { registeredProjects: {project: projId} } }
+      { $pull: { registeredProjects: { project: projId } } }
     )
 
     res.json({ message: "Project deleted" });

@@ -102,15 +102,23 @@ export const showRegisteredProj = async (req: Request, res: Response) => {
 export const showUpcomingProj = async (req: Request, res: Response) => {
   try {
     const { volunteerId } = req.params;
+    const { filterByPrefs } = req.query;
     const volunteer = await Volunteer.findById(volunteerId);
     if (!volunteer) {
       return res.status(400).json({ message: 'Volunteer not found' });
     }
     const regprojs = volunteer.registeredProjects.map((entry) => entry.project);
-    const availableProj = await Project.find({
+    
+    const query: any = {
       _id: { $nin: regprojs },
       status: { $ne: 'completed' }
-    }).sort({ date: -1 });
+    };
+
+    if (filterByPrefs === 'true' && volunteer.preferences.length > 0) {
+      query.tags = { $in: volunteer.preferences };
+    }
+
+    const availableProj = await Project.find(query).sort({ date: -1 });
 
     res.status(200).json({
       message: 'Fetched Successfully',
