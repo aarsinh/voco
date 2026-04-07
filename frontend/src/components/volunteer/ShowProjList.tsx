@@ -4,15 +4,23 @@ import ProjectCard from './ProjectCard.tsx';
 import type { Project } from '../../types';
 import { useAuth } from "../../hooks/useAuth.ts";
 
-function ShowProjectList() {
+interface ShowProjectListProps {
+  filterByPrefs?: boolean;
+}
+
+function ShowProjectList({ filterByPrefs = false }: ShowProjectListProps) {
   const [projects, setProjects] = useState<Project[]>([]);
   const { userId: vid } = useAuth()
   const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
+    if (!vid) return;
     try {
+      const url = filterByPrefs 
+        ? `${API}/api/volunteer/${vid}?filterByPrefs=true`
+        : `${API}/api/volunteer/${vid}`;
       axios
-        .get(`${API}/api/volunteer/${vid}`)
+        .get(url)
         .then((res) => {
           setProjects(res.data.upcomingProjects);
         })
@@ -20,11 +28,13 @@ function ShowProjectList() {
     } catch (err) {
       console.error("ShowProjList", err);
     }
-  }, [vid]);
+  }, [vid, filterByPrefs]);
 
   return (
     <div className="bg-white p-8 rounded-xl shadow-lg min-h-full">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Upcoming Projects</h2>
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">
+        {filterByPrefs ? 'Projects Matching My Preferences' : 'All Upcoming Projects'}
+      </h2>
 
 
       {projects.length === 0 ? (
