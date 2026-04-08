@@ -24,7 +24,9 @@ export const getProjects = async (req: Request, res: Response) => {
     if (!ngo) {
       return res.status(404).json({ message: 'NGO not found' });
     }
-    res.json(ngo.projects);
+    const filtered = [...ngo.projects]
+      .filter(entry => (entry as any)?.status !== 'Completed')
+    res.json(filtered);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -124,6 +126,26 @@ export const updateEventStatus = async (req: Request, res: Response) => {
     });
   } catch (err) {
     console.error('updateTaskStatus volunteer controller', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+}
+
+export const completeEvent = async (req: Request, res: Response) => {
+  try{
+    const { projectId } = req.body;
+    const updatedProject = await Project.findByIdAndUpdate(
+      { _id: projectId },
+      { $set: { status: 'Completed' } },
+      { returnDocument: 'after' }
+    );
+    if (!updatedProject) {
+      return res.status(404).json({ message: 'Volunteer or project not found' });
+    }
+    res.status(200).json({
+      message: 'Status updated'
+    });
+  } catch (err) {
+    console.error('completeEvent volunteer controller', err);
     res.status(500).json({ message: 'Server error' });
   }
 }
