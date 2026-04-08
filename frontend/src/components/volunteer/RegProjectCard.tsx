@@ -31,24 +31,15 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
 
   const completeTask = async () => {
     try{
-
-    } catch (err) {
-
-    }
-  }
-
-  const changeStatus = async (newStatus: string) => {
-    try {
-      await axios.patch(`${API}/api/volunteer/changeStatus`, {
+      await axios.patch(`${API}/api/volunteer/completeTask`, {
         volunteerId: vid,
-        projectId: project._id,
-        status: newStatus
+        projectId: project._id
       });
       window.location.reload();
     } catch (err) {
-      console.error('RegProjCard changeStatus', err);
+      console.error('RegProjCard completeTask', err);
     }
-  };
+  }
 
   const tdClass = "p-4 align-middle text-gray-700 font-medium break-words max-w-[200px]";
   const now : Date = new Date();
