@@ -11,18 +11,6 @@ interface EventProps {
 function Event({ event, onDelete }: EventProps) {
     const API = import.meta.env.VITE_API_URL;
 
-    const changeStatus = async (newStatus: string) => {
-        try{
-            await axios.patch(`${API}/api/ngo/changeStatus`, {
-                projectId: event._id,
-                status: newStatus
-            });
-            window.location.reload();
-        } catch (err) {
-            console.error('NGO Event Changestatus', err);
-        }
-    };
-
     const completeEvent = async() => {
         try{
             await axios.patch(`${API}/api/ngo/completeEvent`, {
@@ -58,19 +46,6 @@ function Event({ event, onDelete }: EventProps) {
             <p className="text-slate-300">
                 Address: {event.address}
             </p>
-
-            {/* <div className="flex items-center gap-2 mt-1">
-                <span className="text-slate-300 text-sm">Status:</span>
-                <select
-                    value={event.status}
-                    onChange={(e) => changeStatus(e.target.value)}
-                    className="bg-slate-700 text-slate-200 border border-slate-600 rounded px-2 py-1 text-sm"
-                >
-                    <option value="pending">Not Started</option>
-                    <option value="ongoing">Active</option>
-                    <option value="completed">Completed</option>
-                </select>
-            </div> */}
 
             <Link to={`volunteerList/${event._id}`} className="hover:opacity-80">
             <p className="text-slate-300">

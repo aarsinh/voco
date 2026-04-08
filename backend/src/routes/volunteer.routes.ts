@@ -1,15 +1,20 @@
 import express from 'express';
-import { registerProject, unregisterProject, showRegisteredProj, showUpcomingProj, UpdatePreferences, GetPreferences, updateTaskStatus, completeTask } from '../controllers/volunteer.controller';
+import { registerProject, unregisterProject, showRegisteredProj, showUpcomingProj, UpdatePreferences, GetPreferences, completeTask } from '../controllers/volunteer.controller';
 
 const router = express.Router();
 
 router.get('/:volunteerId', showUpcomingProj);
+
 router.get('/registered/:volunteerId', showRegisteredProj);
+
 router.get('/preferences/:volunteerId', GetPreferences);
+
 router.put('/preferences', UpdatePreferences)
+
 router.post('/register', registerProject);
+
 router.post('/unregister', unregisterProject);
-router.patch('/changeStatus', updateTaskStatus);
+
 router.patch('/completeTask', completeTask);
 
 export default router;

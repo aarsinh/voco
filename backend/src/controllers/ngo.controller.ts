@@ -109,27 +109,6 @@ export const getProjectVolunteers = async (req: Request, res: Response) => {
   }
 }
 
-export const updateEventStatus = async (req: Request, res: Response) => {
-  try {
-    const { projectId, status } = req.body;
-    const updatedProject = await Project.findByIdAndUpdate(
-      { _id: projectId },
-      { $set: { status: status } },
-      { returnDocument: 'after' }
-    );
-    if (!updatedProject) {
-      return res.status(404).json({ message: 'Volunteer or project not found' });
-    }
-    res.status(200).json({
-      message: 'Status updated',
-      project: updatedProject
-    });
-  } catch (err) {
-    console.error('updateTaskStatus volunteer controller', err);
-    res.status(500).json({ message: 'Server error' });
-  }
-}
-
 export const completeEvent = async (req: Request, res: Response) => {
   try{
     const { projectId } = req.body;

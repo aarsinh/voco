@@ -181,26 +181,6 @@ export const GetPreferences = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Server error' });
   }
 }
-export const updateTaskStatus = async (req: Request, res: Response) => {
-  try {
-    const { volunteerId, projectId, status } = req.body;
-    const updatedVolunteer = await Volunteer.findOneAndUpdate(
-      { _id: volunteerId, 'registeredProjects.project': projectId },
-      { $set: { 'registeredProjects.$.status': status } },
-      { returnDocument: 'after' }
-    );
-    if (!updatedVolunteer) {
-      return res.status(404).json({ message: 'Volunteer or project not found' });
-    }
-    res.status(200).json({
-      message: 'Status updated',
-      volunteer: updatedVolunteer
-    });
-  } catch (err) {
-    console.error('updateTaskStatus volunteer controller', err);
-    res.status(500).json({ message: 'Server error' });
-  }
-}
 
 export const completeTask = async (req: Request, res: Response) => {
   try{
