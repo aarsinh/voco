@@ -68,7 +68,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
           {project.date ? new Date(project.date).toLocaleDateString('en-GB') : 'TBD'}
         </td>
 
-        { now >= project.date && status !== 'Completed' ? (
+        { now >= new Date(project.date) && status !== 'Completed' ? (
           <td className={tdClass}>
             <button
               className="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-1.5 px-4 rounded transition-colors"
@@ -112,7 +112,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
       <tr>
         <td colSpan={5}>
           <span className="px-4 py-1 text-black-700 text-sm">
-            {project.date > now ? 'Not Started' : 'Ongoing'}
+            {new Date(project.date) > now ? 'Not Started' : 'Ongoing'}
           </span>
         </td>
       </tr>
