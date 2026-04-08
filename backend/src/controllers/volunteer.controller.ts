@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Volunteer from '../models/volunteer.model';
+import NGO from '../models/ngo.model';
 import Project from '../models/project.model';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -165,6 +166,8 @@ export const UpdatePreferences = async (req: Request, res: Response) => {
   }
 }
 
+
+
 export const GetPreferences = async (req: Request, res: Response) => {
   try {
     const { volunteerId } = req.params;
@@ -202,3 +205,33 @@ export const completeTask = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Server error' });
   }
 }
+
+export const submitReview = async (req: Request, res: Response) => {
+  try {
+    const { projectId, volunteerId, rating, reviewText } = req.body;
+    const project = await Project.findById(projectId);
+    console.log('project.ngo value:', project.ngo);
+    
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    const ngo = await NGO.findOne({ name: project.ngo }); // ← look up by name string
+    console.log('found ngo:', ngo);
+
+    if (!ngo) {
+      return res.status(404).json({ message: 'NGO not found' });
+    }
+
+    await NGO.findByIdAndUpdate(
+      ngo._id,
+      { $push: { reviews: { projectId, volunteerId, rating, reviewText } } },
+      { returnDocument: 'after' }
+    );
+
+    res.status(200).json({ message: 'Review added to NGO' });
+  } catch (err) {
+    console.error('submitReview controller', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};

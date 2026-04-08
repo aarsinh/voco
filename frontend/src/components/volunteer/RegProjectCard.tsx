@@ -1,8 +1,9 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import type { Project } from '../../types';
 import { useAuth } from "../../hooks/useAuth";
+import RatingModal from "./RatingModal"; 
 
 interface ProjectCardProps {
   project: Project;
@@ -10,6 +11,7 @@ interface ProjectCardProps {
 }
 
 const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { userId: vid } = useAuth()
   const API = import.meta.env.VITE_API_URL;
 
@@ -29,17 +31,31 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
     }
   };
 
-  const completeTask = async () => {
-    try{
+  const handleCompleteButtonClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleReviewSubmit = async (rating: number, comment: string) => {
+    try {
+      
+      await axios.patch(`${API}/api/volunteer/submitReview`, { 
+      projectId: project._id,
+      volunteerId: vid, 
+      rating: rating,
+      reviewText: comment 
+    });
+
       await axios.patch(`${API}/api/volunteer/completeTask`, {
         volunteerId: vid,
         projectId: project._id
       });
+
+      setIsModalOpen(false);
       window.location.reload();
     } catch (err) {
-      console.error('RegProjCard completeTask', err);
+      console.error('RegProjCard error during finalization', err);
     }
-  }
+  };
 
   const tdClass = "p-4 align-middle text-gray-700 font-medium break-words max-w-[200px]";
   const now : Date = new Date();
@@ -63,7 +79,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
           <td className={tdClass}>
             <button
               className="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-1.5 px-4 rounded transition-colors"
-              onClick={completeTask}
+              onClick={handleCompleteButtonClick}
             >
               Complete
             </button>
@@ -124,6 +140,15 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
           </Link>
         </td>
       </tr>
+
+      {isModalOpen && (
+        <RatingModal 
+          projectName={project.name}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleReviewSubmit}
+        />
+      )}
+
     </>
   );
 };

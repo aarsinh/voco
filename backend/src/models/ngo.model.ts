@@ -42,6 +42,32 @@ const ngoSchema = new mongoose.Schema({
             message: `Invalid URL`
         }
     },
+    reviews: [{
+        projectId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Project',
+            required: true
+        },
+        volunteerId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Volunteer',
+            required: true
+        },
+        rating: {
+            type: Number,
+            required: true,
+            min: 1,
+            max: 5
+        },
+        reviewText: {
+            type: String,
+            required: true
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now
+        }
+    }],
     projects: [{
         type: Schema.Types.ObjectId,
         ref: 'Project'
