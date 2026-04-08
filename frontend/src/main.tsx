@@ -10,7 +10,7 @@ import { Login } from './Login';
 import { Signup } from './Signup';
 import VolunteerList from "./components/ngo/volunteerList";
 import NGO from './components/ngo/dashboard'
-import Volunteer from './components/volunteer/Dashboard';
+import Volunteer from './components/volunteer/HomePage.tsx';
 import './index.css'
 
 import axios from "axios";
