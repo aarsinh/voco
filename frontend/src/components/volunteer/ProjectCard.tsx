@@ -27,6 +27,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
   const tdClass = "p-4 align-middle text-gray-700 font-medium break-words max-w-[200px]";
 
+  const now : Date = new Date();
+
   return (
     <>
       <tr className="hover:bg-gray-50 transition-colors group">
@@ -71,7 +73,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       <tr>
         <td colSpan={5}>
           <span className="px-4 py-1 text-black-700 text-sm">
-            {project.status == "pending" ? 'Not Started' : 'Ongoing'}
+            {project.date > now ? 'Not Started' : 'Ongoing'}
           </span>
         </td>
       </tr>

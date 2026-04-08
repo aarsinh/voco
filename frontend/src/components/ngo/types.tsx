@@ -1,7 +1,7 @@
 export interface EventType {
     _id: string
     name: string
-    date: string | Date
+    date: Date
     address: string
     status?: string
     registrations?: Number

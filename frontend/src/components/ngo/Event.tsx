@@ -39,7 +39,7 @@ function Event({ event, onDelete }: EventProps) {
             </p>
 
             <p className="text-slate-300">
-                Date: {new Date(event.date).toLocaleDateString()}
+                Date: {new Date(event.date).toLocaleDateString('en-GB')}
             </p>
 
             <p className="text-slate-300">

@@ -29,6 +29,14 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
     }
   };
 
+  const completeTask = async () => {
+    try{
+
+    } catch (err) {
+
+    }
+  }
+
   const changeStatus = async (newStatus: string) => {
     try {
       await axios.patch(`${API}/api/volunteer/changeStatus`, {
@@ -43,6 +51,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
   };
 
   const tdClass = "p-4 align-middle text-gray-700 font-medium break-words max-w-[200px]";
+  const now : Date = new Date();
 
   return (
     <>
@@ -59,17 +68,18 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
           {project.date ? new Date(project.date).toLocaleDateString('en-GB') : 'TBD'}
         </td>
 
-        {status !== undefined && (
+        { now >= project.date && status !== 'Completed' ? (
           <td className={tdClass}>
-            <select
-              value={status}
-              onChange={(e) => changeStatus(e.target.value)}
-              className="border border-gray-300 rounded px-2 py-1 text-sm text-gray-700"
+            <button
+              className="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-1.5 px-4 rounded transition-colors"
+              onClick={completeTask}
             >
-              <option value="pending">Not Started</option>
-              <option value="ongoing">Active</option>
-              <option value="completed">Completed</option>
-            </select>
+              Complete
+            </button>
+          </td>
+        ) : (
+          <td>
+            {status === 'Completed' ? 'Completed' : 'Not Started'}
           </td>
         )}
 
@@ -102,7 +112,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
       <tr>
         <td colSpan={5}>
           <span className="px-4 py-1 text-black-700 text-sm">
-            {project.status}
+            {project.date > now ? 'Not Started' : 'Ongoing'}
           </span>
         </td>
       </tr>

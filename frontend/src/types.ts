@@ -2,7 +2,7 @@ export interface Project {
   _id: string;
   name: string;
   ngo: string;
-  date: string;
+  date: Date;
   address: string;
   registrations?: number;
   ngoId?: string;

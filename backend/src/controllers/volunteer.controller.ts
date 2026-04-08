@@ -9,7 +9,7 @@ export const registerProject = async (req: Request, res: Response): Promise<void
     const { volunteerId, projectId } = req.body;
     const updatedVolunteer = await Volunteer.findByIdAndUpdate(
       volunteerId,
-      { $push: { registeredProjects: { project: projectId, status: 'notStarted' } } },
+      { $push: { registeredProjects: { project: projectId, status: 'Ongoing' } } },
       { returnDocument: 'after' }
     );
     if (!updatedVolunteer) {
@@ -82,6 +82,7 @@ export const showRegisteredProj = async (req: Request, res: Response) => {
     }
 
     const filtered = [...volunteer.registeredProjects]
+      .filter( entry => (entry.project as any)?.status !== 'Completed' && entry.status !== 'Completed')
       .sort((a, b) => {
         const dateA = (a.project as any)?.date ?? 0;
         const dateB = (b.project as any)?.date ?? 0;
@@ -111,7 +112,7 @@ export const showUpcomingProj = async (req: Request, res: Response) => {
     
     const query: any = {
       _id: { $nin: regprojs },
-      status: { $ne: 'completed' }
+      status: { $ne: 'Completed' }
     };
 
     if (filterByPrefs === 'true' && volunteer.preferences.length > 0) {
@@ -197,6 +198,27 @@ export const updateTaskStatus = async (req: Request, res: Response) => {
     });
   } catch (err) {
     console.error('updateTaskStatus volunteer controller', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+}
+
+export const completeTask = async (req: Request, res: Response) => {
+  try{
+    const { volunteerId, projectId } = req.body;
+    const updatedVolunteer = await Volunteer.findOneAndUpdate(
+      { _id: volunteerId, 'registeredProjects.project': projectId },
+      { $set: { 'registeredProjects.$.status': 'Completed' } },
+      { returnDocument: 'after' }
+    );
+    if (!updatedVolunteer) {
+      return res.status(404).json({ message: 'Volunteer or project not found' });
+    }
+    res.status(200).json({
+      message: 'Status updated',
+      volunteer: updatedVolunteer
+    });
+  } catch (err) {
+    console.error('completeProject volunteer controller', err);
     res.status(500).json({ message: 'Server error' });
   }
 }

@@ -12,7 +12,7 @@ interface AddEventProps {
   onAdd: (event: {
     name: string;
     ngo: string;
-    date: string;
+    date: Date;
     address: string;
     tags: string[];
   }) => void;
@@ -33,7 +33,7 @@ function Addevent({ onAdd, ngo }: Readonly<AddEventProps>) {
     );
   };
 
-  function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!Eventname || !day || !address) {
@@ -49,7 +49,7 @@ function Addevent({ onAdd, ngo }: Readonly<AddEventProps>) {
     onAdd({
       name: Eventname,
       ngo: ngo,
-      date: day,
+      date: new Date(day),
       address: address,
       tags: selectedTags
     });

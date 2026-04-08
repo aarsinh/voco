@@ -52,7 +52,7 @@ const volunteerSchema = new mongoose.Schema({
       },
       status: {
         type: String,
-        enum: ['pending', 'ongoing', 'completed'],
+        enum: ['Ongoing', 'Completed'],
         default: 'pending'
       }
     }
