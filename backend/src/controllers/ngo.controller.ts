@@ -128,3 +128,37 @@ export const completeEvent = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Server error' });
   }
 }
+
+export const updateVolunteerReport = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { report } = req.body;
+
+    // 1. Validation: Ensure the report text isn't empty
+    if (!report || report.trim() === "") {
+      return res.status(400).json({ message: "Report content cannot be empty." });
+    }
+
+    // 2. Database Update: Use $push to add the new report to the existing array
+    const updatedVolunteer = await Volunteer.findByIdAndUpdate(
+      id,
+      { $push: { reports: report } },
+      { new: true, runValidators: true } // 'new' returns the updated document, 'runValidators' ensures schema rules apply
+    );
+
+    // 3. Handle case where volunteer doesn't exist
+    if (!updatedVolunteer) {
+      return res.status(404).json({ message: "Volunteer not found." });
+    }
+
+    // 4. Success response
+    res.status(200).json({
+      message: "Volunteer reported successfully",
+      reportsCount: updatedVolunteer.reports.length
+    });
+    
+  } catch (error: any) {
+    console.error("Error in updateVolunteerReport:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};

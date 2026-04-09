@@ -216,8 +216,7 @@ export const submitReview = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Project not found' });
     }
 
-    const ngo = await NGO.findOne({ name: project.ngo }); // ← look up by name string
-    console.log('found ngo:', ngo);
+    const ngo = await NGO.findOne({ name: project.ngo }); 
 
     if (!ngo) {
       return res.status(404).json({ message: 'NGO not found' });

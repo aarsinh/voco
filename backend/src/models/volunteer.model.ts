@@ -56,7 +56,11 @@ const volunteerSchema = new mongoose.Schema({
         default: 'pending'
       }
     }
-  ]
+  ],
+  reports: {
+    type: [String], 
+    default: []
+  }
 }, { timestamps: true });
 
 volunteerSchema.pre("save", async function() {

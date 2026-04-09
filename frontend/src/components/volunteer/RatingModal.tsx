@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Star } from "lucide-react"; // Optional: Install lucide-react or use SVG
+import { Star } from "lucide-react"; 
 
 interface RatingModalProps {
   projectName: string;
