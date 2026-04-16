@@ -6,7 +6,9 @@ import {
     getProjectVolunteers, 
     completeEvent, 
     updateVolunteerReport,
-    projectStatusPie
+    projectStatusPie,
+    getNGOProfile,
+    updateNGODetails
 
 } from '../controllers/ngo.controller'
 
