@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import Project from '../models/project.model';
 import Volunteer from '../models/volunteer.model'
 import NGO from '../models/ngo.model';
+import { sendEmail } from '../services/email.service';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -41,6 +42,30 @@ export const addProject = async (req: Request, res: Response): Promise<void> => 
       { $addToSet: { projects: savedProject._id } },
       { returnDocument: 'after' }
     )
+
+    const matchingVolunteers = await Volunteer.find({
+      preferences: { $in: tags },
+      _id: { $nin: savedProject.VolunteersRegistered }
+    });
+
+    const emailPromises = matchingVolunteers.map(volunteer => {
+      const emailHtml = `
+        <h2>New Project Available!</h2>
+        <p>Hi ${volunteer.name},</p>
+        <p>A new project matching your preferences has been posted:</p>
+        <ul>
+          <li><strong>Project:</strong> ${name}</li>
+          <li><strong>NGO:</strong> ${ngo}</li>
+          <li><strong>Date:</strong> ${new Date(date).toLocaleDateString()}</li>
+          <li><strong>Tags:</strong> ${tags.join(', ')}</li>
+        </ul>
+        <p>Log in to volunteer and learn more!</p>
+      `;
+      return sendEmail(volunteer.email, `New Project: ${name}`, emailHtml);
+    });
+
+    Promise.all(emailPromises).catch(err => console.error('Error sending notification emails:', err));
+
     res.status(200).json(savedProject);
   } catch (error: any) {
     res.status(400).json({ message: error.message });
