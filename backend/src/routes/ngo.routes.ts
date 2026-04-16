@@ -24,8 +24,12 @@ router.patch("/completeEvent", completeEvent);
 
 router.get("/VolunteerList/:id", getProjectVolunteers);
 
-router.patch("/report-volunteer/:id", updateVolunteerReport)
+router.patch("/report-volunteer/:id", updateVolunteerReport);
 
-router.get("/projectStatusPie/:id", projectStatusPie)
+router.get("/projectStatusPie/:id", projectStatusPie);
+
+router.get("/profile-data/:ngoId", getNGOProfile);
+
+router.patch("/update-details/:id", updateNGODetails);
 
 export default router;

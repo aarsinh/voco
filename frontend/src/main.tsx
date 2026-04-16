@@ -12,6 +12,7 @@ import VolunteerList from "./components/ngo/volunteerList";
 import NGO from './components/ngo/Homepage.tsx'
 import Volunteer from './components/volunteer/HomePage.tsx';
 import './index.css'
+import Profile from './components/ngo/profile';
 
 import axios from "axios";
 axios.defaults.withCredentials = true;
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
         <Route element={<ProtectedLayoutContent />}>
           <Route path="/volunteer" element={<Volunteer />} />
           <Route path="/volunteer/project/:projectId/volunteers" element={<VolunteerList />} />
+          <Route path="/volunteer/ngo/:id" element={<Profile />} />
         </Route>
       </Route>
 

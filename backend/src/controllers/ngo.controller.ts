@@ -34,20 +34,33 @@ export const getProjects = async (req: Request, res: Response) => {
 
 export const addProject = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, ngo, date, address, registrations, tags, VolunteersRegistered } = req.body
-    const newProject = new Project({ name, ngo, date, address, registrations, tags, VolunteersRegistered });
+    const { ngoId } = req.params; 
+    const { name, ngo, date, address, registrations, tags, VolunteersRegistered } = req.body;
+
+    const newProject = new Project({ 
+      name, 
+      ngo, 
+      ngoId, 
+      date, 
+      address, 
+      registrations, 
+      tags, 
+      VolunteersRegistered 
+    });
+
     const savedProject = await newProject.save();
-    const { ngoId } = req.params;
+
     const updatedNGO = await NGO.findByIdAndUpdate(
       ngoId,
       { $addToSet: { projects: savedProject._id } },
       { returnDocument: 'after' }
-    )
+    );
+
     res.status(200).json(savedProject);
   } catch (error: any) {
     res.status(400).json({ message: error.message });
   }
-}
+};
 
 export const delProject = async (req: Request, res: Response): Promise<void> => {
   try {
