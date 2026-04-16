@@ -71,7 +71,11 @@ const ngoSchema = new mongoose.Schema({
     projects: [{
         type: Schema.Types.ObjectId,
         ref: 'Project'
-    }]
+    }],
+    numProjTerminated : {
+        type: Number,
+        default: 0
+    }
 }, { timestamps: true });
 
 ngoSchema.pre("save", async function () {

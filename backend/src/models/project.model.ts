@@ -4,6 +4,11 @@ export interface Project extends Document {
   name: string;
   ngo: string;
   date: Date;
+  address: string;
+  status: 'Ongoing' | 'Completed';
+  registrations: number;
+  tags: string[];
+  VolunteersRegistered: mongoose.Types.ObjectId[];
 }
 
 const projectSchema: Schema = new mongoose.Schema({

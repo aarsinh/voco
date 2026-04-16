@@ -61,7 +61,10 @@ export const delProject = async (req: Request, res: Response): Promise<void> => 
 
     const updatedNGO = await NGO.findByIdAndUpdate(
       ngoId,
-      { $pull: { projects: projId } },
+      { 
+        $pull: { projects: projId },
+        $inc: { numProjTerminated: 1 }, 
+      },
       { returnDocument: 'after' }
     )
 
@@ -161,4 +164,22 @@ export const updateVolunteerReport = async (req: Request, res: Response) => {
     console.error("Error in updateVolunteerReport:", error);
     res.status(500).json({ message: "Internal server error", error: error.message });
   }
+};
+
+export const projectStatusPie = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const ngo = await NGO.findById(id).populate({
+    path: 'projects'
+  });
+  if(!ngo){
+    return res.status(404).json({message: "Not found"});
+  }
+  const statusCounts = ngo.projects.reduce((acc: any, project: any) => {
+    const status = project.status || 'Ongoing';
+    acc[status] = (acc[status] || 0) + 1;
+    return acc;
+  }, {});
+  statusCounts["Terminated"] = ngo.numProjTerminated || 0;
+
+  return res.status(200).json(statusCounts);
 };
