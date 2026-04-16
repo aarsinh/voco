@@ -52,11 +52,15 @@ const volunteerSchema = new mongoose.Schema({
       },
       status: {
         type: String,
-        enum: ['pending', 'ongoing', 'completed'],
+        enum: ['Ongoing', 'Completed'],
         default: 'pending'
       }
     }
-  ]
+  ],
+  reports: {
+    type: [String], 
+    default: []
+  }
 }, { timestamps: true });
 
 volunteerSchema.pre("save", async function() {

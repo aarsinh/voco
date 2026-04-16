@@ -11,17 +11,18 @@ interface EventProps {
 function Event({ event, onDelete }: EventProps) {
     const API = import.meta.env.VITE_API_URL;
 
-    const changeStatus = async (newStatus: string) => {
+    const completeEvent = async() => {
         try{
-            await axios.patch(`${API}/api/ngo/changeStatus`, {
+            await axios.patch(`${API}/api/ngo/completeEvent`, {
                 projectId: event._id,
-                status: newStatus
             });
             window.location.reload();
         } catch (err) {
-            console.error('NGO Event Changestatus', err);
+            console.error('NGO Event completeEvent', err);
         }
-    };
+    }
+
+    const now = new Date();
 
     return (
         <div className="bg-slate-900 m-1 px-5 py-2.5 cursor-pointer rounded-md hover:bg-slate-800 transition">
@@ -39,25 +40,12 @@ function Event({ event, onDelete }: EventProps) {
             </p>
 
             <p className="text-slate-300">
-                Date: {new Date(event.date).toLocaleDateString()}
+                Date: {new Date(event.date).toLocaleDateString('en-GB')}
             </p>
 
             <p className="text-slate-300">
                 Address: {event.address}
             </p>
-
-            <div className="flex items-center gap-2 mt-1">
-                <span className="text-slate-300 text-sm">Status:</span>
-                <select
-                    value={event.status}
-                    onChange={(e) => changeStatus(e.target.value)}
-                    className="bg-slate-700 text-slate-200 border border-slate-600 rounded px-2 py-1 text-sm"
-                >
-                    <option value="pending">Not Started</option>
-                    <option value="ongoing">Active</option>
-                    <option value="completed">Completed</option>
-                </select>
-            </div>
 
             <Link to={`volunteerList/${event._id}`} className="hover:opacity-80">
             <p className="text-slate-300">
@@ -65,13 +53,26 @@ function Event({ event, onDelete }: EventProps) {
             </p>
             </Link>
         
-          <div className="flex flex-wrap gap-2 mt-2">
+          <div className="flex flex-wrap justify-between gap-2 mt-1">
             {event.tags?.map(tag => (
-              <span key={tag} className="px-2 py-0.5 bg-sky-500/30 text-sky-300 text-xs rounded-full">
+              <span key={tag} className="px-2 py-0.5 bg-sky-500/30 text-sky-300 text-sm rounded-full">
                 {tag}
               </span>
             ))}
+
+            {now > new Date(event.date) && event.status !== 'Completed' ?
+                (<Button
+                    text="Complete Project"
+                    onClick={() => completeEvent()}
+                    className="text-white hover:text-white-700 cursor-pointer transition-colors bg-green-500/50 px-4 py-2 rounded hover:bg-green-600 transition"
+                />) : (
+                    <p className="text-slate-300">
+                        {event.status === 'Completed' ? 'Completed' : 'Not Started'}
+                    </p>
+                )
+            }
           </div>
+
         </div>
     )
 }

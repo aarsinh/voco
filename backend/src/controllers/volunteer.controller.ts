@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Volunteer from '../models/volunteer.model';
+import NGO from '../models/ngo.model';
 import Project from '../models/project.model';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -9,7 +10,7 @@ export const registerProject = async (req: Request, res: Response): Promise<void
     const { volunteerId, projectId } = req.body;
     const updatedVolunteer = await Volunteer.findByIdAndUpdate(
       volunteerId,
-      { $push: { registeredProjects: { project: projectId, status: 'notStarted' } } },
+      { $push: { registeredProjects: { project: projectId, status: 'Ongoing' } } },
       { returnDocument: 'after' }
     );
     if (!updatedVolunteer) {
@@ -82,6 +83,7 @@ export const showRegisteredProj = async (req: Request, res: Response) => {
     }
 
     const filtered = [...volunteer.registeredProjects]
+      .filter( entry => (entry.project as any)?.status !== 'Completed' && entry.status !== 'Completed')
       .sort((a, b) => {
         const dateA = (a.project as any)?.date ?? 0;
         const dateB = (b.project as any)?.date ?? 0;
@@ -111,7 +113,7 @@ export const showUpcomingProj = async (req: Request, res: Response) => {
     
     const query: any = {
       _id: { $nin: regprojs },
-      status: { $ne: 'completed' }
+      status: { $ne: 'Completed' }
     };
 
     if (filterByPrefs === 'true' && volunteer.preferences.length > 0) {
@@ -164,6 +166,8 @@ export const UpdatePreferences = async (req: Request, res: Response) => {
   }
 }
 
+
+
 export const GetPreferences = async (req: Request, res: Response) => {
   try {
     const { volunteerId } = req.params;
@@ -180,12 +184,13 @@ export const GetPreferences = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Server error' });
   }
 }
-export const updateTaskStatus = async (req: Request, res: Response) => {
-  try {
-    const { volunteerId, projectId, status } = req.body;
+
+export const completeTask = async (req: Request, res: Response) => {
+  try{
+    const { volunteerId, projectId } = req.body;
     const updatedVolunteer = await Volunteer.findOneAndUpdate(
       { _id: volunteerId, 'registeredProjects.project': projectId },
-      { $set: { 'registeredProjects.$.status': status } },
+      { $set: { 'registeredProjects.$.status': 'Completed' } },
       { returnDocument: 'after' }
     );
     if (!updatedVolunteer) {
@@ -196,7 +201,36 @@ export const updateTaskStatus = async (req: Request, res: Response) => {
       volunteer: updatedVolunteer
     });
   } catch (err) {
-    console.error('updateTaskStatus volunteer controller', err);
+    console.error('completeProject volunteer controller', err);
     res.status(500).json({ message: 'Server error' });
   }
 }
+
+export const submitReview = async (req: Request, res: Response) => {
+  try {
+    const { projectId, volunteerId, rating, reviewText } = req.body;
+    const project = await Project.findById(projectId);
+    console.log('project.ngo value:', project.ngo);
+    
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    const ngo = await NGO.findOne({ name: project.ngo }); 
+
+    if (!ngo) {
+      return res.status(404).json({ message: 'NGO not found' });
+    }
+
+    await NGO.findByIdAndUpdate(
+      ngo._id,
+      { $push: { reviews: { projectId, volunteerId, rating, reviewText } } },
+      { returnDocument: 'after' }
+    );
+
+    res.status(200).json({ message: 'Review added to NGO' });
+  } catch (err) {
+    console.error('submitReview controller', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
