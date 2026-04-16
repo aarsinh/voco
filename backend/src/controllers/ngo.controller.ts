@@ -162,3 +162,75 @@ export const updateVolunteerReport = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
+
+
+export const getNGOProfile = async (req: Request, res: Response) => {
+  try {
+    const { ngoId } = req.params;
+    // Explicitly include username in the selection
+    const ngo = await NGO.findById(ngoId)
+      .select('name email phoneNumber website username reviews')
+      .populate({
+        path: 'reviews.projectId',
+        select: 'name'
+      });
+
+    if (!ngo) return res.status(404).json({ message: 'NGO not found' });
+
+    const totalReviews = ngo.reviews.length;
+    const avgRating = totalReviews > 0 
+      ? ngo.reviews.reduce((acc, curr) => acc + curr.rating, 0) / totalReviews 
+      : 0;
+
+    res.json({
+      details: {
+        username: ngo.username, // Now being sent to frontend
+        name: ngo.name,
+        email: ngo.email,
+        phoneNumber: ngo.phoneNumber,
+        website: ngo.website
+      },
+      avgRating: avgRating.toFixed(1),
+      reviews: ngo.reviews
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const updateNGODetails = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { username, name, email, phoneNumber, website, password } = req.body;
+
+    // Use findOne and save to allow the pre-save hook in your model to handle the hashing
+    const ngo = await NGO.findById(id);
+    if (!ngo) return res.status(404).json({ message: "NGO not found" });
+
+    ngo.username = username || ngo.username;
+    ngo.name = name || ngo.name;
+    ngo.email = email || ngo.email;
+    ngo.phoneNumber = phoneNumber || ngo.phoneNumber;
+    ngo.website = website || ngo.website;
+    
+    // Only update password if user actually typed something
+    if (password && password.trim() !== "") {
+      ngo.password = password;
+    }
+
+    await ngo.save();
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      details: {
+        username: ngo.username,
+        name: ngo.name,
+        email: ngo.email,
+        phoneNumber: ngo.phoneNumber,
+        website: ngo.website
+      }
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
