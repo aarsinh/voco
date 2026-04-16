@@ -4,9 +4,10 @@ import Addevent from "./AddEvent";
 import type { EventType } from "./types";
 import { useAuth } from "../../hooks/useAuth";
 import Profile from "./profile"; // Ensure the path matches your folder structure
+import Dashboard from "./Dashboard";
 
 // Define the available tabs
-type Tab = 'profile' | 'ongoing' | 'create' | 'history';
+type Tab = 'profile' | 'ongoing' | 'create' | 'history' | 'dashboard';
 
 function App() {
   const { userId, name, logout } = useAuth(); // Assuming logout is available from useAuth
@@ -58,7 +59,8 @@ function App() {
     { id: 'profile', label: 'Profile' },
     { id: 'ongoing', label: 'Ongoing Projects' },
     { id: 'create', label: 'Create a Project' },
-    { id: 'history', label: 'Project History' },
+    { id: 'history', label: 'Project History' }, 
+    { id: 'dashboard', label: 'Dashboard' },
   ];
 
   return (
@@ -104,6 +106,10 @@ function App() {
               <h2 className="text-2xl font-bold text-gray-800 mb-4">Project History</h2>
               <p className="text-gray-500">Archive of completed and terminated projects will appear here.</p>
             </div>
+          )}
+
+          {activeTab === 'dashboard' && (
+            <Dashboard />
           )}
         </main>
       </div>
