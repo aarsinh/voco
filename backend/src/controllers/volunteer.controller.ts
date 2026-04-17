@@ -275,8 +275,10 @@ export const GetPreferences = async (req: Request, res: Response) => {
 export const completeTask = async (req: Request, res: Response) => {
   try{
     const { volunteerId, projectId } = req.body;
+    const safeprojId = String(projectId);
+    const safeVolId = String(volunteerId);
     const updatedVolunteer = await Volunteer.findOneAndUpdate(
-      { _id: volunteerId, 'registeredProjects.project': projectId },
+      { _id: safeVolId, 'registeredProjects.project': safeprojId },
       { $set: { 'registeredProjects.$.status': 'Completed' } },
       { returnDocument: 'after' }
     );

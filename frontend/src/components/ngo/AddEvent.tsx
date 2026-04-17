@@ -67,7 +67,7 @@ function Addevent({ onAdd, ngo }: Readonly<AddEventProps>) {
     >
       <div className="flex flex-col">
         <label className="mb-1 text-sm text-gray-300">
-          Event Name
+          {"Event Name"}
           <input
             className="w-full p-2 rounded-md bg-gray-800 border border-gray-600 text-white focus:ring-2 focus:ring-sky-400 outline-none"
             type="text"
@@ -81,7 +81,7 @@ function Addevent({ onAdd, ngo }: Readonly<AddEventProps>) {
 
       <div className="flex flex-col">
         <label className="mb-1 text-sm text-gray-300">
-          Date
+          {"Date"}
           <input
             className="w-full p-2 rounded-md bg-gray-800 border border-gray-600 text-white focus:ring-2 focus:ring-sky-400 outline-none"
             type="date"
@@ -95,7 +95,7 @@ function Addevent({ onAdd, ngo }: Readonly<AddEventProps>) {
 
       <div className="flex flex-col">
         <label className="mb-1 text-sm text-gray-300">
-          Address
+          {"Address"}
           <input
             className="w-full p-2 rounded-md bg-gray-800 border border-gray-600 text-white focus:ring-2 focus:ring-sky-400 outline-none"
             type="text"

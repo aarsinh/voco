@@ -57,9 +57,12 @@ export const addProject = async (req: Request, res: Response): Promise<void> => 
       { returnDocument: 'after' }
     )
 
+    const safeTags = Array.isArray(tags) ? tags.map(tag => String(tag)) : [];
+    const safeRegIds = Array.isArray(savedProject.VolunteersRegistered) ? savedProject.VolunteersRegistered : [];
+
     const matchingVolunteers = await Volunteer.find({
-      preferences: { $in: tags },
-      _id: { $nin: savedProject.VolunteersRegistered }
+      preferences: { $in: safeTags },
+      _id: { $nin: safeRegIds }
     });
 
     const emailPromises = matchingVolunteers.map(volunteer => {
@@ -205,7 +208,6 @@ export const updateVolunteerReport = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
-
 
 export const getNGOProfile = async (req: Request, res: Response) => {
   try {
