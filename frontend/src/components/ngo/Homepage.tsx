@@ -4,7 +4,7 @@ import Addevent from "./AddEvent";
 import type { EventType } from "./types";
 import { useAuth } from "../../hooks/useAuth";
 import Profile from "./profile"; // Ensure the path matches your folder structure
-import Dashboard from "./dashboard";
+import Dashboard from "./dashboard/Dashboard";
 
 // Define the available tabs
 type Tab = 'profile' | 'ongoing' | 'create' | 'history' | 'dashboard';

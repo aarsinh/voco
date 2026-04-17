@@ -250,8 +250,10 @@ export const updateNGODetails = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 export const projectStatusPie = async (req: Request, res: Response) => {
   const { id } = req.params;
+  const now = new Date();
   const ngo = await NGO.findById(id).populate({
     path: 'projects'
   });
@@ -260,7 +262,9 @@ export const projectStatusPie = async (req: Request, res: Response) => {
   }
   const statusCounts = ngo.projects.reduce((acc: any, project: any) => {
     const status = project.status || 'Ongoing';
-    acc[status] = (acc[status] || 0) + 1;
+    const ngoDate = new Date(project.date);
+    if(status === 'Ongoing' && now < ngoDate) acc['Pending'] = (acc['Pending'] || 0) + 1;
+    else acc[status] = (acc[status] || 0) + 1;
     return acc;
   }, {});
   statusCounts["Terminated"] = ngo.numProjTerminated || 0;
