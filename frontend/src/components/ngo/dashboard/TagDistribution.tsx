@@ -27,7 +27,23 @@ function ProjectDistributionRadar() {
         if (!ngoId) return;
 
         axios.get(`${API}/api/ngo/projectTags/${ngoId}`)
-            .then(res => setData(res.data))
+            .then(res => {
+                const rawData: TagData[] = res.data;
+                const totalProjects = rawData.reduce((sum, item) => sum + item.count, 0);
+
+                if (totalProjects === 0) {
+                    setData(rawData);
+                    return;
+                }
+
+                const normalizedData = rawData.map(item => ({
+                    subject: item.subject,
+                    originalCount: item.count,
+                    count: Math.round((item.count / totalProjects) * 100)
+                }));
+
+                setData(normalizedData);
+            })
             .catch(err => {
                 console.error("projectTags fetch error", err);
                 setError("Failed to load category data.");
