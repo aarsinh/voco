@@ -74,6 +74,26 @@ export const unregisterProject = async (req: Request, res: Response) => {
   }
 }
 
+export const getVolunteerAllProjects = async (req: Request, res: Response) => {
+  try {
+    const { volunteerId } = req.params;
+    const volunteer = await Volunteer.findById(volunteerId).populate('registeredProjects.project');
+    if (!volunteer) {
+      return res.status(404).json({ message: 'Volunteer not found' });
+    }
+
+    res.status(200).json({
+      message: 'Fetched Successfully',
+      regProj: volunteer.registeredProjects
+    });
+  } catch (err) {
+    console.error('volunteer controller getVolunteerAllProjects', err);
+    res.status(500).json({
+      message: 'Server error'
+    });
+  }
+}
+
 export const showRegisteredProj = async (req: Request, res: Response) => {
   try {
     const { volunteerId } = req.params;
