@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect, useCallback } from "react";
+import React, { useState, createContext, useEffect, useCallback, useMemo } from "react";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -107,8 +107,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUserId(null);
   };
 
+  const authValue = useMemo(() => ({
+    isAuthenticated,
+    role,
+    name,
+    userId,
+    isLoading,
+    login,
+    signup,
+    logout
+  }), [isAuthenticated, role, name, userId, isLoading, login, signup, logout]);
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, role, name, userId, isLoading, login, signup, logout }}>
+    <AuthContext.Provider value={authValue}>
       {children}
     </AuthContext.Provider>
   );

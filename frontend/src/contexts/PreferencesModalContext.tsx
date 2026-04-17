@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { PreferencesModalContext } from './PreferencesModalContext.ts';
 
 export function PreferencesModalProvider({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -7,8 +7,14 @@ export function PreferencesModalProvider({ children }: Readonly<{ children: Reac
   const open = useCallback(() => setShow(true), []);
   const close = useCallback(() => setShow(false), []);
 
+  const modalValue = useMemo(() => ({
+    showPreferencesModal: show,
+    openPreferencesModal: open,
+    closePreferencesModal: close
+  }), [show, open, close])
+
   return (
-    <PreferencesModalContext.Provider value={{ showPreferencesModal: show, openPreferencesModal: open, closePreferencesModal: close }}>
+    <PreferencesModalContext.Provider value={modalValue}>
       {children}
     </PreferencesModalContext.Provider>
   );
