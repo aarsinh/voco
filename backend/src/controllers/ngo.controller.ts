@@ -5,15 +5,6 @@ import NGO from '../models/ngo.model';
 import dotenv from 'dotenv';
 dotenv.config();
 
-interface PopulatedVolunteer {
-  _id: string;
-  username: string;
-  registeredProjects: {
-    project: string;
-    status: string;
-  }[];
-}
-
 export const getProjects = async (req: Request, res: Response) => {
   try {
     const { ngoId } = req.params;
@@ -252,9 +243,9 @@ export const updateNGODetails = async (req: Request, res: Response) => {
 };
 
 export const projectStatusPie = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { ngoId } = req.params;
   const now = new Date();
-  const ngo = await NGO.findById(id).populate({
+  const ngo = await NGO.findById(ngoId).populate({
     path: 'projects'
   });
   if(!ngo){
@@ -292,4 +283,21 @@ export const getProjectHistory = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
+}
+
+export const volPerProject = async(req: Request, res: Response) => {
+  const { ngoId } = req.params;
+  const ngo = await NGO.findById(ngoId).populate({
+    path: 'projects', 
+    options: { sort: { date: 1 } }
+  }).lean(); //lean makes query faster as it is just a read
+  if(!ngo){
+    return res.status(404).json({ message: 'NGO not found' });
+  }
+  
+  const registrations = (ngo.projects as any[]).map(project => project.registrations || 0);
+  res.json({
+    numProj: ngo.projects.length,
+    volNum: registrations
+  })
 }
