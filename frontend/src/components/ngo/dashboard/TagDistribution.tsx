@@ -15,13 +15,6 @@ interface TagData {
     subject: string;
     count: number;
 }
-const ALL_TAGS = [
-    "Education",
-    "Environment",
-    "Healthcare",
-    "Elderly Care",
-    "Animal Welfare"
-];
 
 function ProjectDistributionRadar() {
     const API = import.meta.env.VITE_API_URL;
@@ -34,18 +27,7 @@ function ProjectDistributionRadar() {
         if (!ngoId) return;
 
         axios.get(`${API}/api/ngo/projectTags/${ngoId}`)
-            .then(res => {
-                const apiData = res.data; 
-                const fullWebData = ALL_TAGS.map(tag => {
-                    const existingTag = apiData.find((item: TagData) => item.subject === tag);
-                    return {
-                        subject: tag,
-                        count: existingTag ? existingTag.count : 0 // Default to 0 if not found
-                    };
-                });
-
-                setData(fullWebData);
-            })
+            .then(res => setData(res.data))
             .catch(err => {
                 console.error("projectTags fetch error", err);
                 setError("Failed to load category data.");

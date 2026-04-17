@@ -7,6 +7,14 @@ import NGO from '../models/ngo.model';
 import dotenv from 'dotenv';
 dotenv.config();
 
+const ALL_TAGS = [
+  "Education",
+  "Environment",
+  "Healthcare",
+  "Elderly Care",
+  "Animal Welfare"
+];
+
 export const getProjects = async (req: Request, res: Response) => {
   try {
     const { ngoId } = req.params;
@@ -372,19 +380,21 @@ export const getTagDistribution = async (req: Request, res: Response) => {
           _id: "$projectData.tags",
           count: { $sum: 1 }
         }
-      },
-      { $sort: { _id: 1 } }
+      }
     ]);
 
-    const formattedForRecharts = tagsData.map(tag => ({
-      subject: tag._id,
-      count: tag.count
-    }));
+    const formattedForRecharts = ALL_TAGS.map(tag => {
+      const existingTag = tagsData.find(item => item._id === tag);
+      return {
+        subject: tag,
+        count: existingTag ? existingTag.count : 0
+      };
+    });
 
-    res.status(200).json(formattedForRecharts);
+    return res.status(200).json(formattedForRecharts);
 
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
