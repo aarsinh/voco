@@ -10,7 +10,8 @@ import {
     getNGOProfile,
     updateNGODetails,
     getProjectHistory,
-    volPerProject
+    volPerProject,
+    ratingPerProject
 
 } from '../controllers/ngo.controller'
 
@@ -28,6 +29,7 @@ router.patch("/report-volunteer/:id", updateVolunteerReport);
 
 router.get("/projectStatusPie/:ngoId", projectStatusPie);
 router.get("/volPerProject/:ngoId", volPerProject);
+router.get("/projectRatings/:ngoId", ratingPerProject);
 
 router.get("/profile-data/:ngoId", getNGOProfile);
 

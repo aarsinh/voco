@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
+
 import Project from '../models/project.model';
 import Volunteer from '../models/volunteer.model'
 import NGO from '../models/ngo.model';
@@ -21,7 +23,7 @@ export const getProjects = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
 export const addProject = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -81,7 +83,7 @@ export const delProject = async (req: Request, res: Response): Promise<void> => 
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
 export const getProjectVolunteers = async (req: Request, res: Response) => {
   try {
@@ -114,7 +116,7 @@ export const getProjectVolunteers = async (req: Request, res: Response) => {
   } catch (err: any) {
     res.status(500).json({ message: err.message });
   }
-}
+};
 
 export const completeEvent = async (req: Request, res: Response) => {
   try{
@@ -134,7 +136,7 @@ export const completeEvent = async (req: Request, res: Response) => {
     console.error('completeEvent volunteer controller', err);
     res.status(500).json({ message: 'Server error' });
   }
-}
+};
 
 export const updateVolunteerReport = async (req: Request, res: Response) => {
   try {
@@ -283,7 +285,7 @@ export const getProjectHistory = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
 export const volPerProject = async(req: Request, res: Response) => {
   const { ngoId } = req.params;
@@ -301,4 +303,65 @@ export const volPerProject = async(req: Request, res: Response) => {
     numProj: ngo.projects.length,
     volNum: registrations
   })
-}
+};
+
+export const ratingPerProject = async(req: Request, res: Response) => {
+  try {
+    const { ngoId } = req.params;
+
+    const pipelineResult = await NGO.aggregate([
+      // 1. Find the NGO
+      { $match: { _id: new mongoose.Types.ObjectId(ngoId as string) } },
+
+      // 2. Break the reviews array apart
+      { $unwind: "$reviews" },
+
+      // 3. Group by projectId and calculate the average
+      {
+        $group: {
+          _id: "$reviews.projectId",
+          averageRating: { $avg: "$reviews.rating" }
+        }
+      },
+
+      // 4. Look up the actual Project document to get its date
+      // Note: 'projects' is the default lowercase, pluralized name Mongoose uses in the DB
+      {
+        $lookup: {
+          from: "projects",
+          localField: "_id",
+          foreignField: "_id",
+          as: "projectData"
+        }
+      },
+
+      // 5. Flatten the lookup array
+      { $unwind: "$projectData" },
+
+      // 6. Sort chronologically by the project's date (1 for ascending, -1 for descending)
+      { $sort: { "projectData.date": 1 } },
+
+      // 7. Strip out everything except the calculated average
+      {
+        $project: {
+          _id: 0,
+          averageRating: 1
+        }
+      }
+    ]);
+
+    // pipelineResult looks like: [ { averageRating: 4.5 }, { averageRating: 3.2 } ]
+    // Use .map() to flatten it into a simple array of numbers just like your volunteers array
+    const flatAverages = pipelineResult.map(item => item.averageRating);
+
+    // flatAverages is now exactly what you want: [4.5, 3.2, 5, 4.8]
+    res.status(200).json(flatAverages);
+
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: 'An unknown error occurred' });
+    }
+  }
+};
