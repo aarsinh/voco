@@ -2,7 +2,6 @@ import Header from "./Headers";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ReportModal from "./ReportModal";
-import reportIcon from "./report.png"
 
 interface Volunteer {
   id: string;
@@ -87,7 +86,7 @@ function VolunteerList() {
                           className="inline-flex items-center justify-center p-2 hover:bg-gray-100 rounded-full transition-all active:scale-90 group"
                         >
                           <img 
-                            src={reportIcon} 
+                            src="./report.png" 
                             alt="Report" 
                             className="w-6 h-6 opacity-70 group-hover:opacity-100 transition-opacity" 
                           />

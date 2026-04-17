@@ -9,13 +9,14 @@ import {
     projectStatusPie,
     getNGOProfile,
     updateNGODetails,
-    getProjectHistory
-
+    getProjectHistory,
+    volPerProject,
+    ratingPerProject,
+    getTagDistribution,
+    getTopProjects
 } from '../controllers/ngo.controller'
 
 const router = express.Router();
-
-router.get("/:ngoId", getProjects);
 
 router.post("/addProject/:ngoId", addProject);
 
@@ -27,12 +28,18 @@ router.get("/VolunteerList/:id", getProjectVolunteers);
 
 router.patch("/report-volunteer/:id", updateVolunteerReport);
 
-router.get("/projectStatusPie/:id", projectStatusPie);
+router.get("/projectStatusPie/:ngoId", projectStatusPie);
+router.get("/volPerProject/:ngoId", volPerProject);
+router.get("/projectRatings/:ngoId", ratingPerProject);
+router.get("/projectTags/:ngoId", getTagDistribution);
+router.get("/topProjects/:ngoId", getTopProjects);
 
 router.get("/profile-data/:ngoId", getNGOProfile);
 
 router.patch("/update-details/:id", updateNGODetails);
 
 router.get("/history/:ngoId", getProjectHistory);
+
+router.get("/:ngoId", getProjects);
 
 export default router;
