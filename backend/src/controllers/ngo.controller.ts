@@ -271,3 +271,25 @@ export const projectStatusPie = async (req: Request, res: Response) => {
 
   return res.status(200).json(statusCounts);
 };
+
+// ngo.controller.ts
+export const getProjectHistory = async (req: Request, res: Response) => {
+  try {
+    const { ngoId } = req.params;
+    
+    // Find NGO and only populate projects where status is 'Completed'
+    const ngo = await NGO.findById(ngoId).populate({
+      path: 'projects',
+      match: { status: 'Completed' },
+      options: { sort: { date: -1 } } 
+    });
+
+    if (!ngo) {
+      return res.status(404).json({ message: 'NGO not found' });
+    }
+
+    res.json(ngo.projects);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+}

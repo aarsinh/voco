@@ -8,7 +8,8 @@ import {
     updateVolunteerReport,
     projectStatusPie,
     getNGOProfile,
-    updateNGODetails
+    updateNGODetails,
+    getProjectHistory
 
 } from '../controllers/ngo.controller'
 
@@ -31,5 +32,7 @@ router.get("/projectStatusPie/:id", projectStatusPie);
 router.get("/profile-data/:ngoId", getNGOProfile);
 
 router.patch("/update-details/:id", updateNGODetails);
+
+router.get("/history/:ngoId", getProjectHistory);
 
 export default router;
