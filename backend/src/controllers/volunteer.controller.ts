@@ -74,6 +74,26 @@ export const unregisterProject = async (req: Request, res: Response) => {
   }
 }
 
+export const getVolunteerAllProjects = async (req: Request, res: Response) => {
+  try {
+    const { volunteerId } = req.params;
+    const volunteer = await Volunteer.findById(volunteerId).populate('registeredProjects.project');
+    if (!volunteer) {
+      return res.status(404).json({ message: 'Volunteer not found' });
+    }
+
+    res.status(200).json({
+      message: 'Fetched Successfully',
+      regProj: volunteer.registeredProjects
+    });
+  } catch (err) {
+    console.error('volunteer controller getVolunteerAllProjects', err);
+    res.status(500).json({
+      message: 'Server error'
+    });
+  }
+}
+
 export const showRegisteredProj = async (req: Request, res: Response) => {
   try {
     const { volunteerId } = req.params;
@@ -100,6 +120,73 @@ export const showRegisteredProj = async (req: Request, res: Response) => {
     });
   }
 }
+
+export const getVolunteerProfile = async (req: Request, res: Response) => {
+  try {
+    const { volunteerId } = req.params;
+    const volunteer = await Volunteer.findById(volunteerId)
+      .select('username name email age sex phoneNumber preferences reports');
+
+    if (!volunteer) {
+      return res.status(404).json({ message: 'Volunteer not found' });
+    }
+
+    res.json({
+      details: {
+        username: volunteer.username,
+        name: volunteer.name,
+        email: volunteer.email,
+        age: volunteer.age,
+        sex: volunteer.sex,
+        phoneNumber: volunteer.phoneNumber,
+        preferences: volunteer.preferences,
+        reports: volunteer.reports || []
+      }
+    });
+  } catch (err) {
+    console.error('Error fetching volunteer profile:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+}
+
+export const updateVolunteerDetails = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { username, name, email, phoneNumber, age, sex, password } = req.body;
+
+    const volunteer = await Volunteer.findById(id);
+    if (!volunteer) return res.status(404).json({ message: "Volunteer not found" });
+
+    volunteer.username = username || volunteer.username;
+    volunteer.name = name || volunteer.name;
+    volunteer.email = email || volunteer.email;
+    volunteer.phoneNumber = phoneNumber || volunteer.phoneNumber;
+    volunteer.age = age || volunteer.age;
+    volunteer.sex = sex || volunteer.sex;
+
+    if (password && password.trim() !== "") {
+      volunteer.password = password;
+    }
+
+    await volunteer.save();
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      details: {
+        username: volunteer.username,
+        name: volunteer.name,
+        email: volunteer.email,
+        phoneNumber: volunteer.phoneNumber,
+        age: volunteer.age,
+        sex: volunteer.sex
+      }
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 
 export const showUpcomingProj = async (req: Request, res: Response) => {
   try {
@@ -234,3 +321,4 @@ export const submitReview = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+

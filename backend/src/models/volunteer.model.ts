@@ -58,7 +58,12 @@ const volunteerSchema = new mongoose.Schema({
     }
   ],
   reports: {
-    type: [String], 
+    type: [{
+      ngoId: { type: Schema.Types.ObjectId, ref: 'NGO' },
+      ngoName: String,
+      comment: String,
+      createdAt: { type: Date, default: Date.now }
+    }],
     default: []
   }
 }, { timestamps: true });

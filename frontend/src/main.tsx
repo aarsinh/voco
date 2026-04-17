@@ -9,8 +9,9 @@ import { ProtectedLayoutContent } from './components/ProtectedLayout';
 import { Login } from './Login';
 import { Signup } from './Signup';
 import VolunteerList from "./components/ngo/volunteerList";
-import NGO from './components/ngo/Homepage.tsx'
-import Volunteer from './components/volunteer/HomePage.tsx';
+import NGO from './components/ngo/Homepage'
+import Volunteer from './components/volunteer/HomePage';
+import VolunteerProfile from './components/volunteer/profile';
 import './index.css'
 import Profile from './components/ngo/profile';
 
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
       <Route element={<PrivateRoute allowedRoles={['volunteer']} />}>
         <Route element={<ProtectedLayoutContent />}>
           <Route path="/volunteer" element={<Volunteer />} />
+          <Route path="/volunteer/profile" element={<VolunteerProfile />} />
           <Route path="/volunteer/project/:projectId/volunteers" element={<VolunteerList />} />
           <Route path="/volunteer/ngo/:id" element={<Profile />} />
         </Route>

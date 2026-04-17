@@ -3,6 +3,7 @@ import ShowProjectList from './ShowProjList';
 import ShowRegisteredList from './RegisteredProjList';
 import { useAuth } from '../../hooks/useAuth';
 import { usePreferencesModal } from '../../hooks/usePreferencesModal';
+import Profile from './profile';
 
 type Tab = 'profile' | 'registered' | 'all' | 'history';
 
@@ -61,16 +62,7 @@ function Dashboard() {
             {/* Main content */}
             <main className="flex-1 p-8 overflow-auto">
                 {activeTab === 'profile' && (
-                    <div className="bg-white rounded-xl shadow-lg p-8 max-w-lg">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-4">Profile</h2>
-                        <p className="text-gray-500">Name: {name}</p>
-                        <button
-                            onClick={openPreferencesModal}
-                            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
-                        >
-                            Edit Preferences
-                        </button>
-                    </div>
+                    <Profile />
                 )}
 
                 {activeTab === 'registered' && (
