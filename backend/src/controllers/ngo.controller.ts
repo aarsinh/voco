@@ -265,7 +265,6 @@ export const projectStatusPie = async (req: Request, res: Response) => {
   return res.status(200).json(statusCounts);
 };
 
-// ngo.controller.ts
 export const getProjectHistory = async (req: Request, res: Response) => {
   try {
     const { ngoId } = req.params;
@@ -310,22 +309,14 @@ export const ratingPerProject = async(req: Request, res: Response) => {
     const { ngoId } = req.params;
 
     const pipelineResult = await NGO.aggregate([
-      // 1. Find the NGO
       { $match: { _id: new mongoose.Types.ObjectId(ngoId as string) } },
-
-      // 2. Break the reviews array apart
       { $unwind: "$reviews" },
-
-      // 3. Group by projectId and calculate the average
       {
         $group: {
           _id: "$reviews.projectId",
           averageRating: { $avg: "$reviews.rating" }
         }
       },
-
-      // 4. Look up the actual Project document to get its date
-      // Note: 'projects' is the default lowercase, pluralized name Mongoose uses in the DB
       {
         $lookup: {
           from: "projects",
@@ -334,14 +325,8 @@ export const ratingPerProject = async(req: Request, res: Response) => {
           as: "projectData"
         }
       },
-
-      // 5. Flatten the lookup array
       { $unwind: "$projectData" },
-
-      // 6. Sort chronologically by the project's date (1 for ascending, -1 for descending)
       { $sort: { "projectData.date": 1 } },
-
-      // 7. Strip out everything except the calculated average
       {
         $project: {
           _id: 0,
@@ -371,10 +356,7 @@ export const getTagDistribution = async (req: Request, res: Response) => {
     const { ngoId } = req.params;
 
     const tagsData = await NGO.aggregate([
-      // 1. Find the NGO
       { $match: { _id: new mongoose.Types.ObjectId(ngoId as string) } },
-
-      // 2. Look up all the actual Project documents using the ID array
       {
         $lookup: {
           from: "projects",
@@ -383,26 +365,17 @@ export const getTagDistribution = async (req: Request, res: Response) => {
           as: "projectData"
         }
       },
-
-      // 3. Break the projects array apart
       { $unwind: "$projectData" },
-
-      // 4. Break the tags array apart (so a project with 3 tags becomes 3 documents)
       { $unwind: "$projectData.tags" },
-
-      // 5. Group by the tag name and count them
       {
         $group: {
           _id: "$projectData.tags",
           count: { $sum: 1 }
         }
       },
-
-      // 6. Sort alphabetically (optional, but keeps the chart stable)
       { $sort: { _id: 1 } }
     ]);
 
-    // Format for Recharts: rename _id to "subject" and count to "A"
     const formattedForRecharts = tagsData.map(tag => ({
       subject: tag._id,
       count: tag.count
@@ -412,5 +385,35 @@ export const getTagDistribution = async (req: Request, res: Response) => {
 
   } catch (error: any) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const getTopProjects = async (req: Request, res: Response) => {
+  try {
+    const { ngoId } = req.params;
+
+    const ngoData = await NGO.findById(ngoId)
+      .populate({
+        path: 'projects',
+        options: {
+          sort: { registrations: -1 }, 
+          limit: 3 
+        },
+        select: 'name registrations date status'
+      })
+      .lean();
+
+    if (!ngoData) {
+      return res.status(404).json({ message: 'NGO not found' });
+    }
+
+    res.status(200).json(ngoData.projects);
+
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: 'An unknown error occurred' });
+    }
   }
 };

@@ -12,7 +12,8 @@ import {
     getProjectHistory,
     volPerProject,
     ratingPerProject,
-    getTagDistribution
+    getTagDistribution,
+    getTopProjects
 } from '../controllers/ngo.controller'
 
 const router = express.Router();
@@ -31,6 +32,7 @@ router.get("/projectStatusPie/:ngoId", projectStatusPie);
 router.get("/volPerProject/:ngoId", volPerProject);
 router.get("/projectRatings/:ngoId", ratingPerProject);
 router.get("/projectTags/:ngoId", getTagDistribution);
+router.get("/topProjects/:ngoId", getTopProjects);
 
 router.get("/profile-data/:ngoId", getNGOProfile);
 
