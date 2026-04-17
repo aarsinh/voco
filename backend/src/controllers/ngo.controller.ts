@@ -365,3 +365,52 @@ export const ratingPerProject = async(req: Request, res: Response) => {
     }
   }
 };
+
+export const getTagDistribution = async (req: Request, res: Response) => {
+  try {
+    const { ngoId } = req.params;
+
+    const tagsData = await NGO.aggregate([
+      // 1. Find the NGO
+      { $match: { _id: new mongoose.Types.ObjectId(ngoId as string) } },
+
+      // 2. Look up all the actual Project documents using the ID array
+      {
+        $lookup: {
+          from: "projects",
+          localField: "projects",
+          foreignField: "_id",
+          as: "projectData"
+        }
+      },
+
+      // 3. Break the projects array apart
+      { $unwind: "$projectData" },
+
+      // 4. Break the tags array apart (so a project with 3 tags becomes 3 documents)
+      { $unwind: "$projectData.tags" },
+
+      // 5. Group by the tag name and count them
+      {
+        $group: {
+          _id: "$projectData.tags",
+          count: { $sum: 1 }
+        }
+      },
+
+      // 6. Sort alphabetically (optional, but keeps the chart stable)
+      { $sort: { _id: 1 } }
+    ]);
+
+    // Format for Recharts: rename _id to "subject" and count to "A"
+    const formattedForRecharts = tagsData.map(tag => ({
+      subject: tag._id,
+      count: tag.count
+    }));
+
+    res.status(200).json(formattedForRecharts);
+
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};

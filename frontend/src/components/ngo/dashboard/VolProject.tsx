@@ -4,7 +4,6 @@ import { useAuth } from "../../../hooks/useAuth";
 import {
     BarChart,
     Bar,
-    Cell,
     XAxis,
     YAxis,
     CartesianGrid,
@@ -97,13 +96,7 @@ function VolPerProject() {
                                             fill="#14b8a6"
                                             isAnimationActive={true}
                                             animationDuration={1000}
-                                        >
-                                            {data.map((entry, index) => (
-                                                <Cell
-                                                    key={`cell-${index}`}
-                                                    fill={'#14b8a6'}
-                                                />
-                                            ))}
+                                        >           
                                         </Bar>
                                     </BarChart>
                                 </ResponsiveContainer>

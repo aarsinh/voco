@@ -11,8 +11,8 @@ import {
     updateNGODetails,
     getProjectHistory,
     volPerProject,
-    ratingPerProject
-
+    ratingPerProject,
+    getTagDistribution
 } from '../controllers/ngo.controller'
 
 const router = express.Router();
@@ -30,6 +30,7 @@ router.patch("/report-volunteer/:id", updateVolunteerReport);
 router.get("/projectStatusPie/:ngoId", projectStatusPie);
 router.get("/volPerProject/:ngoId", volPerProject);
 router.get("/projectRatings/:ngoId", ratingPerProject);
+router.get("/projectTags/:ngoId", getTagDistribution);
 
 router.get("/profile-data/:ngoId", getNGOProfile);
 
