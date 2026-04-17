@@ -60,8 +60,8 @@ function Profile() {
           <div className="mb-6">
             <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">Ongoing Projects</h4>
             <div className="space-y-2">
-              {ongoingProjects.map((rp, idx) => (
-                <div key={idx} className="bg-blue-50 border border-blue-100 rounded-lg p-3">
+              {ongoingProjects.map((rp) => (
+                <div key={rp.project._id} className="bg-blue-50 border border-blue-100 rounded-lg p-3">
                   <p className="font-medium text-gray-800">{rp.project?.name || 'Unknown'}</p>
                   <p className="text-sm text-gray-500">{rp.project?.ngo || 'Unknown NGO'} • {rp.project?.date ? new Date(rp.project.date).toLocaleDateString() : 'TBD'}</p>
                 </div>
@@ -74,8 +74,8 @@ function Profile() {
           <div>
             <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">Completed Projects</h4>
             <div className="space-y-2">
-              {completedProjects.map((rp, idx) => (
-                <div key={idx} className="bg-green-50 border border-green-100 rounded-lg p-3">
+              {completedProjects.map((rp) => (
+                <div key={rp.project._id} className="bg-green-50 border border-green-100 rounded-lg p-3">
                   <p className="font-medium text-gray-800">{rp.project?.name || 'Unknown'}</p>
                   <p className="text-sm text-gray-500">{rp.project?.ngo || 'Unknown NGO'} • {rp.project?.date ? new Date(rp.project.date).toLocaleDateString() : 'TBD'}</p>
                 </div>

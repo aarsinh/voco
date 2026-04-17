@@ -4,7 +4,7 @@ export interface EventType {
     date: Date
     address: string
     status?: string
-    registrations?: Number
+    registrations?: number
     ngo?: string
     tags: string[]
 }

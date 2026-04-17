@@ -9,9 +9,9 @@ const PREFERENCES = [
 ];
 
 interface PreferencesModalProps {
-  volunteerId: string;
-  onClose: () => void;
-  onSave: (preferences: string[]) => void;
+  readonly volunteerId: string;
+  readonly onClose: () => void;
+  readonly onSave: (preferences: string[]) => void;
 }
 
 export function PreferencesModal({ volunteerId, onClose, onSave }: PreferencesModalProps) {

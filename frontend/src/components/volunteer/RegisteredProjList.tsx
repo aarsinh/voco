@@ -44,8 +44,8 @@ function ShowRegisteredList() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {projects.map((regProject, k) => (
-                <RegProjectCard project={regProject.project} status={regProject.status} key={k} />
+              {projects.map((regProject) => (
+                <RegProjectCard project={regProject.project} status={regProject.status} key={regProject.project._id} />
               ))}
             </tbody>
           </table>

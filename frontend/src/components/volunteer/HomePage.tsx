@@ -8,7 +8,7 @@ import Profile from './profile';
 type Tab = 'profile' | 'registered' | 'all';
 
 function Dashboard() {
-    const { userId, name } = useAuth();
+    const { userId } = useAuth();
     const { openPreferencesModal } = usePreferencesModal();
     const [activeTab, setActiveTab] = useState<Tab>('registered');
     const [filterByPrefs, setFilterByPrefs] = useState(false);
@@ -22,7 +22,7 @@ function Dashboard() {
                 credentials: 'include'
             });
             const data = await response.json();
-            if (data.preferences && data.preferences.length === 0) {
+            if (data.preferences?.length === 0) {
                 openPreferencesModal();
             }
         } catch (err) {

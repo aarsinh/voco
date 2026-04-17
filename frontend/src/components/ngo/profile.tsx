@@ -20,26 +20,20 @@ function Profile() {
   const { id: urlNgoId } = useParams<{ id: string }>(); // Get ID from URL
   const { userId: loggedInId } = useAuth();
   
-  // Decide which ID to use: 
-  // If we are on the volunteer side, use ID from URL. 
-  // If we are the NGO looking at our own profile tab, use our own ID.
   const profileId = urlNgoId || loggedInId;
-  
-  // A volunteer is viewing if the URL ID exists AND it's not theirs
+
   const isOwner = loggedInId === profileId;
 
   const [data, setData] = useState<ProfileData | null>(null);
-  const [error, setError] = useState<string | null>(null); // Added error state
+  const [error, setError] = useState<string | null>(null); 
   const [expandedProjects, setExpandedProjects] = useState<Record<string, boolean>>({});
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    // Reset states when the ID changes
     setData(null);
     setError(null);
 
-    // If profileId is null/undefined/empty string, we wait.
     if (!profileId || profileId === "undefined") {
       console.log("Waiting for profileId...");
       return;
@@ -67,13 +61,12 @@ function Profile() {
     setData((prev: any) => ({ ...prev, details: updatedDetails }));
   };
 
-    // 1. Error State
     if (error) {
         return (
         <div className="p-8 text-center">
             <p className="text-red-500 font-semibold">Error: {error}</p>
             <button 
-            onClick={() => window.location.reload()} 
+            onClick={() => globalThis.location.reload()} 
             className="mt-4 text-blue-600 underline"
             >
             Try Refreshing
@@ -82,7 +75,6 @@ function Profile() {
         );
     }
 
-    // 2. Loading State
     if (!data) {
         return (
         <div className="p-8 text-center text-gray-500">
@@ -92,7 +84,6 @@ function Profile() {
         );
     }
 
-  // Group reviews by Project Name
     const groupedReviews = (data?.reviews ?? []).reduce((acc, review) => {
     const projId = review.projectId?._id;
     if (!projId) return acc; // Safety check
@@ -105,7 +96,6 @@ function Profile() {
     setExpandedProjects(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
-  // Star Logic: Fills stars based on rating
   const renderStars = (rating: number) => {
     return (
       <div className="flex gap-1">
@@ -157,7 +147,7 @@ function Profile() {
       <section className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center">
         <h2 className="text-xl font-bold text-gray-800 mb-4">Average Rating</h2>
         <div className="text-5xl font-black text-gray-900 mb-2">{data.avgRating}</div>
-        {renderStars(parseFloat(data.avgRating))}
+        {renderStars(Number.parseFloat(data.avgRating))}
         <p className="text-sm text-gray-400 mt-2">Based on {data.reviews.length} reviews</p>
       </section>
 

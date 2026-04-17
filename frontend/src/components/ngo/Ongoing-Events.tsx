@@ -3,8 +3,8 @@ import Events from "./Events"
 import type { EventType } from "./types"
 
 interface OngoingEventsProps {
-  events: EventType[]
-  deleteEvent: (id: string) => void
+  readonly events: EventType[]
+  readonly deleteEvent: (id: string) => void
 }
 
 function OngoingEvents({ events, deleteEvent }: OngoingEventsProps) {
@@ -14,7 +14,7 @@ function OngoingEvents({ events, deleteEvent }: OngoingEventsProps) {
       {events.length > 0 ? (
         <Events events={events} onDelete={deleteEvent} />
       ) : (
-        <p className="text-center text-1xl text-grey">No Events</p>
+        <p className="text-center text-xl text-gray-500">No Events</p>
       )}
     </div>
   )

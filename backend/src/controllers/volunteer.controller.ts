@@ -228,8 +228,8 @@ export const UpdatePreferences = async (req: Request, res: Response) => {
       return;
     }
 
-    const validPreferences = ['Education', 'Environment', 'Healthcare', 'Elderly Care', 'Animal Welfare'];
-    const invalidPrefs = preferences.filter(p => !validPreferences.includes(p));
+    const validPreferences  = new Set(['Education', 'Environment', 'Healthcare', 'Elderly Care', 'Animal Welfare']);
+    const invalidPrefs = preferences.filter(p => !validPreferences.has(p));
     if (invalidPrefs.length > 0) {
       res.status(400).json({ message: `Invalid preferences: ${invalidPrefs.join(', ')}` });
       return;

@@ -5,7 +5,7 @@ import type { Project } from '../../types';
 import { useAuth } from "../../hooks/useAuth.ts";
 
 interface ShowProjectListProps {
-  filterByPrefs?: boolean;
+  readonly filterByPrefs?: boolean;
 }
 
 function ShowProjectList({ filterByPrefs = false }: ShowProjectListProps) {
@@ -51,8 +51,8 @@ function ShowProjectList({ filterByPrefs = false }: ShowProjectListProps) {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {projects.map((project, k) => (
-                <ProjectCard project={project} key={k} />
+              {projects.map((project) => (
+                <ProjectCard project={project} key={project._id} />
               ))}
             </tbody>
           </table>

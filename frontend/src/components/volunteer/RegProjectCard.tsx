@@ -25,7 +25,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
         volunteerId: vid,
         projectId: project._id
       });
-      window.location.reload();
+      globalThis.location.reload();
     } catch (err) {
       console.error('RegProjCard', err);
     }
@@ -51,7 +51,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
       });
 
       setIsModalOpen(false);
-      window.location.reload();
+      globalThis.location.reload();
     } catch (err) {
       console.error('RegProjCard error during finalization', err);
     }

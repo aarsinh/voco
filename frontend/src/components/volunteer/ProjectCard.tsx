@@ -19,7 +19,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         volunteerId: vid,
         projectId: project._id
       });
-      window.location.reload();
+      globalThis.location.reload();
     } catch (err) {
       console.log(err);
     }

@@ -1,7 +1,7 @@
 interface ButtonProps {
-    text: string;
-    onClick: () => void;
-    className?: string;  // optional
+    readonly text: string;
+    readonly onClick: () => void;
+    readonly className?: string;  // optional
 }
 
 function Button({ text, onClick, className }: ButtonProps) {

@@ -66,38 +66,44 @@ function Addevent({ onAdd, ngo }: Readonly<AddEventProps>) {
       onSubmit={onSubmit}
     >
       <div className="flex flex-col">
-        <label className="mb-1 text-sm text-gray-300">Event Name</label>
-        <input
-          className="w-full p-2 rounded-md bg-gray-800 border border-gray-600 text-white focus:ring-2 focus:ring-sky-400 outline-none"
-          type="text"
-          placeholder=""
-          value={Eventname}
-          onChange={(e) => setEventname(e.target.value)}
-          required
-        />
+        <label className="mb-1 text-sm text-gray-300">
+          Event Name
+          <input
+            className="w-full p-2 rounded-md bg-gray-800 border border-gray-600 text-white focus:ring-2 focus:ring-sky-400 outline-none"
+            type="text"
+            placeholder=""
+            value={Eventname}
+            onChange={(e) => setEventname(e.target.value)}
+            required
+            />
+        </label>
       </div>
 
       <div className="flex flex-col">
-        <label className="mb-1 text-sm text-gray-300">Date</label>
-        <input
-          className="w-full p-2 rounded-md bg-gray-800 border border-gray-600 text-white focus:ring-2 focus:ring-sky-400 outline-none"
-          type="date"
-          placeholder="Add Date"
-          value={day}
-          onChange={(e) => setDay(e.target.value)}
-          required
-        />
+        <label className="mb-1 text-sm text-gray-300">
+          Date
+          <input
+            className="w-full p-2 rounded-md bg-gray-800 border border-gray-600 text-white focus:ring-2 focus:ring-sky-400 outline-none"
+            type="date"
+            placeholder="Add Date"
+            value={day}
+            onChange={(e) => setDay(e.target.value)}
+            required
+            />
+        </label>
       </div>
 
       <div className="flex flex-col">
-        <label className="mb-1 text-sm text-gray-300">Address</label>
-        <input
-          className="w-full p-2 rounded-md bg-gray-800 border border-gray-600 text-white focus:ring-2 focus:ring-sky-400 outline-none"
-          type="text"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          required
-        />
+        <label className="mb-1 text-sm text-gray-300">
+          Address
+          <input
+            className="w-full p-2 rounded-md bg-gray-800 border border-gray-600 text-white focus:ring-2 focus:ring-sky-400 outline-none"
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            required
+            />
+        </label>
       </div>
 
       <div className="flex flex-col">

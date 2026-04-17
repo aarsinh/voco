@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { PreferencesModalContext } from './PreferencesModalContext.ts';
 
-export function PreferencesModalProvider({ children }: { children: React.ReactNode }) {
+export function PreferencesModalProvider({ children }: Readonly<{ children: React.ReactNode }>) {
   const [show, setShow] = useState(false);
 
   const open = useCallback(() => setShow(true), []);

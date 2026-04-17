@@ -2,7 +2,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
-  onOpenPreferences?: () => void;
+  readonly onOpenPreferences?: () => void;
 }
 
 export function Header({ onOpenPreferences }: HeaderProps) {

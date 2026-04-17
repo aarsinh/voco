@@ -69,72 +69,79 @@ function StatusPie() {
 
     const data = processData(rawCounts);
 
+    let content;
+
+    if(loading){
+        content = <p className="text-slate-500 text-sm">Loading...</p>;
+    } else if(data.length === 0){
+        content = <p className="text-slate-500 text-sm">No project data yet.</p>;
+    } else {
+        content = (
+            <div className="flex items-center gap-10 mt-2">
+                {/* Left: Animated Pie Chart */}
+                <div className="w-40 h-40 shrink-0">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+                            <Pie
+                                data={data}
+                                dataKey="value"
+                                nameKey="name"
+                                cx="50%"
+                                cy="50%"
+                                outerRadius={80}
+                                // Set innerRadius to give it that 'central void' donut style
+                                innerRadius={60}
+                                paddingAngle={2} // Subtly separates segments
+                                isAnimationActive={true} // FANS OUT THE SLICES!
+                                animationDuration={1000} // Fast but visible growth
+                                animationEasing="ease-out"
+                            >
+                                {data.map((entry) => (
+                                    <Cell key={`cell-${entry.name}`} fill={entry.fill} stroke="none" />
+                                ))}
+                            </Pie>
+
+                            {/* Matches the dark tooltip theme from the line chart */}
+                            <Tooltip
+                                contentStyle={{
+                                    backgroundColor: '#1e293b',
+                                    borderColor: '#334155',
+                                    borderRadius: '0.5rem',
+                                    color: '#f8fafc',
+                                    fontSize: '12px'
+                                }}
+                            />
+                        </PieChart>
+                    </ResponsiveContainer>
+                </div>
+
+                {/* Right: Recreating your exact Legend style */}
+                <div className="flex flex-col gap-3">
+                    {data.map(slice => (
+                        <div key={slice.name} className="flex items-center gap-2 text-sm">
+                            <span
+                                className="w-3 h-3 rounded-full shrink-0"
+                                style={{ background: slice.fill }}
+                            />
+                            <span className="text-slate-300 font-medium">{slice.name}</span>
+                            <span className="text-slate-500 ml-1">
+                                {slice.value} ({slice.percentage}%)
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="bg-slate-800 rounded-xl p-6 w-full h-full flex flex-col">
             <h2 className="text-sm uppercase tracking-widest text-slate-400 mb-5">
                 Project Status Breakdown
             </h2>
 
-            {loading ? (
-                <p className="text-slate-500 text-sm">Loading...</p>
-            ) : data.length === 0 ? (
-                <p className="text-slate-500 text-sm">No project data yet.</p>
-            ) : (
-                <div className="flex items-center gap-10 mt-2">
-                    {/* Left: Animated Pie Chart */}
-                    <div className="w-40 h-40 shrink-0">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
-                                <Pie
-                                    data={data}
-                                    dataKey="value"
-                                    nameKey="name"
-                                    cx="50%"
-                                    cy="50%"
-                                    outerRadius={80}
-                                    // Set innerRadius to give it that 'central void' donut style
-                                    innerRadius={60}
-                                    paddingAngle={2} // Subtly separates segments
-                                    isAnimationActive={true} // FANS OUT THE SLICES!
-                                    animationDuration={1000} // Fast but visible growth
-                                    animationEasing="ease-out"
-                                >
-                                    {data.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={entry.fill} stroke="none" />
-                                    ))}
-                                </Pie>
+            {content}
 
-                                {/* Matches the dark tooltip theme from the line chart */}
-                                <Tooltip
-                                    contentStyle={{
-                                        backgroundColor: '#1e293b',
-                                        borderColor: '#334155',
-                                        borderRadius: '0.5rem',
-                                        color: '#f8fafc',
-                                        fontSize: '12px'
-                                    }}
-                                />
-                            </PieChart>
-                        </ResponsiveContainer>
-                    </div>
-
-                    {/* Right: Recreating your exact Legend style */}
-                    <div className="flex flex-col gap-3">
-                        {data.map(slice => (
-                            <div key={slice.name} className="flex items-center gap-2 text-sm">
-                                <span
-                                    className="w-3 h-3 rounded-full shrink-0"
-                                    style={{ background: slice.fill }}
-                                />
-                                <span className="text-slate-300 font-medium">{slice.name}</span>
-                                <span className="text-slate-500 ml-1">
-                                    {slice.value} ({slice.percentage}%)
-                                </span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

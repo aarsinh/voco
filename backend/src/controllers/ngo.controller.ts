@@ -51,7 +51,7 @@ export const addProject = async (req: Request, res: Response): Promise<void> => 
 
     const savedProject = await newProject.save();
 
-    const updatedNGO = await NGO.findByIdAndUpdate(
+    await NGO.findByIdAndUpdate(
       ngoId,
       { $addToSet: { projects: savedProject._id } },
       { returnDocument: 'after' }
@@ -96,7 +96,7 @@ export const delProject = async (req: Request, res: Response): Promise<void> => 
       return;
     }
 
-    const updatedNGO = await NGO.findByIdAndUpdate(
+    await NGO.findByIdAndUpdate(
       ngoId,
       { 
         $pull: { projects: projId },

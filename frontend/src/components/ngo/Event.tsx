@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 interface EventProps {
-  event: EventType
-  onDelete: (id: string) => void
+  readonly event: EventType
+  readonly onDelete: (id: string) => void
 }
 
 function Event({ event, onDelete }: EventProps) {
@@ -16,7 +16,7 @@ function Event({ event, onDelete }: EventProps) {
             await axios.patch(`${API}/api/ngo/completeEvent`, {
                 projectId: event._id,
             });
-            window.location.reload();
+            globalThis.location.reload();
         } catch (err) {
             console.error('NGO Event completeEvent', err);
         }

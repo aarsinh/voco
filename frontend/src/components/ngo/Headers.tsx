@@ -1,5 +1,5 @@
 interface HeaderProps{
-    title: String;
+    readonly title: string;
 }
 function Header({title}: HeaderProps) {
     return (
