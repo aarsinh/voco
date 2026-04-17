@@ -289,6 +289,7 @@ export const volPerProject = async(req: Request, res: Response) => {
   const { ngoId } = req.params;
   const ngo = await NGO.findById(ngoId).populate({
     path: 'projects', 
+    match: { status: { $ne: 'Ongoing' } },
     options: { sort: { date: 1 } }
   }).lean(); //lean makes query faster as it is just a read
   if(!ngo){
