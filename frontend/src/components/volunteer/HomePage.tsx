@@ -5,7 +5,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { usePreferencesModal } from '../../hooks/usePreferencesModal';
 import Profile from './profile';
 
-type Tab = 'profile' | 'registered' | 'all' | 'history';
+type Tab = 'profile' | 'registered' | 'all';
 
 function Dashboard() {
     const { userId, name } = useAuth();
@@ -38,7 +38,6 @@ function Dashboard() {
         { id: 'profile', label: 'Profile' },
         { id: 'registered', label: 'Registered Projects' },
         { id: 'all', label: 'All Projects' },
-        { id: 'history', label: 'Project History' },
     ];
 
     return (
@@ -86,12 +85,6 @@ function Dashboard() {
                     </div>
                 )}
 
-                {activeTab === 'history' && (
-                    <div className="bg-white rounded-xl shadow-lg p-8">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-4">Project History</h2>
-                        <p className="text-gray-500">Completed projects will appear here.</p>
-                    </div>
-                )}
             </main>
         </div>
     );
