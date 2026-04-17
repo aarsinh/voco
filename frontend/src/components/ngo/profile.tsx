@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
+import { useParams } from "react-router-dom";
 import EditProfileModal from "./EditProfileModal";
 
 interface Review {
@@ -16,34 +17,89 @@ interface ProfileData {
 }
 
 function Profile() {
-  const { userId } = useAuth();
+  const { id: urlNgoId } = useParams<{ id: string }>(); // Get ID from URL
+  const { userId: loggedInId } = useAuth();
+  
+  // Decide which ID to use: 
+  // If we are on the volunteer side, use ID from URL. 
+  // If we are the NGO looking at our own profile tab, use our own ID.
+  const profileId = urlNgoId || loggedInId;
+  
+  // A volunteer is viewing if the URL ID exists AND it's not theirs
+  const isOwner = loggedInId === profileId;
+
   const [data, setData] = useState<ProfileData | null>(null);
+  const [error, setError] = useState<string | null>(null); // Added error state
   const [expandedProjects, setExpandedProjects] = useState<Record<string, boolean>>({});
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    if (userId) {
-      fetch(`${API}/api/ngo/profile-data/${userId}`)
-        .then(res => res.json())
-        .then(data => setData(data))
-        .catch(err => console.error("Error fetching profile:", err));
+    // Reset states when the ID changes
+    setData(null);
+    setError(null);
+
+    // If profileId is null/undefined/empty string, we wait.
+    if (!profileId || profileId === "undefined") {
+      console.log("Waiting for profileId...");
+      return;
     }
-  }, [userId, API]);
+
+
+    fetch(`${API}/api/ngo/profile-data/${profileId}`)
+        .then(res => {
+            if (!res.ok) {
+            if (res.status === 404) throw new Error("NGO Profile not found");
+            throw new Error(`Server error: ${res.status}`);
+            }
+            return res.json();
+        })
+        .then(fetchedData => {
+            setData(fetchedData);
+        })
+        .catch(err => {
+            console.error("Fetch error:", err);
+            setError(err.message);
+        });
+    }, [profileId, API]);
 
   const handleUpdate = (updatedDetails: any) => {
     setData((prev: any) => ({ ...prev, details: updatedDetails }));
   };
 
-  if (!data) return <div className="p-8 text-gray-500 text-center">Loading Profile...</div>;
+    // 1. Error State
+    if (error) {
+        return (
+        <div className="p-8 text-center">
+            <p className="text-red-500 font-semibold">Error: {error}</p>
+            <button 
+            onClick={() => window.location.reload()} 
+            className="mt-4 text-blue-600 underline"
+            >
+            Try Refreshing
+            </button>
+        </div>
+        );
+    }
+
+    // 2. Loading State
+    if (!data) {
+        return (
+        <div className="p-8 text-center text-gray-500">
+            <div className="animate-spin inline-block w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full mb-2"></div>
+            <p>Loading Profile...</p>
+        </div>
+        );
+    }
 
   // Group reviews by Project Name
-  const groupedReviews = data.reviews.reduce((acc, review) => {
-    const projId = review.projectId._id;
+    const groupedReviews = (data?.reviews ?? []).reduce((acc, review) => {
+    const projId = review.projectId?._id;
+    if (!projId) return acc; // Safety check
     if (!acc[projId]) acc[projId] = { name: review.projectId.name, items: [] };
     acc[projId].items.push(review);
     return acc;
-  }, {} as Record<string, { name: string; items: Review[] }>);
+    }, {} as Record<string, { name: string; items: Review[] }>);
 
   const toggleProject = (id: string) => {
     setExpandedProjects(prev => ({ ...prev, [id]: !prev[id] }));
@@ -74,12 +130,16 @@ function Profile() {
       <section className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
         <div className="flex justify-between items-center mb-6 border-b pb-2">
           <h2 className="text-xl font-bold text-gray-800">NGO Details</h2>
-          <button 
-            onClick={() => setIsEditModalOpen(true)}
-            className="text-sm bg-blue-600 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 transition"
-          >
-            Edit Details
-          </button>
+
+          {/* THE CONDITIONAL BUTTON */}
+          {isOwner && (
+            <button 
+              onClick={() => setIsEditModalOpen(true)}
+              className="text-sm bg-blue-600 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 transition"
+            >
+              Edit Details
+            </button>
+          )}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div><p className="text-sm text-gray-500">Username</p><p className="font-medium">@{data.details.username}</p></div>
@@ -133,8 +193,8 @@ function Profile() {
         </div>
       </section>
 
-      {/* Edit Modal */}
-      {isEditModalOpen && (
+     {/* Edit Modal - Only rendered if owner */}
+      {isEditModalOpen && isOwner && (
         <EditProfileModal 
           initialData={data.details} 
           onClose={() => setIsEditModalOpen(false)} 

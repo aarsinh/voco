@@ -20,6 +20,11 @@ const projectSchema: Schema = new mongoose.Schema({
     type: String,
     required: true
   },
+  ngoId: { 
+    type: Schema.Types.ObjectId, 
+    ref: 'ngo', 
+    required: true 
+  },
   date: { 
     type: Date, 
     required: true 
