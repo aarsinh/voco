@@ -3,8 +3,9 @@ import Ongoing from "./Ongoing-Events";
 import Addevent from "./AddEvent";
 import type { EventType } from "./types";
 import { useAuth } from "../../hooks/useAuth";
-import Profile from "./profile"; // Ensure the path matches your folder structure
-import Dashboard from "./Dashboard";
+import Profile from "./profile"; 
+import Dashboard from "./dashboard/Dashboard";
+import History from "./History";
 
 // Define the available tabs
 type Tab = 'profile' | 'ongoing' | 'create' | 'history' | 'dashboard';
@@ -102,10 +103,7 @@ function App() {
           )}
 
           {activeTab === 'history' && (
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Project History</h2>
-              <p className="text-gray-500">Archive of completed and terminated projects will appear here.</p>
-            </div>
+            <History />
           )}
 
           {activeTab === 'dashboard' && (

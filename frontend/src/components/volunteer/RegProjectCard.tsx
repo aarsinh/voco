@@ -66,7 +66,7 @@ const RegProjectCard: React.FC<ProjectCardProps> = ({ project, status }) => {
         <td className={tdClass}>{project.name}</td>
 
         <td className={tdClass}>
-          <Link to={'#'} className="text-blue-600 font-bold no-underline hover:underline">
+          <Link to={`/volunteer/ngo/${project.ngoId}`} className="text-blue-600 font-bold no-underline hover:underline">
             {project.ngo || "Unknown NGO"}
           </Link>
         </td>

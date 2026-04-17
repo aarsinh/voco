@@ -4,6 +4,11 @@ export interface Project extends Document {
   name: string;
   ngo: string;
   date: Date;
+  address: string;
+  status: 'Ongoing' | 'Completed';
+  registrations: number;
+  tags: string[];
+  VolunteersRegistered: mongoose.Types.ObjectId[];
 }
 
 const projectSchema: Schema = new mongoose.Schema({
@@ -14,6 +19,11 @@ const projectSchema: Schema = new mongoose.Schema({
   ngo: { 
     type: String,
     required: true
+  },
+  ngoId: { 
+    type: Schema.Types.ObjectId, 
+    ref: 'ngo', 
+    required: true 
   },
   date: { 
     type: Date, 
