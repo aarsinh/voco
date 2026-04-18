@@ -35,35 +35,35 @@ function Profile() {
   const completedProjects = registeredProjects.filter((rp) => rp.project && (rp.status === 'Completed' || rp.status === 'completed'));
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-8 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Volunteer Profile</h2>
+    <div className="bg-neutral-50 rounded-xl shadow-lg p-8 max-w-2xl mx-auto border border-tertiary">
+      <h2 className="text-2xl font-headline font-bold text-primary mb-6">Volunteer Profile</h2>
       
       <div className="space-y-4 mb-8">
-        <div className="border-b border-gray-100 pb-2">
-          <p className="text-sm text-gray-500 uppercase tracking-wider">Name</p>
-          <p className="text-lg font-medium text-gray-900">{name || 'Unknown'}</p>
+        <div className="border-b border-tertiary pb-2">
+          <p className="text-sm text-secondary uppercase tracking-wider">Name</p>
+          <p className="text-lg font-semibold text-primary">{name || 'Unknown'}</p>
         </div>
-        <div className="border-b border-gray-100 pb-2">
-          <p className="text-sm text-gray-500 uppercase tracking-wider">Volunteer ID</p>
-          <p className="text-lg font-medium text-gray-900">{userId}</p>
+        <div className="border-b border-tertiary pb-2">
+          <p className="text-sm text-secondary uppercase tracking-wider">Volunteer ID</p>
+          <p className="text-lg font-semibold text-primary">{userId}</p>
         </div>
-        <div className="border-b border-gray-100 pb-2">
-          <p className="text-sm text-gray-500 uppercase tracking-wider">Account Type</p>
-          <p className="text-lg font-medium text-gray-900 capitalize">{role}</p>
+        <div className="border-b border-tertiary pb-2">
+          <p className="text-sm text-secondary uppercase tracking-wider">Account Type</p>
+          <p className="text-lg font-semibold text-primary capitalize">{role}</p>
         </div>
       </div>
 
       <div className="mt-8">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">Project History</h3>
+        <h3 className="text-xl font-headline font-semibold text-primary mb-4">Project History</h3>
         
         {ongoingProjects.length > 0 && (
           <div className="mb-6">
-            <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">Ongoing Projects</h4>
+            <h4 className="text-sm font-medium text-secondary uppercase tracking-wider mb-2">Ongoing Projects</h4>
             <div className="space-y-2">
               {ongoingProjects.map((rp) => (
-                <div key={rp.project._id} className="bg-blue-50 border border-blue-100 rounded-lg p-3">
-                  <p className="font-medium text-gray-800">{rp.project?.name || 'Unknown'}</p>
-                  <p className="text-sm text-gray-500">{rp.project?.ngo || 'Unknown NGO'} • {rp.project?.date ? new Date(rp.project.date).toLocaleDateString() : 'TBD'}</p>
+                <div key={rp.project._id} className="bg-tertiary/20 border border-tertiary rounded-lg p-3">
+                  <p className="font-semibold text-primary">{rp.project?.name || 'Unknown'}</p>
+                  <p className="text-sm text-secondary">{rp.project?.ngo || 'Unknown NGO'} • {rp.project?.date ? new Date(rp.project.date).toLocaleDateString() : 'TBD'}</p>
                 </div>
               ))}
             </div>
@@ -72,12 +72,12 @@ function Profile() {
 
         {completedProjects.length > 0 && (
           <div>
-            <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">Completed Projects</h4>
+            <h4 className="text-sm font-medium text-secondary uppercase tracking-wider mb-2">Completed Projects</h4>
             <div className="space-y-2">
               {completedProjects.map((rp) => (
-                <div key={rp.project._id} className="bg-green-50 border border-green-100 rounded-lg p-3">
-                  <p className="font-medium text-gray-800">{rp.project?.name || 'Unknown'}</p>
-                  <p className="text-sm text-gray-500">{rp.project?.ngo || 'Unknown NGO'} • {rp.project?.date ? new Date(rp.project.date).toLocaleDateString() : 'TBD'}</p>
+                <div key={rp.project._id} className="bg-primary/20 border border-primary rounded-lg p-3">
+                  <p className="font-semibold text-primary">{rp.project?.name || 'Unknown'}</p>
+                  <p className="text-sm text-secondary">{rp.project?.ngo || 'Unknown NGO'} • {rp.project?.date ? new Date(rp.project.date).toLocaleDateString() : 'TBD'}</p>
                 </div>
               ))}
             </div>
@@ -85,7 +85,7 @@ function Profile() {
         )}
 
         {registeredProjects.length === 0 && (
-          <p className="text-gray-500 italic">No projects yet</p>
+          <p className="text-secondary italic">No projects yet</p>
         )}
       </div>
     </div>

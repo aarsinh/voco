@@ -45,52 +45,52 @@ function ProjectRatingsBar() {
     let content;
 
     if (loading) {
-        content = <p className="text-slate-500 text-sm">Loading...</p>;
+        content = <p className="text-secondary text-sm">Loading...</p>;
     } else if (error) {
-        content = <p className="text-slate-500 text-sm">{error}</p>;
+        content = <p className="text-secondary text-sm">{error}</p>;
     } else if (data.length === 0) {
-        content = <p className="text-slate-500 text-sm">No ratings yet.</p>;
+        content = <p className="text-secondary text-sm">No ratings yet.</p>;
     } else {
         content = (
             <div className="flex-1 min-h-[250px] w-full mt-2">
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={data} margin={{ top: 5, right: 10, bottom: 5, left: -20 }}>
-                        <CartesianGrid stroke="#334155" strokeDasharray="3 3" vertical={false} />
+                        <CartesianGrid stroke="#9ca3af" strokeDasharray="3 3" vertical={false} strokeWidth={1.5} />
 
                         <XAxis
                             dataKey="count"
-                            stroke="#64748b"
-                            fontSize={12}
-                            tickLine={false}
-                            axisLine={false}
+                            stroke="var(--color-secondary)"
+                            tick={{ fill: 'var(--color-secondary)', fontWeight: 'bold', fontSize: 15 }}
+                            tickLine={{ stroke: 'var(--color-secondary)', strokeWidth: 2 }}
+                            axisLine={{ stroke: 'var(--color-secondary)', strokeWidth: 2 }}
                             dy={10}
                         />
                         <YAxis
-                            stroke="#64748b"
-                            fontSize={12}
-                            tickLine={false}
-                            axisLine={false}
+                            stroke="var(--color-secondary)"
+                            tick={{ fill: 'var(--color-secondary)', fontWeight: 'bold', fontSize: 15 }}
+                            tickLine={{ stroke: 'var(--color-secondary)', strokeWidth: 2 }}
+                            axisLine={{ stroke: 'var(--color-secondary)', strokeWidth: 2 }}
                             tickFormatter={(val) => Math.round(val).toString()}
                         />
 
                         <Tooltip
                             contentStyle={{
-                                backgroundColor: '#1e293b',
-                                borderColor: '#334155',
+                                backgroundColor: 'var(--color-neutral-50)',
+                                borderColor: 'var(--color-tertiary)',
                                 borderRadius: '0.5rem',
-                                color: '#f8fafc'
+                                color: 'var(--color-secondary)'
                             }}
-                            itemStyle={{ color: '#3b82f6' }}
+                            itemStyle={{ color: 'var(--color-chart-sage)' }}
                         />
 
                         <Line
                             type="monotone"
                             dataKey="rating"
                             name="Rating"
-                            stroke="#3b82f6"
+                            stroke="var(--color-chart-sage)"
                             strokeWidth={3}
-                            dot={{ fill: '#1e293b', stroke: '#3b82f6', strokeWidth: 2, r: 4 }}
-                            activeDot={{ r: 6, fill: '#3b82f6', stroke: '#fff' }}
+                            dot={{ fill: 'var(--color-neutral-50)', stroke: 'var(--color-chart-sage)', strokeWidth: 2, r: 4 }}
+                            activeDot={{ r: 6, fill: 'var(--color-chart-sage)', stroke: 'var(--color-neutral-50)' }}
                         />
                     </LineChart>
                 </ResponsiveContainer>
@@ -99,8 +99,8 @@ function ProjectRatingsBar() {
     }
 
     return (
-        <div className="bg-slate-800 rounded-xl p-6 w-full h-full flex flex-col">
-            <h2 className="text-sm uppercase tracking-widest text-slate-400 mb-5">
+        <div className="bg-neutral-50 border border-tertiary shadow-sm rounded-xl p-6 w-full h-full flex flex-col">
+            <h2 className="text-sm uppercase font-headline tracking-widest text-secondary mb-5">
                 Average Project Ratings
             </h2>
 

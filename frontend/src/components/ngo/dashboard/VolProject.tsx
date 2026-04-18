@@ -43,52 +43,52 @@ function VolPerProject() {
 
     let content;
     if(loading) {
-        content = <p className="text-slate-500 text-sm">Loading...</p>;
+        content = <p className="text-secondary text-sm">Loading...</p>;
     } else if(error) {
-        content = <p className="text-slate-500 text-sm">{error}</p>;
+        content = <p className="text-secondary text-sm">{error}</p>;
     } else if(data.length === 0) {
-        content = <p className="text-slate-500 text-sm">No project data yet.</p>;
+        content = <p className="text-secondary text-sm">No project data yet.</p>;
     } else {
         content = (
             <div className="flex-1 min-h-[250px] w-full mt-2">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data} margin={{ top: 5, right: 10, bottom: 5, left: -20 }}>
-                        <CartesianGrid stroke="#334155" strokeDasharray="3 3" vertical={false} />
+                        <CartesianGrid stroke="#9ca3af" strokeDasharray="3 3" vertical={false} strokeWidth={1.5} />
 
                         <XAxis
                             dataKey="count"
-                            stroke="#64748b"
-                            fontSize={12}
-                            tickLine={false}
-                            axisLine={false}
+                            stroke="var(--color-secondary)"
+                            tick={{ fill: 'var(--color-secondary)', fontWeight: 'bold', fontSize: 15 }}
+                            tickLine={{ stroke: 'var(--color-secondary)', strokeWidth: 2 }}
+                            axisLine={{ stroke: 'var(--color-secondary)', strokeWidth: 2 }}
                             dy={10}
                         />
                         
                         <YAxis
-                            stroke="#64748b"
-                            fontSize={12}
-                            tickLine={false}
-                            axisLine={false}
+                            stroke="var(--color-secondary)"
+                            tick={{ fill: 'var(--color-secondary)', fontWeight: 'bold', fontSize: 15 }}
+                            tickLine={{ stroke: 'var(--color-secondary)', strokeWidth: 2 }}
+                            axisLine={{ stroke: 'var(--color-secondary)', strokeWidth: 2 }}
                             domain={[0, 5]}
                             ticks={[0, 1, 2, 3, 4, 5]}
                         />
 
                         <Tooltip
-                            cursor={{ fill: '#334155', opacity: 0.4 }} // Hover highlight on the background
+                            cursor={{ fill: '#e5e7eb', opacity: 0.8 }}
                             contentStyle={{
-                                backgroundColor: '#1e293b',
-                                borderColor: '#334155',
+                                backgroundColor: 'var(--color-neutral-50)',
+                                borderColor: 'var(--color-tertiary)',
                                 borderRadius: '0.5rem',
-                                color: '#f8fafc'
+                                color: 'var(--color-secondary)'
                             }}
-                            itemStyle={{ color: '#14b8a6' }} // Teal text in tooltip
+                            itemStyle={{ color: 'var(--color-primary)' }}
                         />
 
                         <Bar
                             dataKey="volunteers"
                             name="Volunteers"
                             radius={[4, 4, 0, 0]}
-                            fill="#14b8a6"
+                            fill="var(--color-primary)"
                             isAnimationActive={true}
                             animationDuration={1000}
                         >
@@ -100,8 +100,8 @@ function VolPerProject() {
     }
 
     return (
-        <div className="bg-slate-800 rounded-xl p-6 w-full h-full flex flex-col">
-            <h2 className="text-sm uppercase tracking-widest text-slate-400 mb-5">
+        <div className="bg-neutral-50 border border-tertiary shadow-sm rounded-xl p-6 w-full h-full flex flex-col">
+            <h2 className="text-sm uppercase font-headline tracking-widest text-secondary mb-5">
                 Volunteer Growth Over Time
             </h2>
 
