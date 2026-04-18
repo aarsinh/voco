@@ -1,1 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
 @import "tailwindcss";
+
+@theme {
+  --font-headline: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+
+  --color-primary: #2E4D32;
+  --color-secondary: #4B3621;
+  --color-tertiary: #E8DDCA;
+  --color-neutral: #F5F5DC;
+  
+  /* Lighter variants for backgrounds */
+  --color-neutral-50: #E8DDCA; 
+  --color-neutral-100: #F5F5DC;
+  
+  /* Chart Extended Colors */
+  --color-chart-sage: #3A5A40;
+  --color-chart-gold: #D4AF37;
+  --color-chart-olive: #8F9779;
+  --color-chart-rust: #8C2D19;
+}
+
+@layer base {
+  body {
+    @apply font-body text-secondary;
+    background-image: url('/backgroundTree.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline text-primary;
+  }
+}

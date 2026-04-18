@@ -16,7 +16,7 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ allowedRoles }) => {
     return <Navigate to='/login' replace state={{ from: location }} />
   }
 
-  if (!allowedRoles.includes(role!)) {
+  if (!role || !allowedRoles.includes(role)) {
     return <Navigate to={role === 'ngo' ? '/ngo' : '/volunteer'} replace />
   }
 

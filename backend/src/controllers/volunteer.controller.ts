@@ -207,7 +207,7 @@ export const showUpcomingProj = async (req: Request, res: Response) => {
       query.tags = { $in: volunteer.preferences };
     }
 
-    const availableProj = await Project.find(query).sort({ date: -1 });
+    const availableProj = await Project.find(query).sort({ date: 1 });
 
     res.status(200).json({
       message: 'Fetched Successfully',
@@ -228,8 +228,8 @@ export const UpdatePreferences = async (req: Request, res: Response) => {
       return;
     }
 
-    const validPreferences = ['Education', 'Environment', 'Healthcare', 'Elderly Care', 'Animal Welfare'];
-    const invalidPrefs = preferences.filter(p => !validPreferences.includes(p));
+    const validPreferences  = new Set(['Education', 'Environment', 'Healthcare', 'Elderly Care', 'Animal Welfare']);
+    const invalidPrefs = preferences.filter(p => !validPreferences.has(p));
     if (invalidPrefs.length > 0) {
       res.status(400).json({ message: `Invalid preferences: ${invalidPrefs.join(', ')}` });
       return;
@@ -275,8 +275,10 @@ export const GetPreferences = async (req: Request, res: Response) => {
 export const completeTask = async (req: Request, res: Response) => {
   try{
     const { volunteerId, projectId } = req.body;
+    const safeprojId = String(projectId);
+    const safeVolId = String(volunteerId);
     const updatedVolunteer = await Volunteer.findOneAndUpdate(
-      { _id: volunteerId, 'registeredProjects.project': projectId },
+      { _id: safeVolId, 'registeredProjects.project': safeprojId },
       { $set: { 'registeredProjects.$.status': 'Completed' } },
       { returnDocument: 'after' }
     );
