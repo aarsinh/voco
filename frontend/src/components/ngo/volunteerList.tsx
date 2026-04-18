@@ -67,11 +67,11 @@ function VolunteerList() {
 
                 <tbody className="divide-y divide-tertiary">
                   {volunteers.map((vol) => (
-                    <tr key={vol.id} className="hover:bg-gray-50 transition-colors">
+                    <tr key={vol.id} className="hover:bg-tertiary/20 transition-colors">
                       <td className="py-5 px-6">
                         <Link 
                           to={`/volunteer/profile/${vol.id}`}
-                          className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
+                          className="text-primary hover:text-secondary hover:underline font-semibold"
                         >
                           {vol.username}
                         </Link>
@@ -91,7 +91,7 @@ function VolunteerList() {
                           className="inline-flex items-center justify-center p-2 hover:bg-tertiary/20 rounded-full transition-all active:scale-90 group"
                         >
                           <img 
-                            src="./report.png" 
+                            src="/report.png" 
                             alt="Report" 
                             className="w-6 h-6 opacity-70 group-hover:opacity-100 transition-opacity" 
                           />

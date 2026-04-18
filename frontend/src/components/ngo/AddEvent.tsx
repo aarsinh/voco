@@ -62,10 +62,10 @@ function Addevent({ onAdd, ngo }: Readonly<AddEventProps>) {
   }
 
   return (
-    <div className="bg-neutral-50 max-w-2xl mx-auto shadow-[0_10px_40px_rgba(0,0,0,0.08)] mt-10 mb-8 border border-tertiary p-8 rounded-xl min-h-[400px]">
+    <div className="bg-neutral-50 max-w-3xl mx-auto shadow-[0_10px_40px_rgba(0,0,0,0.08)] mt-10 mb-8 border border-tertiary p-10 rounded-xl min-h-[450px]">
       <Header title="Create a project" />
       <form
-        className="bg-primary p-6 rounded-lg shadow-md max-w-xl mx-auto space-y-4"
+        className="bg-primary p-8 rounded-lg shadow-md max-w-2xl mx-auto space-y-5 mt-4"
         onSubmit={onSubmit}
       >
         <div className="flex flex-col">

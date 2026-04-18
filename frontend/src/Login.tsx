@@ -26,14 +26,14 @@ export function Login() {
 
   return (
     <div className="h-screen flex items-center justify-center">
-      <div className="rounded-lg w-full max-w-md border-2 border-primary overflow-hidden bg-neutral-50 shadow-lg">
-        <div className="bg-primary p-3 text-neutral-50 text-center text-2xl">
+      <div className="rounded-lg w-full max-w-lg border-2 border-primary overflow-hidden bg-neutral-50 shadow-lg">
+        <div className="bg-primary p-4 text-neutral-50 text-center text-3xl">
           <h2 className="font-headline font-semibold">Login</h2>
         </div>
         <div className='flex items-center justify-center pt-5'>
           <RolePicker role={role} setRole={setRole} />
         </div>
-        <div className='px-4 pb-5'>
+        <div className='px-6 pb-8'>
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && <p className="text-red-500 text-sm">{error}</p>}
             <input placeholder="username" required className="outline outline-1 outline-secondary/30 border-2 border-tertiary focus:outline-2 focus:outline-primary focus:ring-0 w-full px-4 py-2 rounded-md bg-neutral-50 shadow-sm transition-all" onChange={(e) => { setUsername(e.target.value) }}></input>

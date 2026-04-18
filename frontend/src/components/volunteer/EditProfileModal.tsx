@@ -50,9 +50,9 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ initialData, onClos
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-md overflow-hidden border border-gray-100">
-        <div className="bg-[#1e293b] p-4 text-center">
-          <h2 className="text-xl font-semibold text-white">Edit Details</h2>
+      <div className="bg-neutral-50 rounded-lg shadow-xl w-full max-w-md overflow-hidden border-2 border-primary">
+        <div className="bg-primary p-4 text-center">
+          <h2 className="text-2xl font-headline font-semibold text-neutral-50">Edit Details</h2>
         </div>
         
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
@@ -66,14 +66,14 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ initialData, onClos
             { label: "Gender", key: "sex", type: "select" },
           ].map((field) => (
             <div key={field.key} className="flex flex-col">
-              <label className="text-sm font-medium text-gray-600 mb-1 ml-1">
+              <label className="text-sm font-semibold text-primary mb-1 ml-1">
                 {field.label}
               </label>
               {field.key === 'sex' ? (
                 <select
                   value={formData.sex || ""}
                   onChange={(e) => setFormData({ ...formData, sex: e.target.value })}
-                  className="w-full border border-gray-300 rounded-md p-2.5 text-gray-700 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                  className="w-full border border-tertiary rounded-md p-2.5 text-primary bg-neutral-50 focus:ring-2 focus:ring-primary outline-none transition-all shadow-sm"
                 >
                   <option value="">Select Gender</option>
                   <option value="male">Male</option>
@@ -85,7 +85,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ initialData, onClos
                   type={field.type || "text"}
                   value={(formData as any)[field.key] || ""}
                   onChange={(e) => setFormData({ ...formData, [field.key]: e.target.value })}
-                  className="w-full border border-gray-300 rounded-md p-2.5 text-gray-700 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                  className="w-full border border-tertiary rounded-md p-2.5 text-primary bg-neutral-50 focus:ring-2 focus:ring-primary outline-none transition-all shadow-sm"
                   required={field.key !== 'password' && field.key !== 'age'}
                   placeholder={field.key === 'password' ? "Enter new password to change" : ""}
                 />
@@ -97,14 +97,14 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ initialData, onClos
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#1e293b] hover:bg-[#334155] text-white font-bold py-2.5 rounded transition-colors shadow-md"
+              className="w-full bg-primary hover:bg-secondary text-neutral-50 font-bold py-2.5 rounded transition-colors shadow-md"
             >
               {loading ? "Updating..." : "Save Changes"}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="w-full text-gray-500 text-sm py-2 hover:bg-gray-50 rounded transition-colors"
+              className="w-full text-secondary font-semibold text-sm py-2 hover:bg-tertiary/20 rounded transition-colors"
             >
               Cancel
             </button>

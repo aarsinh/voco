@@ -31,11 +31,8 @@ const RatingModal: React.FC<RatingModalProps> = ({ projectName, onSubmit, onClos
             >
               <Star
                 size={32}
-                className={`transition-colors ${
-                  star <= (hover || rating) 
-                    ? "fill-primary text-primary" 
-                    : "text-tertiary"
-                }`}
+                fill={star <= (hover || rating) ? "currentColor" : "none"}
+                className="transition-colors text-primary"
               />
             </button>
           ))}
