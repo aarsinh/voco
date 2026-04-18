@@ -25,76 +25,63 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     }
   };
 
-  const tdClass = "p-4 align-middle text-gray-700 font-medium break-words max-w-[200px]";
 
-  const now : Date = new Date();
 
   return (
-    <>
-      <tr className="hover:bg-gray-50 transition-colors group">
-        <td className={tdClass}>{project.name}</td>
+    <div className="bg-primary m-2 px-6 py-5 cursor-default rounded-xl flex flex-col gap-1 hover:bg-secondary transition shadow-sm group">
+      <div className="flex justify-between items-start mb-2">
+        <h3 className="font-headline font-bold text-2xl text-neutral-50 tracking-wide mt-1">
+          {project.name}
+        </h3>
+        <button
+          className="text-primary text-sm font-semibold cursor-pointer transition-colors bg-tertiary px-4 py-2 rounded-lg hover:bg-[#D4C8B1] transition shadow-sm mt-1"
+          onClick={handleRegister}
+        >
+          Register
+        </button>
+      </div>
 
-        <td className={tdClass}>
-          <Link to={`/volunteer/ngo/${project.ngoId}`} className="text-blue-600 font-bold no-underline hover:underline">
-            {project.ngo || "Unknown NGO"}
-          </Link>
-        </td>
+      <Link to={`/volunteer/ngo/${project.ngoId}`} className="text-neutral-50 hover:text-tertiary font-bold transition-colors w-fit">
+        NGO: {project.ngo || "Unknown NGO"}
+      </Link>
 
-        <td className={tdClass}>
-          {project.date ? new Date(project.date).toLocaleDateString('en-GB') : 'TBD'}
-        </td>
+      <p className="text-neutral">
+        {project.date ? new Date(project.date).toLocaleDateString('en-GB') : 'TBD'}
+      </p>
 
-        <td className={tdClass}>
-          <button
-            className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-4 rounded transition-colors"
-            onClick={handleRegister}
-          >
-            Register
-          </button>
-        </td>
-      </tr>
+      <p className="text-neutral">
+        {project.address || "Address not provided"}
+      </p>
 
-      <tr className="border-b border-gray-200">
-        <td colSpan={4} className="px-4 pb-2 pt-2">
-          <div className="flex flex-wrap gap-1">
-            {project.tags && project.tags.length > 0 ? (
-              project.tags.map(tag => (
-                <span key={tag} className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full">
-                  {tag}
-                </span>
-              ))
-            ) : (
-              <span className="text-xs text-gray-400 italic">No tags</span>
-            )}
-          </div>
-        </td>
-      </tr>
-      
-      <tr>
-        <td colSpan={5}>
-          <span className="px-4 py-1 text-black-700 text-sm">
-            {project.date > now ? 'Not Started' : 'Ongoing'}
-          </span>
-        </td>
-      </tr>
+      <Link
+        to={`/volunteer/project/${project._id}/volunteers`}
+        className="text-neutral hover:text-tertiary hover:underline w-fit"
+      >
+        Click to view registered volunteers
+      </Link>
 
-      <tr className="hover:bg-gray-50 transition-colors border-b border-gray-200">
-        <td colSpan={4} className="px-4 pb-1 pt-1 text-sm text-gray-500 italic">
-          {project.address || "Address not provided"}
-        </td>
-      </tr>
+      {/* Tags and Action Bar */}
+      <div className="flex justify-between items-center mt-3 gap-4">
+        
+        {/* Tags (Left Aligned) */}
+        <div className="flex flex-wrap justify-start gap-2">
+          {project.tags && project.tags.length > 0 ? (
+            project.tags.map(tag => (
+              <span key={tag} className="px-3 py-1 bg-neutral-50/20 shadow-sm text-neutral-50 font-medium text-xs rounded-full">
+                {tag}
+              </span>
+            ))
+          ) : (
+            <span className="text-xs text-tertiary italic mt-1">No tags available</span>
+          )}
+        </div>
 
-      <tr className="border-b-2 border-gray-400">
-        <td colSpan={4} className="px-4 pb-2">
-          <Link
-            to={`/volunteer/project/${project._id}/volunteers`}
-            className="text-blue-600 hover:underline text-sm"
-          >
-            View registered volunteers
-          </Link>
-        </td>
-      </tr>
-    </>
+        {/* Action buttons and Status (Right Aligned) */}
+        <div className="flex justify-end shrink-0">
+          {/* Left empty as requested for All Projects view */}
+        </div>
+      </div>
+    </div>
   );
 };
 

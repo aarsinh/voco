@@ -20,7 +20,7 @@ export const getProjects = async (req: Request, res: Response) => {
     const { ngoId } = req.params;
     const ngo = await NGO.findById(ngoId).populate({
       path: 'projects',
-      options: { sort: { date: -1 } }
+      options: { sort: { date: 1 } }
     });
     if (!ngo) {
       return res.status(404).json({ message: 'NGO not found' });

@@ -26,29 +26,16 @@ function ShowRegisteredList() {
   }, [vid]);
 
   return (
-    <div className="bg-white p-8 rounded-xl shadow-lg min-h-full">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Registered Projects</h2>
+    <div className="bg-neutral-50 p-8 rounded-xl shadow-lg border border-tertiary min-h-full">
+      <h2 className="text-2xl font-headline font-bold mb-6 text-primary">Registered Projects</h2>
 
       {projects.length === 0 ? (
-        <div className="text-gray-500">No projects found</div>
+        <div className="text-secondary">No projects found</div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-left border-collapse">
-            <thead>
-              <tr>
-                <th className="bg-gray-800 text-white p-4 first:rounded-tl-lg">Project</th>
-                <th className="bg-gray-800 text-white p-4">NGO</th>
-                <th className="bg-gray-800 text-white p-4">Date</th>
-                <th className="bg-gray-800 text-white p-4">Task Status</th>
-                <th className="bg-gray-800 text-white p-4 last:rounded-tr-lg">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {projects.map((regProject) => (
-                <RegProjectCard project={regProject.project} status={regProject.status} key={regProject.project._id} />
-              ))}
-            </tbody>
-          </table>
+        <div className="flex flex-col gap-4 mt-2">
+          {projects.map((regProject) => (
+            <RegProjectCard project={regProject.project} status={regProject.status} key={regProject.project._id} />
+          ))}
         </div>
       )}
     </div>

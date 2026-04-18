@@ -6,7 +6,7 @@ import TopProjectsList from "./TopProj";
 
 function Dashboard() {
   return (
-    <div className="p-6 md:p-10 text-slate-100">
+    <div className="p-6 md:p-10 text-primary">
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
 

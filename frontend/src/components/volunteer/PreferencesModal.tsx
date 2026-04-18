@@ -81,33 +81,33 @@ export function PreferencesModal({ volunteerId, onClose, onSave }: PreferencesMo
 
   if (fetching) {
     return (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-xl">
-          <p className="text-center text-gray-500">Loading preferences...</p>
+      <div className="fixed inset-0 bg-secondary/50 flex items-center justify-center z-50">
+        <div className="bg-neutral-50 rounded-lg p-6 w-full max-w-md shadow-xl">
+          <p className="text-center text-secondary">Loading preferences...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-xl">
-        <h2 className="text-xl font-semibold mb-4">Select Your Preferences</h2>
-        <p className="text-gray-600 mb-4">Choose the types of activities you'd like to participate in:</p>
+    <div className="fixed inset-0 bg-secondary/50 flex items-center justify-center z-50">
+      <div className="bg-neutral-50 rounded-lg p-6 w-full max-w-md shadow-xl border border-tertiary">
+        <h2 className="text-xl font-headline font-semibold mb-4 text-primary">Select Your Preferences</h2>
+        <p className="text-secondary mb-4">Choose the types of activities you'd like to participate in:</p>
 
         <div className="space-y-3 mb-6">
           {PREFERENCES.map(pref => (
             <label
               key={pref}
-              className="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-3 p-3 border border-tertiary rounded-lg cursor-pointer hover:bg-neutral transition-colors"
             >
               <input
                 type="checkbox"
                 checked={selected.includes(pref)}
                 onChange={() => togglePreference(pref)}
-                className="w-5 h-5 text-blue-500 rounded"
+                className="w-5 h-5 text-primary rounded"
               />
-              <span className="text-gray-700">{pref}</span>
+              <span className="text-primary font-medium">{pref}</span>
             </label>
           ))}
         </div>
@@ -117,7 +117,7 @@ export function PreferencesModal({ volunteerId, onClose, onSave }: PreferencesMo
         <button
           onClick={handleSave}
           disabled={loading}
-          className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 disabled:bg-blue-300 transition-colors"
+          className="w-full bg-primary text-neutral-50 py-2 rounded-lg hover:bg-secondary disabled:bg-tertiary font-semibold transition-colors"
         >
           {loading ? "Saving..." : "Save Preferences"}
         </button>
