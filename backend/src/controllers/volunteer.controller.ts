@@ -207,7 +207,7 @@ export const showUpcomingProj = async (req: Request, res: Response) => {
       query.tags = { $in: volunteer.preferences };
     }
 
-    const availableProj = await Project.find(query).sort({ date: -1 });
+    const availableProj = await Project.find(query).sort({ date: 1 });
 
     res.status(200).json({
       message: 'Fetched Successfully',

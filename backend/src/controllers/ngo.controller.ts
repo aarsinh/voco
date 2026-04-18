@@ -309,7 +309,7 @@ export const getProjectHistory = async (req: Request, res: Response) => {
     const ngo = await NGO.findById(ngoId).populate({
       path: 'projects',
       match: { status: 'Completed' },
-      options: { sort: { date: -1 } } 
+      options: { sort: { date: 1 } } 
     });
 
     if (!ngo) {
