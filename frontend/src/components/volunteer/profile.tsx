@@ -43,14 +43,6 @@ function Profile() {
           <p className="text-sm text-secondary uppercase tracking-wider">Name</p>
           <p className="text-lg font-semibold text-primary">{name || 'Unknown'}</p>
         </div>
-        <div className="border-b border-tertiary pb-2">
-          <p className="text-sm text-secondary uppercase tracking-wider">Volunteer ID</p>
-          <p className="text-lg font-semibold text-primary">{userId}</p>
-        </div>
-        <div className="border-b border-tertiary pb-2">
-          <p className="text-sm text-secondary uppercase tracking-wider">Account Type</p>
-          <p className="text-lg font-semibold text-primary capitalize">{role}</p>
-        </div>
       </div>
 
       <div className="mt-8">
@@ -61,7 +53,7 @@ function Profile() {
             <h4 className="text-sm font-medium text-secondary uppercase tracking-wider mb-2">Ongoing Projects</h4>
             <div className="space-y-2">
               {ongoingProjects.map((rp) => (
-                <div key={rp.project._id} className="bg-tertiary/20 border border-tertiary rounded-lg p-3">
+                <div key={rp.project._id} className="bg-primary/20 border border-primary rounded-lg p-3">
                   <p className="font-semibold text-primary">{rp.project?.name || 'Unknown'}</p>
                   <p className="text-sm text-secondary">{rp.project?.ngo || 'Unknown NGO'} • {rp.project?.date ? new Date(rp.project.date).toLocaleDateString() : 'TBD'}</p>
                 </div>
