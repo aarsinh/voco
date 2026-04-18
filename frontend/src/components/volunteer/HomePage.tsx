@@ -84,7 +84,6 @@ function Dashboard() {
                         <ShowProjectList filterByPrefs={filterByPrefs} />
                     </div>
                 )}
-
             </main>
         </div>
     );

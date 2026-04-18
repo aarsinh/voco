@@ -42,6 +42,13 @@ const router = createBrowserRouter(
         </Route>
       </Route>
 
+      <Route element={<PrivateRoute allowedRoles={['ngo', 'volunteer']} />}>
+        <Route element={<ProtectedLayoutContent />}>
+          <Route path="/volunteer/profile" element={<VolunteerProfile />} />
+          <Route path="/volunteer/profile/:id" element={<VolunteerProfile />} />
+        </Route>
+      </Route>
+
       <Route path="/" element={<Navigate to="/login" replace />} />
     </>
   )
