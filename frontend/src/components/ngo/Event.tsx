@@ -31,7 +31,7 @@ function Event({ event, onDelete }: EventProps) {
                 <Button
                     text="Terminate Project"
                     onClick={() => onDelete(event._id)}
-                    className="text-white-500 hover:text-white-700 cursor-pointer transition-colors bg-red-500/50 px-4 py-2 rounded hover:bg-red-600 transition"
+                    className="text-white-500 hover:text-white-700 cursor-pointer transition-colors bg-red-500/50 px-4 py-2 rounded hover:bg-red-600 "
                 />
             </h3>
 
@@ -64,7 +64,7 @@ function Event({ event, onDelete }: EventProps) {
                 (<Button
                     text="Complete Project"
                     onClick={() => completeEvent()}
-                    className="text-white hover:text-white-700 cursor-pointer transition-colors bg-green-500/50 px-4 py-2 rounded hover:bg-green-600 transition"
+                    className="text-white hover:text-white-700 cursor-pointer transition-colors bg-green-500/50 px-4 py-2 rounded hover:bg-green-600"
                 />) : (
                     <p className="text-slate-300">
                         {event.status === 'Completed' ? 'Completed' : 'Not Started'}

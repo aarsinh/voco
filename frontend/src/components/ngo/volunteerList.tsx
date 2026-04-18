@@ -1,5 +1,5 @@
 import Header from "./Headers";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ReportModal from "./ReportModal";
 import reportIcon from "./report.png"
@@ -69,8 +69,13 @@ function VolunteerList() {
                 <tbody className="divide-y divide-gray-100">
                   {volunteers.map((vol) => (
                     <tr key={vol.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="py-5 px-6 text-gray-700 font-medium">
-                        {vol.username}
+                      <td className="py-5 px-6">
+                        <Link 
+                          to={`/volunteer/profile/${vol.id}`}
+                          className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
+                        >
+                          {vol.username}
+                        </Link>
                       </td>
                       <td className="py-5 px-6">
                         <span className={`inline-flex items-center px-4 py-1.5 rounded-md text-xs font-bold uppercase tracking-tight ${

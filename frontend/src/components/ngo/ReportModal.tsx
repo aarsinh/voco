@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
 
 interface Volunteer {
   id: string;
@@ -15,6 +16,8 @@ const ReportModal: React.FC<ReportModalProps> = ({ volunteer, onClose }) => {
   const [submitting, setSubmitting] = useState(false);
   const API = import.meta.env.VITE_API_URL;
 
+  const { userId: ngoId, name: ngoName } = useAuth()
+
   const handleSubmit = async () => {
     if (!reportText.trim() || !volunteer) return;
 
@@ -25,7 +28,7 @@ const ReportModal: React.FC<ReportModalProps> = ({ volunteer, onClose }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ report: reportText }),
+        body: JSON.stringify({ report: reportText, ngoName: ngoName, ngoId: ngoId}),
       });
 
       if (!response.ok) throw new Error("Failed to submit report");

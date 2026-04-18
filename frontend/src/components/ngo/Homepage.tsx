@@ -11,7 +11,7 @@ import History from "./History";
 type Tab = 'profile' | 'ongoing' | 'create' | 'history' | 'dashboard';
 
 function App() {
-  const { userId, name, logout } = useAuth(); // Assuming logout is available from useAuth
+  const { userId, name } = useAuth();
   const ngoName = name || 'Unknown NGO';
   const ngoId = userId;
   const API = import.meta.env.VITE_API_URL;
