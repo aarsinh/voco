@@ -3,15 +3,12 @@ import { faker } from '@faker-js/faker';
 import dotenv from 'dotenv';
 dotenv.config();
  
-// ── DB connection ────────────────────────────────────────────────────────────
 const MONGO_URI = process.env.DB_LINK as string;
  
-// ── Models (paste your real model imports here) ──────────────────────────────
 import NGO from './models/ngo.model'
 import Project  from './models/project.model';
 import  Volunteer  from './models/volunteer.model';
  
-// ── Config ───────────────────────────────────────────────────────────────────
 const NUM_NGOS = 10;
 const NUM_PROJECTS = 30;       // spread across NGOs
 const NUM_VOLUNTEERS = 50;     // each registers in 1–3 projects
@@ -20,12 +17,10 @@ const REVIEWS_PER_PROJECT = 2; // how many volunteers leave a review
  
 const TAGS = ['Education', 'Environment', 'Healthcare', 'Elderly Care', 'Animal Welfare'];
  
-// ── Helpers ───────────────────────────────────────────────────────────────────
 const pick = <T>(arr: T[]): T => faker.helpers.arrayElement(arr);
 const pickMany = <T>(arr: T[], min = 1, max = 3): T[] =>
   faker.helpers.arrayElements(arr, { min, max });
  
-// ── Step 1: Seed NGOs ─────────────────────────────────────────────────────────
 async function seedNGOs() {
   const ngoDocs = Array.from({ length: NUM_NGOS }, () => ({
     username: faker.internet.username(),
@@ -44,7 +39,6 @@ async function seedNGOs() {
   return ngos;
 }
  
-// ── Step 2: Seed Projects ─────────────────────────────────────────────────────
 async function seedProjects(ngos: any[]) {
   const projectDocs = Array.from({ length: NUM_PROJECTS }, () => {
     const ngo = pick(ngos);
@@ -66,7 +60,6 @@ async function seedProjects(ngos: any[]) {
   return projects;
 }
  
-// ── Step 3: Seed Volunteers ───────────────────────────────────────────────────
 async function seedVolunteers(projects: any[]) {
   const volunteerDocs = Array.from({ length: NUM_VOLUNTEERS }, () => {
     const assignedProjects = pickMany(projects, 1, MAX_PROJECTS_PER_VOL);
@@ -93,7 +86,6 @@ async function seedVolunteers(projects: any[]) {
   return volunteers;
 }
  
-// ── Step 4: Stitch back-references ───────────────────────────────────────────
 async function stitchReferences(projects: any[], volunteers: any[]) {
   // 4a — push volunteer _ids onto their registered projects
   //      and increment registrations count
@@ -116,7 +108,6 @@ async function stitchReferences(projects: any[], volunteers: any[]) {
   console.log('✔ NGO projects arrays populated');
 }
  
-// ── Step 5: Seed Reviews onto NGOs ───────────────────────────────────────────
 async function seedReviews(projects: any[], volunteers: any[]) {
   for (const project of projects) {
     // find volunteers who registered for this project
@@ -146,7 +137,6 @@ async function seedReviews(projects: any[], volunteers: any[]) {
   console.log('✔ NGO reviews populated');
 }
  
-// ── Step 6: Seed Reports onto Volunteers ──────────────────────────────────────
 async function seedReports(volunteers: any[], projects: any[]) {
   // give ~30% of volunteers a report from a random NGO
   const subset = volunteers.filter(() => Math.random() < 0.3);
@@ -172,7 +162,6 @@ async function seedReports(volunteers: any[], projects: any[]) {
   console.log('✔ Volunteer reports populated');
 }
  
-// ── Main ──────────────────────────────────────────────────────────────────────
 async function main() {
   await mongoose.connect(MONGO_URI);
   console.log('Connected to MongoDB\n');
