@@ -20,26 +20,20 @@ function Profile() {
   const { id: urlNgoId } = useParams<{ id: string }>(); // Get ID from URL
   const { userId: loggedInId } = useAuth();
   
-  // Decide which ID to use: 
-  // If we are on the volunteer side, use ID from URL. 
-  // If we are the NGO looking at our own profile tab, use our own ID.
   const profileId = urlNgoId || loggedInId;
-  
-  // A volunteer is viewing if the URL ID exists AND it's not theirs
+
   const isOwner = loggedInId === profileId;
 
   const [data, setData] = useState<ProfileData | null>(null);
-  const [error, setError] = useState<string | null>(null); // Added error state
+  const [error, setError] = useState<string | null>(null); 
   const [expandedProjects, setExpandedProjects] = useState<Record<string, boolean>>({});
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    // Reset states when the ID changes
     setData(null);
     setError(null);
 
-    // If profileId is null/undefined/empty string, we wait.
     if (!profileId || profileId === "undefined") {
       console.log("Waiting for profileId...");
       return;
@@ -67,13 +61,12 @@ function Profile() {
     setData((prev: any) => ({ ...prev, details: updatedDetails }));
   };
 
-    // 1. Error State
     if (error) {
         return (
         <div className="p-8 text-center">
             <p className="text-red-500 font-semibold">Error: {error}</p>
             <button 
-            onClick={() => window.location.reload()} 
+            onClick={() => globalThis.location.reload()} 
             className="mt-4 text-blue-600 underline"
             >
             Try Refreshing
@@ -82,7 +75,6 @@ function Profile() {
         );
     }
 
-    // 2. Loading State
     if (!data) {
         return (
         <div className="p-8 text-center text-gray-500">
@@ -92,7 +84,6 @@ function Profile() {
         );
     }
 
-  // Group reviews by Project Name
     const groupedReviews = (data?.reviews ?? []).reduce((acc, review) => {
     const projId = review.projectId?._id;
     if (!projId) return acc; // Safety check
@@ -105,7 +96,6 @@ function Profile() {
     setExpandedProjects(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
-  // Star Logic: Fills stars based on rating
   const renderStars = (rating: number) => {
     return (
       <div className="flex gap-1">
@@ -127,62 +117,62 @@ function Profile() {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Section 1: NGO Details */}
-      <section className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+      <section className="bg-neutral-50 p-8 rounded-xl shadow-sm border border-tertiary">
         <div className="flex justify-between items-center mb-6 border-b pb-2">
-          <h2 className="text-xl font-bold text-gray-800">NGO Details</h2>
+          <h2 className="text-xl font-headline font-bold text-primary">NGO Details</h2>
 
           {/* THE CONDITIONAL BUTTON */}
           {isOwner && (
             <button 
               onClick={() => setIsEditModalOpen(true)}
-              className="text-sm bg-blue-600 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 transition"
+              className="text-sm font-headline bg-primary text-neutral-50 px-4 py-1.5 rounded-lg hover:bg-secondary transition"
             >
               Edit Details
             </button>
           )}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div><p className="text-sm text-gray-500">Username</p><p className="font-medium">@{data.details.username}</p></div>
-          <div><p className="text-sm text-gray-500">Name</p><p className="font-medium">{data.details.name}</p></div>
-          <div><p className="text-sm text-gray-500">Email</p><p className="font-medium">{data.details.email}</p></div>
-          <div><p className="text-sm text-gray-500">Phone</p><p className="font-medium">{data.details.phoneNumber}</p></div>
+          <div><p className="text-sm text-secondary">Username</p><p className="font-medium text-primary">@{data.details.username}</p></div>
+          <div><p className="text-sm text-secondary">Name</p><p className="font-medium text-primary">{data.details.name}</p></div>
+          <div><p className="text-sm text-secondary">Email</p><p className="font-medium text-primary">{data.details.email}</p></div>
+          <div><p className="text-sm text-secondary">Phone</p><p className="font-medium text-primary">{data.details.phoneNumber}</p></div>
           <div className="md:col-span-2">
-            <p className="text-sm text-gray-500">Website</p>
-            <a href={data.details.website} target="_blank" className="text-blue-600 hover:underline">{data.details.website}</a>
+            <p className="text-sm text-secondary">Website</p>
+            <a href={data.details.website} target="_blank" className="font-semibold text-primary underline hover:text-secondary">{data.details.website}</a>
           </div>
         </div>
       </section>
 
       {/* Section 2: Average Rating */}
-      <section className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Average Rating</h2>
-        <div className="text-5xl font-black text-gray-900 mb-2">{data.avgRating}</div>
-        {renderStars(parseFloat(data.avgRating))}
-        <p className="text-sm text-gray-400 mt-2">Based on {data.reviews.length} reviews</p>
+      <section className="bg-neutral-50 p-8 rounded-xl shadow-sm border border-tertiary flex flex-col items-center">
+        <h2 className="text-xl font-headline font-bold text-primary mb-4">Average Rating</h2>
+        <div className="text-5xl font-black text-primary font-headline mb-2">{data.avgRating}</div>
+        {renderStars(Number.parseFloat(data.avgRating))}
+        <p className="text-sm text-secondary mt-2">Based on {data.reviews.length} reviews</p>
       </section>
 
       {/* Section 3: Reviews Accordion */}
-      <section className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-        <h2 className="text-xl font-bold text-gray-800 mb-6">Project Reviews</h2>
+      <section className="bg-neutral-50 p-8 rounded-xl shadow-sm border border-tertiary">
+        <h2 className="text-xl font-headline font-bold text-primary mb-6">Project Reviews</h2>
         <div className="space-y-4">
           {Object.entries(groupedReviews).map(([id, group]) => (
-            <div key={id} className="border border-gray-200 rounded-lg overflow-hidden">
+            <div key={id} className="border border-tertiary rounded-lg overflow-hidden">
               <button 
                 onClick={() => toggleProject(id)}
-                className="w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+                className="w-full flex justify-between items-center p-4 bg-neutral hover:bg-tertiary/20 transition"
               >
-                <span className="font-semibold text-gray-700">{group.name}</span>
-                <span className="text-sm text-blue-600 font-medium">
+                <span className="font-semibold text-primary">{group.name}</span>
+                <span className="text-sm text-primary font-medium">
                   {expandedProjects[id] ? "Collapse All ↑" : "Expand All ↓"}
                 </span>
               </button>
               
               {expandedProjects[id] && (
-                <div className="p-4 bg-white divide-y divide-gray-100">
+                <div className="p-4 bg-neutral-50 divide-y divide-tertiary">
                   {group.items.map(rev => (
                     <div key={rev._id} className="py-4 first:pt-0 last:pb-0">
                       <div className="mb-1">{renderStars(rev.rating)}</div>
-                      <p className="text-gray-600 text-sm italic">"{rev.reviewText}"</p>
+                      <p className="text-secondary text-sm italic">"{rev.reviewText}"</p>
                     </div>
                   ))}
                 </div>

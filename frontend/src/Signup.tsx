@@ -39,24 +39,24 @@ export function Signup() {
 
   return (
     <div className="h-screen flex items-center justify-center">
-      <div className="rounded-lg w-full max-w-md border-2 overflow-hidden">
-        <div className="bg-gray-800  p-3 text-white text-center text-2xl">
-          <h2>Sign Up</h2>
+      <div className="rounded-lg w-full max-w-lg border-2 border-primary overflow-hidden bg-neutral-50 shadow-lg">
+        <div className="bg-primary p-4 text-neutral-50 text-center text-3xl">
+          <h2 className="font-headline font-semibold">Sign Up</h2>
         </div>
         <div className='flex items-center justify-center pt-5'>
           <RolePicker role={role} setRole={setRole} />
         </div>
-        <div className='px-4 pb-5'>
-          <form className="space-y-4" onSubmit={handleSubmit}>
+        <div className='px-6 pb-8'>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {error && <p className="text-red-500 text-sm">{error}</p>}
             {commonFields.map((field) => (
-              <input key={field.name} name={field.name} className="border w-full px-4 py-2 rounded-md" required placeholder={field.placeholder} type={field.type} onChange={handleChange} />
+              <input key={field.name} name={field.name} className="outline outline-1 outline-secondary/30 border-2 border-tertiary shadow-sm focus:outline-2 focus:outline-primary focus:ring-0 w-full px-4 py-2 rounded-md bg-neutral-50 transition-all" required placeholder={field.placeholder} type={field.type} onChange={handleChange} />
             ))}
 
             {role === "volunteer" &&
               <>
-                <input name="age" placeholder="Age" type="number" min={18} max={100} className="border w-full px-4 py-2 rounded-md" required onChange={handleChange} />
-                <select className="border w-full text-left px-4 py-2 rounded-md" required name="sex" onChange={handleChange} value={form.sex}>
+                <input name="age" placeholder="Age" type="number" min={18} max={100} className="outline outline-1 outline-secondary/30 border-2 border-tertiary shadow-sm focus:outline-2 focus:outline-primary focus:ring-0 w-full px-4 py-2 rounded-md bg-neutral-50 transition-all" required onChange={handleChange} />
+                <select className="outline outline-1 outline-secondary/30 border-2 border-tertiary shadow-sm focus:outline-2 focus:outline-primary focus:ring-0 w-full text-left px-4 py-2 rounded-md bg-neutral-50 transition-all" required name="sex" onChange={handleChange} value={form.sex}>
                   <option value="" disabled>Select Sex</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -71,18 +71,18 @@ export function Signup() {
                   type="text"
                   name="website"
                   placeholder="www.example.com" 
-                  className="border w-full px-4 py-2 rounded-md"
+                  className="outline outline-1 outline-secondary/30 border-2 border-tertiary shadow-sm focus:outline-2 focus:outline-primary focus:ring-0 w-full px-4 py-2 rounded-md bg-neutral-50 transition-all"
                   required 
                   onChange={handleChange}
                   pattern="^(www\.)?([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*\.)+[a-z]{2,}$"
                   title="Please enter a valid website address (e.g., www.example.com)"
                 />
             }
-            <button className="bg-gray-800 rounded-md w-full p-2 text-white">Sign Up</button>
+            <button className="bg-primary hover:bg-secondary transition-colors rounded-md w-full p-2.5 text-neutral-50 font-semibold text-lg drop-shadow-md">Sign Up</button>
           </form>
           <div className="flex items-center justify-center gap-1 pt-2">
             <p>Already have an account?</p>
-            <Link to="/login" className="text-blue-600 hover:underline">Login</Link>
+            <Link to="/login" className="text-primary hover:text-secondary font-semibold hover:underline">Login</Link>
           </div>
         </div>
       </div>

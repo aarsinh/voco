@@ -2,7 +2,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
-  onOpenPreferences?: () => void;
+  readonly onOpenPreferences?: () => void;
 }
 
 export function Header({ onOpenPreferences }: HeaderProps) {
@@ -15,7 +15,7 @@ export function Header({ onOpenPreferences }: HeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-gray-800 border-b shadow-sm">
+    <header className="sticky top-0 z-40 bg-primary border-b border-primary shadow-sm">
       <div className="flex items-center justify-between px-6 py-3">
         <img src="/logo.png" alt="Logo" className="h-10 w-auto" />
 
@@ -23,14 +23,14 @@ export function Header({ onOpenPreferences }: HeaderProps) {
           {role === 'volunteer' && onOpenPreferences && (
             <button
               onClick={onOpenPreferences}
-              className="px-4 py-2 text-white hover:bg-blue-50 hover:text-black rounded-lg transition-colors"
+              className="px-4 py-2 text-neutral-50 font-semibold hover:bg-tertiary hover:text-primary rounded-lg transition-colors"
             >
               Select Preferences
             </button>
           )}
           <button
             onClick={handleLogout}
-            className="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded-lg transition-colors"
+            className="px-4 py-2 bg-red-600 text-neutral-50 font-semibold hover:bg-red-700 rounded-lg transition-colors"
           >
             Logout
           </button>

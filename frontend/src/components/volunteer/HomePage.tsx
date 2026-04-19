@@ -5,7 +5,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { usePreferencesModal } from '../../hooks/usePreferencesModal';
 import Profile from './profile';
 
-type Tab = 'profile' | 'registered' | 'all' | 'history';
+type Tab = 'profile' | 'registered' | 'all';
 
 function Dashboard() {
     const { userId } = useAuth();
@@ -22,7 +22,7 @@ function Dashboard() {
                 credentials: 'include'
             });
             const data = await response.json();
-            if (data.preferences && data.preferences.length === 0) {
+            if (data.preferences?.length === 0) {
                 openPreferencesModal();
             }
         } catch (err) {
@@ -41,16 +41,16 @@ function Dashboard() {
     ];
 
     return (
-        <div className="flex min-h-screen bg-gray-50">
+        <div className="flex h-screen bg-transparent">
             {/* Sidebar */}
-            <aside className="w-56 shrink-0 bg-gray-900 flex flex-col py-8 px-4 gap-2">
+            <aside className="w-56 shrink-0 bg-primary flex flex-col py-8 px-4 gap-2">
                 {navItems.map(item => (
                     <button
                         key={item.id}
                         onClick={() => setActiveTab(item.id)}
                         className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeTab === item.id
-                                ? 'bg-blue-600 text-white'
-                                : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                                ? 'bg-tertiary text-primary font-bold'
+                                : 'text-neutral hover:bg-secondary hover:text-neutral-50'
                             }`}
                     >
                         {item.label}
@@ -74,8 +74,8 @@ function Dashboard() {
                             <button
                                 onClick={() => setFilterByPrefs(!filterByPrefs)}
                                 className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors ${filterByPrefs
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                                        ? 'bg-tertiary text-primary font-bold'
+                                        : 'bg-neutral-50 text-primary border border-tertiary hover:bg-neutral'
                                     }`}
                             >
                                 {filterByPrefs ? 'Showing: My Preferences' : 'Filter by Preferences'}

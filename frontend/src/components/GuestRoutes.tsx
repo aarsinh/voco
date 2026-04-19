@@ -7,10 +7,10 @@ export const GuestRoutes: React.FC = () => {
     return <div>Checking authentication status...</div>
   }
 
-  if (!isAuthenticated) {
-    return <Outlet />
-  } else {
+  if (isAuthenticated) {
     return <Navigate to={role === 'ngo' ? '/ngo' : '/volunteer'} replace />
+  } else {
+    return <Outlet />
   }
 }
 

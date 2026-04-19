@@ -78,13 +78,13 @@ function Profile() {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Section 1: Volunteer Details */}
-      <section className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-        <div className="flex justify-between items-center mb-6 border-b pb-2">
-          <h2 className="text-xl font-bold text-gray-800">Volunteer Details</h2>
-          
+      <section className="bg-neutral-50 p-8 rounded-xl shadow-lg border border-tertiary">
+        <div className="flex justify-between items-center mb-6 border-b border-tertiary pb-2">
+          <h2 className="text-2xl font-headline font-bold text-primary">Volunteer Details</h2>
+
           {isOwner && (
-            <button 
-              className="text-sm bg-blue-600 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 transition"
+            <button
+              className="text-sm bg-primary text-neutral-50 px-4 py-1.5 rounded-lg font-semibold hover:bg-secondary transition-colors"
               onClick={() => setShowEditModal(true)}
             >
               Edit Details
@@ -92,27 +92,27 @@ function Profile() {
           )}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div><p className="text-sm text-gray-500">Username</p><p className="font-medium">{data?.details.username || '-'}</p></div>
-          <div><p className="text-sm text-gray-500">Name</p><p className="font-medium">{data?.details.name || '-'}</p></div>
-          <div><p className="text-sm text-gray-500">Age</p><p className="font-medium">{data?.details.age || '-'}</p></div>
-          <div><p className="text-sm text-gray-500">Gender</p><p className="font-medium">{data?.details.sex || '-'}</p></div>
-          <div><p className="text-sm text-gray-500">Phone Number</p><p className="font-medium">{data?.details.phoneNumber || '-'}</p></div>
-          <div><p className="text-sm text-gray-500">Email</p><p className="font-medium">{data?.details.email || '-'}</p></div>
+          <div className="border-b border-tertiary pb-2"><p className="text-sm text-secondary uppercase tracking-wider">Username</p><p className="text-lg font-semibold text-primary">{data?.details.username || '-'}</p></div>
+          <div className="border-b border-tertiary pb-2"><p className="text-sm text-secondary uppercase tracking-wider">Name</p><p className="text-lg font-semibold text-primary">{data?.details.name || '-'}</p></div>
+          <div className="border-b border-tertiary pb-2"><p className="text-sm text-secondary uppercase tracking-wider">Age</p><p className="text-lg font-semibold text-primary">{data?.details.age || '-'}</p></div>
+          <div className="border-b border-tertiary pb-2"><p className="text-sm text-secondary uppercase tracking-wider">Gender</p><p className="text-lg font-semibold text-primary capitalize">{data?.details.sex || '-'}</p></div>
+          <div className="border-b border-tertiary pb-2"><p className="text-sm text-secondary uppercase tracking-wider">Phone Number</p><p className="text-lg font-semibold text-primary">{data?.details.phoneNumber || '-'}</p></div>
+          <div className="border-b border-tertiary pb-2"><p className="text-sm text-secondary uppercase tracking-wider">Email</p><p className="text-lg font-semibold text-primary">{data?.details.email || '-'}</p></div>
         </div>
       </section>
 
       {/* Reports Section */}
       {data?.details.reports && data.details.reports.length > 0 && (
-        <section className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-          <h2 className="text-xl font-bold text-gray-800 mb-6">Reports ({data.details.reports.length})</h2>
+        <section className="bg-neutral-50 p-8 rounded-xl shadow-lg border border-tertiary">
+          <h2 className="text-2xl font-headline font-bold text-primary mb-6">Reports ({data.details.reports.length})</h2>
           <div className="space-y-4">
             {data.details.reports.map((report, idx) => (
-              <div key={idx} className="border border-red-200 rounded-lg p-4 bg-red-50">
+              <div key={idx} className="border border-red-300 rounded-lg p-4 bg-red-50">
                 <div className="flex justify-between items-start mb-2">
-                  <p className="font-medium text-gray-800">{report.ngoName || 'NGO'}</p>
-                  <p className="text-xs text-gray-500">{new Date(report.createdAt).toLocaleDateString()}</p>
+                  <p className="font-semibold text-red-900">{report.ngoName || 'NGO'}</p>
+                  <p className="text-xs font-semibold text-red-700">{new Date(report.createdAt).toLocaleDateString()}</p>
                 </div>
-                <p className="text-sm text-gray-700">{report.comment}</p>
+                <p className="text-sm text-red-800">{report.comment}</p>
               </div>
             ))}
           </div>
@@ -120,19 +120,19 @@ function Profile() {
       )}
 
       {/* Section 2: Ongoing Projects */}
-      <section className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-        <h2 className="text-xl font-bold text-gray-800 mb-6">Ongoing Projects</h2>
+      <section className="bg-neutral-50 p-8 rounded-xl shadow-lg border border-tertiary">
+        <h2 className="text-2xl font-headline font-bold text-primary mb-6">Ongoing Projects</h2>
         {ongoingProjects.length > 0 ? (
           <div className="space-y-4">
             {ongoingProjects.map((rp, idx) => (
-              <div key={idx} className="border border-gray-200 rounded-lg p-4 bg-blue-50">
+              <div key={idx} className="border border-primary rounded-lg p-4 bg-primary/20">
                 <div className="flex justify-between items-start">
                   <div>
-                    <p className="font-semibold text-gray-800">{rp.project?.name || 'Unknown Project'}</p>
-                    <p className="text-sm text-gray-500">{rp.project?.ngo || 'Unknown NGO'}</p>
-                    <p className="text-sm text-gray-500">{rp.project?.date ? new Date(rp.project.date).toLocaleDateString() : 'TBD'}</p>
+                    <p className="font-semibold text-primary">{rp.project?.name || 'Unknown Project'}</p>
+                    <p className="text-sm text-secondary font-medium mt-1">{rp.project?.ngo || 'Unknown NGO'}</p>
+                    <p className="text-sm text-secondary">{rp.project?.date ? new Date(rp.project.date).toLocaleDateString() : 'TBD'}</p>
                   </div>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-primary text-neutral uppercase tracking-wide">
                     Ongoing
                   </span>
                 </div>
@@ -140,24 +140,24 @@ function Profile() {
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-400">No ongoing projects</p>
+          <p className="text-center text-secondary italic">No ongoing projects</p>
         )}
       </section>
 
       {/* Section 3: Completed Projects */}
-      <section className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-        <h2 className="text-xl font-bold text-gray-800 mb-6">Completed Projects</h2>
+      <section className="bg-neutral-50 p-8 rounded-xl shadow-lg border border-tertiary">
+        <h2 className="text-2xl font-headline font-bold text-primary mb-6">Completed Projects</h2>
         {completedProjects.length > 0 ? (
           <div className="space-y-4">
             {completedProjects.map((rp, idx) => (
-              <div key={idx} className="border border-gray-200 rounded-lg p-4 bg-green-50">
+              <div key={idx} className="border border-primary rounded-lg p-4 bg-primary/20">
                 <div className="flex justify-between items-start">
                   <div>
-                    <p className="font-semibold text-gray-800">{rp.project?.name || 'Unknown Project'}</p>
-                    <p className="text-sm text-gray-500">{rp.project?.ngo || 'Unknown NGO'}</p>
-                    <p className="text-sm text-gray-500">{rp.project?.date ? new Date(rp.project.date).toLocaleDateString() : 'TBD'}</p>
+                    <p className="font-semibold text-primary">{rp.project?.name || 'Unknown Project'}</p>
+                    <p className="text-sm text-secondary font-medium mt-1">{rp.project?.ngo || 'Unknown NGO'}</p>
+                    <p className="text-sm text-secondary">{rp.project?.date ? new Date(rp.project.date).toLocaleDateString() : 'TBD'}</p>
                   </div>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-primary text-neutral-50 uppercase tracking-wide">
                     Completed
                   </span>
                 </div>
@@ -165,15 +165,15 @@ function Profile() {
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-400">No completed projects yet</p>
+          <p className="text-center text-secondary italic">No completed projects yet</p>
         )}
       </section>
 
       {/* Section 4: Total Stats */}
-      <section className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Total Projects</h2>
-        <div className="text-5xl font-black text-gray-900 mb-2">{registeredProjects.length}</div>
-        <p className="text-sm text-gray-400 mt-2">
+      <section className="bg-neutral-50 p-8 rounded-xl shadow-lg border border-tertiary flex flex-col items-center">
+        <h2 className="text-2xl font-headline font-bold text-primary mb-4">Total Projects</h2>
+        <div className="text-5xl font-black text-secondary mb-2">{registeredProjects.length}</div>
+        <p className="text-sm text-secondary font-semibold mt-2">
           {completedProjects.length} completed • {ongoingProjects.length} ongoing
         </p>
       </section>

@@ -2,8 +2,8 @@ import Event from "./Event"
 import type { EventType } from "./types"
 
 interface EventsProps {
-    events: EventType[]
-    onDelete: (id: string) => void
+    readonly events: EventType[]
+    readonly onDelete: (id: string) => void
 }
 
 function Events({ events, onDelete }: EventsProps) {
