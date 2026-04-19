@@ -28,7 +28,7 @@ export function Login() {
     <div className="h-screen flex items-center justify-center">
       <div className="rounded-lg w-full max-w-lg border-2 border-primary overflow-hidden bg-neutral-50 shadow-lg">
         <div className="bg-primary p-4 text-neutral-50 text-center text-3xl">
-          <h2 className="font-headline font-semibold">Login</h2>
+          <h2 className="font-headline font-semibold text-neutral-50">Login</h2>
         </div>
         <div className='flex items-center justify-center pt-5'>
           <RolePicker role={role} setRole={setRole} />
