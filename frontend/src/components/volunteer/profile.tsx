@@ -23,7 +23,7 @@ interface ProfileData {
 function Profile() {
   const { userId: loggedInId } = useAuth();
   const { id: profileIdFromUrl } = useParams<{ id: string }>();
-
+  
   const profileId = profileIdFromUrl || loggedInId || '';
   const isOwner = loggedInId === profileId;
 
@@ -43,10 +43,10 @@ function Profile() {
           fetch(`${API}/api/volunteer/profile-data/${profileId}`, { credentials: 'include' }),
           fetch(`${API}/api/volunteer/allprojects/${profileId}`, { credentials: 'include' })
         ]);
-
+        
         const profileData = await profileRes.json();
         const projectsData = await projectsRes.json();
-
+        
         setData(profileData);
         setRegisteredProjects(projectsData.regProj || []);
       } catch (err) {
