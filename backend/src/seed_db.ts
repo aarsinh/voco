@@ -166,7 +166,7 @@ async function main() {
   await mongoose.connect(MONGO_URI);
   console.log('Connected to MongoDB\n');
  
-  // clear existing data (comment out if you want to keep existing docs)
+  // clear existing data (comment out to keep existing docs)
   await Promise.all([
     NGO.deleteMany({}),
     Project.deleteMany({}),
