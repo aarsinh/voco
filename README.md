@@ -1,4 +1,4 @@
-# Voco (Volunteer Connect)
+# VoCo (Volunteer Connect)
 
 Voco is a unified workspace connecting NGOs and volunteers, built to make it easier for organizations to plan and run community projects, and for volunteers to discover and take part in causes they care about.
 
