@@ -19,10 +19,10 @@ interface StatusCounts {
 
 // 2. Transformed the SLICES list to include colors directly
 const SLICES_CONFIG = [
-    { key: "Pending", color: "#3b82f6" },
-    { key: "Ongoing", color: "#e2f554" },
-    { key: "Completed", color: "#64f55d" },
-    { key: "Terminated", color: "#ef4444" },
+    { key: "Pending", color: "var(--color-chart-olive)" },
+    { key: "Ongoing", color: "var(--color-chart-gold)" },
+    { key: "Completed", color: "var(--color-chart-sage)" },
+    { key: "Terminated", color: "var(--color-chart-rust)" },
 ] as const;
 
 // Internal type for Recharts data structure
@@ -72,9 +72,9 @@ function StatusPie() {
     let content;
 
     if(loading){
-        content = <p className="text-slate-500 text-sm">Loading...</p>;
+        content = <p className="text-secondary text-sm">Loading...</p>;
     } else if(data.length === 0){
-        content = <p className="text-slate-500 text-sm">No project data yet.</p>;
+        content = <p className="text-secondary text-sm">No project data yet.</p>;
     } else {
         content = (
             <div className="flex items-center gap-10 mt-2">
@@ -104,10 +104,10 @@ function StatusPie() {
                             {/* Matches the dark tooltip theme from the line chart */}
                             <Tooltip
                                 contentStyle={{
-                                    backgroundColor: '#1e293b',
-                                    borderColor: '#334155',
+                                    backgroundColor: 'var(--color-neutral-50)',
+                                    borderColor: 'var(--color-tertiary)',
                                     borderRadius: '0.5rem',
-                                    color: '#f8fafc',
+                                    color: 'var(--color-secondary)',
                                     fontSize: '12px'
                                 }}
                             />
@@ -123,8 +123,8 @@ function StatusPie() {
                                 className="w-3 h-3 rounded-full shrink-0"
                                 style={{ background: slice.fill }}
                             />
-                            <span className="text-slate-300 font-medium">{slice.name}</span>
-                            <span className="text-slate-500 ml-1">
+                            <span className="text-primary font-bold">{slice.name}</span>
+                            <span className="text-secondary ml-1">
                                 {slice.value} ({slice.percentage}%)
                             </span>
                         </div>
@@ -135,8 +135,8 @@ function StatusPie() {
     }
 
     return (
-        <div className="bg-slate-800 rounded-xl p-6 w-full h-full flex flex-col">
-            <h2 className="text-sm uppercase tracking-widest text-slate-400 mb-5">
+        <div className="bg-neutral-50 border border-tertiary shadow-sm rounded-xl p-6 w-full h-full flex flex-col">
+            <h2 className="text-sm uppercase font-headline tracking-widest text-secondary mb-5">
                 Project Status Breakdown
             </h2>
 

@@ -53,23 +53,23 @@ function ProjectDistributionRadar() {
 
     let content;
     if(loading) {
-        content = <p className="text-slate-500 text-sm text-center mt-10">Loading...</p>;
+        content = <p className="text-secondary text-sm text-center mt-10">Loading...</p>;
     } else if(error) {
-        content = <p className="text-slate-500 text-sm text-center mt-10">{error}</p>;
+        content = <p className="text-secondary text-sm text-center mt-10">{error}</p>;
     } else if(data.length === 0) {
-        content = <p className="text-slate-500 text-sm text-center mt-10">No tagged projects yet.</p>;
+        content = <p className="text-secondary text-sm text-center mt-10">No tagged projects yet.</p>;
     } else {
         content = (
             <div className="flex-1 min-h-[250px] w-full mt-2">
                 <ResponsiveContainer width="100%" height="100%">
                     <RadarChart cx="50%" cy="50%" outerRadius="70%" data={data}>
                         {/* The spider web background grid */}
-                        <PolarGrid stroke="#334155" />
+                        <PolarGrid stroke="#9ca3af" strokeWidth={2} />
 
                         {/* The text labels around the outside (Education, Health, etc) */}
                         <PolarAngleAxis
                             dataKey="subject"
-                            tick={{ fill: '#cbd5e1', fontSize: 12 }}
+                            tick={{ fill: 'var(--color-secondary)', fontWeight: 'bold', fontSize: 15 }}
                         />
 
                         {/* The internal rings (hiding the numbers so it looks cleaner) */}
@@ -78,20 +78,20 @@ function ProjectDistributionRadar() {
                         {/* Dark Mode Tooltip */}
                         <Tooltip
                             contentStyle={{
-                                backgroundColor: '#1e293b',
-                                borderColor: '#334155',
+                                backgroundColor: 'var(--color-neutral-50)',
+                                borderColor: 'var(--color-tertiary)',
                                 borderRadius: '0.5rem',
-                                color: '#f8fafc'
+                                color: 'var(--color-secondary)'
                             }}
-                            itemStyle={{ color: '#8b5cf6' }}
+                            itemStyle={{ color: 'var(--color-chart-gold)' }}
                         />
 
                         {/* The actual colored shape */}
                         <Radar
                             name="Projects"
                             dataKey="count"
-                            stroke="#8b5cf6" // Violet-500
-                            fill="#8b5cf6"
+                            stroke="var(--color-chart-gold)"
+                            fill="var(--color-chart-gold)"
                             fillOpacity={0.5}
                             isAnimationActive={true}
                             animationDuration={1200}
@@ -103,8 +103,8 @@ function ProjectDistributionRadar() {
     }
 
     return (
-        <div className="bg-slate-800 rounded-xl p-6 w-full h-full flex flex-col">
-            <h2 className="text-sm uppercase tracking-widest text-slate-400 mb-5 text-center">
+        <div className="bg-neutral-50 border border-tertiary shadow-sm rounded-xl p-6 w-full h-full flex flex-col">
+            <h2 className="text-sm uppercase font-headline tracking-widest text-secondary mb-5 text-center">
                 Mission Balance
             </h2>
 

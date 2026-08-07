@@ -13,10 +13,10 @@ const RatingModal: React.FC<RatingModalProps> = ({ projectName, onSubmit, onClos
   const [comment, setComment] = useState("");
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 m-4">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2 text-center">Reviews</h2>
-        <p className="text-gray-500 text-sm text-center mb-6">How was your experience with {projectName}?</p>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-secondary/40 backdrop-blur-sm">
+      <div className="bg-neutral-50 rounded-lg shadow-xl border border-tertiary w-full max-w-md p-6 m-4">
+        <h2 className="text-2xl font-headline font-bold text-primary mb-2 text-center">Reviews</h2>
+        <p className="text-secondary text-sm text-center mb-6">How was your experience with {projectName}?</p>
 
         {/* Star Rating Logic */}
         <div className="flex justify-center gap-2 mb-6">
@@ -33,8 +33,8 @@ const RatingModal: React.FC<RatingModalProps> = ({ projectName, onSubmit, onClos
                 size={32}
                 className={`transition-colors ${
                   star <= (hover || rating) 
-                    ? "fill-yellow-400 text-yellow-400" 
-                    : "text-gray-300"
+                    ? "fill-primary text-primary" 
+                    : "text-tertiary"
                 }`}
               />
             </button>
@@ -44,7 +44,7 @@ const RatingModal: React.FC<RatingModalProps> = ({ projectName, onSubmit, onClos
         {/* Review Textbox */}
         <textarea
           placeholder="reviews"
-          className="w-full border border-gray-300 rounded-md p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+          className="w-full border border-tertiary rounded-md p-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all bg-white"
           rows={4}
           value={comment}
           onChange={(e) => setComment(e.target.value)}
@@ -55,13 +55,13 @@ const RatingModal: React.FC<RatingModalProps> = ({ projectName, onSubmit, onClos
           <button
             onClick={() => onSubmit(rating, comment)}
             disabled={rating === 0}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-2 px-4 rounded transition-colors"
+            className="w-full bg-primary hover:bg-secondary disabled:bg-tertiary text-neutral-50 font-bold py-2 px-4 rounded transition-colors"
           >
             Submit Review
           </button>
           <button 
             onClick={onClose}
-            className="w-full bg-transparent hover:bg-gray-100 text-gray-500 text-sm py-1 rounded"
+            className="w-full bg-transparent hover:bg-neutral text-secondary font-semibold text-sm py-1 rounded"
           >
             Cancel
           </button>

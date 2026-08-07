@@ -3,7 +3,7 @@ import Ongoing from "./Ongoing-Events";
 import Addevent from "./AddEvent";
 import type { EventType } from "./types";
 import { useAuth } from "../../hooks/useAuth";
-import Profile from "./profile"; 
+import Profile from "./profile";
 import Dashboard from "./dashboard/Dashboard";
 import History from "./History";
 
@@ -60,25 +60,24 @@ function App() {
     { id: 'profile', label: 'Profile' },
     { id: 'ongoing', label: 'Ongoing Projects' },
     { id: 'create', label: 'Create a Project' },
-    { id: 'history', label: 'Project History' }, 
+    { id: 'history', label: 'Project History' },
     { id: 'dashboard', label: 'Dashboard' },
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col h-screen bg-transparent">
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar - Exact match to volunteer dashboard */}
-        <aside className="w-64 shrink-0 bg-gray-900 flex flex-col py-8 px-4 gap-2">
+        <aside className="w-64 shrink-0 bg-primary flex flex-col py-8 px-4 gap-2">
           {navItems.map(item => (
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                activeTab === item.id
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-              }`}
+              className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeTab === item.id
+                  ? 'bg-tertiary text-primary font-bold'
+                  : 'text-neutral hover:bg-secondary hover:text-neutral-50'
+                }`}
             >
               {item.label}
             </button>
@@ -88,18 +87,15 @@ function App() {
         {/* Main content area */}
         <main className="flex-1 p-8 overflow-auto">
           {activeTab === 'profile' && (
-          <Profile />
-        )}
+            <Profile />
+          )}
 
           {activeTab === 'ongoing' && (
             <Ongoing events={events} deleteEvent={deleteEvent} />
           )}
 
           {activeTab === 'create' && (
-            <div className="max-w-2xl mx-auto">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Launch New Project</h2>
-                <Addevent onAdd={addEvent} ngo={ngoName} />
-            </div>
+            <Addevent onAdd={addEvent} ngo={ngoName} />
           )}
 
           {activeTab === 'history' && (

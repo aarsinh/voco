@@ -36,25 +36,25 @@ function TopProjectsList() {
 
     let content;
     if(loading) {
-        content = <p className="text-slate-500 text-sm mt-4">Loading...</p>;
+        content = <p className="text-secondary text-sm mt-4">Loading...</p>;
     } else if(projects.length === 0) {
-        content = <p className="text-slate-500 text-sm mt-4">No projects found.</p>;
+        content = <p className="text-secondary text-sm mt-4">No projects found.</p>;
     } else {
         content = (
             <div className="flex flex-col gap-4 mt-2">
                 {projects.map((proj, index) => (
                     <div
                         key={proj._id}
-                        className="flex items-center justify-between p-3 rounded-lg bg-slate-700/50 border border-slate-700 hover:bg-slate-700 transition-colors"
+                        className="flex items-center justify-between p-3 rounded-lg bg-tertiary/10 border border-tertiary hover:bg-tertiary/20 transition-colors"
                     >
                         {/* Left Side: Rank, Name, Date */}
                         <div className="flex items-center gap-4">
-                            <span className="text-xl font-bold text-slate-500 w-6 text-center">
+                            <span className="text-xl font-bold text-tertiary w-6 text-center">
                                 #{index + 1}
                             </span>
                             <div>
-                                <h3 className="text-slate-200 font-medium">{proj.name}</h3>
-                                <p className="text-xs text-slate-400">
+                                <h3 className="text-primary font-bold">{proj.name}</h3>
+                                <p className="text-xs text-secondary">
                                     {formatDate(proj.date)} • {proj.status}
                                 </p>
                             </div>
@@ -62,10 +62,10 @@ function TopProjectsList() {
 
                         {/* Right Side: Volunteer Count */}
                         <div className="flex flex-col items-end">
-                            <span className="text-lg font-semibold text-blue-400">
+                            <span className="text-lg font-semibold text-primary">
                                 {proj.registrations}
                             </span>
-                            <span className="text-[10px] uppercase tracking-wider text-slate-500">
+                            <span className="text-[10px] uppercase tracking-wider text-secondary">
                                 Vols
                             </span>
                         </div>
@@ -76,8 +76,8 @@ function TopProjectsList() {
     }
 
     return (
-        <div className="bg-slate-800 rounded-xl p-6 w-full h-full flex flex-col">
-            <h2 className="text-sm uppercase tracking-widest text-slate-400 mb-5">
+        <div className="bg-neutral-50 border border-tertiary shadow-sm rounded-xl p-6 w-full h-full flex flex-col">
+            <h2 className="text-sm uppercase font-headline tracking-widest text-secondary mb-5">
                 Top 5 Projects (By Turnout)
             </h2>
 

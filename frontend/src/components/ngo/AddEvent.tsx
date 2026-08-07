@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Header from "./Headers";
 
 const TAGS = [
   "Education",
@@ -61,76 +62,79 @@ function Addevent({ onAdd, ngo }: Readonly<AddEventProps>) {
   }
 
   return (
-    <form
-      className="bg-gray-900 p-6 rounded-lg shadow-md max-w-xl mx-auto space-y-4"
-      onSubmit={onSubmit}
-    >
-      <div className="flex flex-col">
-        <label className="mb-1 text-sm text-gray-300">
-          {"Event Name"}
-          <input
-            className="w-full p-2 rounded-md bg-gray-800 border border-gray-600 text-white focus:ring-2 focus:ring-sky-400 outline-none"
-            type="text"
-            placeholder=""
-            value={Eventname}
-            onChange={(e) => setEventname(e.target.value)}
-            required
+    <div className="bg-neutral-50 max-w-2xl mx-auto shadow-[0_10px_40px_rgba(0,0,0,0.08)] mt-10 mb-8 border border-tertiary p-8 rounded-xl min-h-[400px]">
+      <Header title="Create a project" />
+      <form
+        className="bg-primary p-6 rounded-lg shadow-md max-w-xl mx-auto space-y-4"
+        onSubmit={onSubmit}
+      >
+        <div className="flex flex-col">
+          <label className="mb-1 text-sm font-semibold text-neutral-50">
+            {"Event Name"}
+            <input
+              className="w-full p-2 rounded-md bg-neutral-50 border border-tertiary text-primary focus:ring-2 focus:ring-tertiary outline-none mt-1"
+              type="text"
+              placeholder=""
+              value={Eventname}
+              onChange={(e) => setEventname(e.target.value)}
+              required
             />
-        </label>
-      </div>
-
-      <div className="flex flex-col">
-        <label className="mb-1 text-sm text-gray-300">
-          {"Date"}
-          <input
-            className="w-full p-2 rounded-md bg-gray-800 border border-gray-600 text-white focus:ring-2 focus:ring-sky-400 outline-none"
-            type="date"
-            placeholder="Add Date"
-            value={day}
-            onChange={(e) => setDay(e.target.value)}
-            required
-            />
-        </label>
-      </div>
-
-      <div className="flex flex-col">
-        <label className="mb-1 text-sm text-gray-300">
-          {"Address"}
-          <input
-            className="w-full p-2 rounded-md bg-gray-800 border border-gray-600 text-white focus:ring-2 focus:ring-sky-400 outline-none"
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            required
-            />
-        </label>
-      </div>
-
-      <div className="flex flex-col">
-        <p className="mb-1 text-sm text-gray-300">Tags (select at least one)</p>
-        <div className="flex flex-wrap gap-2 mt-2">
-          {TAGS.map(tag => (
-            <button
-              key={tag}
-              type="button"
-              onClick={() => toggleTag(tag)}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${selectedTags.includes(tag)
-                ? 'bg-sky-500 text-white'
-                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-            >
-              {tag}
-            </button>
-          ))}
+          </label>
         </div>
-      </div>
 
-      <input
-        className="w-full bg-sky-500 hover:bg-sky-600 text-white py-2 rounded-md transition"
-        type="submit"
-        value="Save Event"
-      />
-    </form>
+        <div className="flex flex-col">
+          <label className="mb-1 text-sm font-semibold text-neutral-50">
+            {"Date"}
+            <input
+              className="w-full p-2 rounded-md bg-neutral-50 border border-tertiary text-primary focus:ring-2 focus:ring-tertiary outline-none mt-1"
+              type="date"
+              placeholder="Add Date"
+              value={day}
+              onChange={(e) => setDay(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+
+        <div className="flex flex-col">
+          <label className="mb-1 text-sm font-semibold text-neutral-50">
+            {"Address"}
+            <input
+              className="w-full p-2 rounded-md bg-neutral-50 border border-tertiary text-primary focus:ring-2 focus:ring-tertiary outline-none mt-1"
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+
+        <div className="flex flex-col">
+          <p className="mb-1 text-sm font-semibold text-neutral-50">Tags (select at least one)</p>
+          <div className="flex flex-wrap gap-2 mt-2">
+            {TAGS.map(tag => (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => toggleTag(tag)}
+                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${selectedTags.includes(tag)
+                  ? 'bg-tertiary text-primary font-bold'
+                  : 'bg-neutral/20 text-neutral-50 hover:bg-secondary'
+                  }`}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <input
+          className="w-full bg-tertiary hover:bg-secondary text-primary hover:text-neutral-50 font-bold py-2 rounded-md transition cursor-pointer"
+          type="submit"
+          value="Save Event"
+        />
+      </form>
+    </div>
   );
 }
 

@@ -31,31 +31,19 @@ function ShowProjectList({ filterByPrefs = false }: ShowProjectListProps) {
   }, [vid, filterByPrefs]);
 
   return (
-    <div className="bg-white p-8 rounded-xl shadow-lg min-h-full">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">
+    <div className="bg-neutral-50 p-8 rounded-xl shadow-lg border border-tertiary min-h-full">
+      <h2 className="text-2xl font-headline font-bold mb-6 text-primary">
         {filterByPrefs ? 'Projects Matching My Preferences' : 'All Upcoming Projects'}
       </h2>
 
 
       {projects.length === 0 ? (
-        <div className="text-gray-500">No projects found</div>
+        <div className="text-secondary">No projects found</div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-left border-collapse">
-            <thead>
-              <tr>
-                <th className="bg-gray-800 text-white p-4 first:rounded-tl-lg">Project</th>
-                <th className="bg-gray-800 text-white p-4">NGO</th>
-                <th className="bg-gray-800 text-white p-4">Date</th>
-                <th className="bg-gray-800 text-white p-4 last:rounded-tr-lg">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {projects.map((project) => (
-                <ProjectCard project={project} key={project._id} />
-              ))}
-            </tbody>
-          </table>
+        <div className="flex flex-col gap-4 mt-2">
+          {projects.map((project) => (
+            <ProjectCard project={project} key={project._id} />
+          ))}
         </div>
       )}
     </div>
